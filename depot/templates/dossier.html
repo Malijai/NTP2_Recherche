@@ -1,0 +1,55 @@
+{% extends 'base_d.html' %}
+{% load i18n %}
+
+{% block content %}
+
+{% if parent.parentId.id %}
+    <h4><a href="{% url 'dossier' parent.parentId.id %}">  {{ parent.parentId }}</a> << {{ parent.nomdossier }}</h4>
+{% else %}
+    <h4> >> {{ parent.nomdossier }}</h4>
+{% endif %}
+    <table>
+        <tr>
+            <th width="30"></th>
+            <th width="239">{% trans "Nom" %}</th>
+            <th width="239">{% trans "Commentaires" %}</th>
+        </tr>
+{% if parent.parentId.id %}
+        <tr><td><img src="/static/images/folder.png"></td><td><a href="{% url 'dossier' parent.parentId.id %}">..</td><td></td></tr>
+{% endif %}
+        {% for doc in documents %}
+        <tr><td><img src="/static/images/file.png"></td><td><a href="{{ doc.docfile.url }}">{{ doc.nicename }}</td><td>{{ doc.comment|default_if_none:"&nbsp;" }}</td></tr>
+        {% endfor %}
+
+     {% for enfant in enfants %}
+        <tr><td><img src="/static/images/folder.png"></td><td><a href="{% url 'dossier' enfant.id %}" > {{ enfant.nomdossier }}</a></td><td>{{ enfant.comment|default_if_none:"&nbsp;" }}</td></tr>
+     {% endfor %}
+
+    </table>
+
+{% endblock content %}
+
+{% block lateral %}
+
+<h4>{% trans "Pour ajouter un sous-dossier au dossier" %}</h4>
+
+<h4>{{ dossiernom }}</h4>
+
+    <p><a href="{% url 'dossier_new' pid %}" class="btn-gauche" >{% trans "Créer un sous-dossier" %}</a></p>
+
+{% endblock lateral %}
+
+{% block boitecontent %}
+    <h4>{% trans "Pour ajouter un document au dossier" %}{{ dossiernom }}</h4>
+
+    <form action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="hidden" name="pid" value="{{ pid }}" />
+        <p><input type="submit" value={% trans "Téléverser" %}  class="btn-gauche"/></p>
+    </form>
+
+
+{% endblock %}
+
+

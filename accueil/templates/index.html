@@ -1,0 +1,53 @@
+{% load static %}
+{% load i18n %}
+<html>
+    <head>
+        <title>Observatoire</title>
+        <link rel="stylesheet" href="{% static 'blog/style_b.css' %}">
+    </head>
+    <body>
+        <div class="page-header">
+            <div class="date">
+                <div class="btn-group">
+                    <form action="{% url 'set_language' %}" method="post">
+                        {% csrf_token %}
+                        <input name="next" type="hidden" value="{{ index }}" />
+                        {% get_current_language as LANGUAGE_CODE %}
+                        {% get_available_languages as LANGUAGES %}
+                        {% get_language_info_list for LANGUAGES as languages %}
+                        {% for language in languages %}
+                            {% if language.code != LANGUAGE_CODE %}
+                                <input type="submit" class="langue" name="language" value="{{ language.code }}" />
+                            {% endif %}
+                        {% endfor %}
+                        <a href="{% url 'logout' %}" class="button"> Logout</a>
+                    </form>
+                 </div>
+            </div>
+             <h1>Observatoire en santé mentale & Justice</h1>
+
+        </div>
+    <div class="wrap">
+        <h2>{% trans "Bienvenue sur le site privé de l'observatoire" %}</h2>
+        <p>{% blocktrans %}
+            Vous devez être inscrit pour accéder au blog et au dépot de documents.</p>
+            <p>Si vous désirez participer à cet observatoire veuillez en faire la demande par courriel en suivant ce lien :
+            <a href="mailto:malijai.caulet.ippm@ssss.gouv.qc.ca?cc=jp.gagnon.ippm@ssss.gouv.qc.ca&subject=Inscription%20pour%20observatoire">
+                Demande d'inscription à l'observatoire santé mentale justice du Québec</a></p>
+        {% endblocktrans %}
+        <h3><a href="{% url 'blogindex' %}" class="btn-default">{% trans "Accès au blog" %}</a></h3>
+        <h3><a href="{% url 'dossier' 1 %}" class="btn-default">{% trans "Accès au dépot de fichiers" %}</a></h3>
+        <h3>
+        <a href="/mbntp/admin/bottin/ressource/" class="btn-default">
+            {% trans "Répertoire des ressources" %}</a>{% trans " Pour rentrer les informations et documents sur les resources" %}</h3>
+        <a href="/mbntp/admin/tsm/tribunal/" class="btn-default">
+            {% trans "Questionnaire TSM" %}</a>{% trans " Pour rentrer les informations et documents sur les TSM" %}</h3>
+        <h3><a href="/mbntp/admin/scopingreview/article/" class="btn-default">{% trans "Scoping Review" %}</a>{% trans " Scoping review" %}</h3>
+        <p><br />{% trans "Pour suivre l'envoi et la réception des invitations, accès réservé aux PI :" %}</p>
+        <h3><a href="/mbntp/admin/suivi/contact/" class="btn-default">{% trans "Accès à la liste d'envoi des invitations" %}</a></h3>
+    </div>
+    <div class="footer">
+       <a href="https://github.com/Malijai/observatoire/" class="date" ><img src="/static/images/GitHub-Mark-Light-32px.png"></a>
+    </div>
+    </body>
+</html>

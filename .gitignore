@@ -1,0 +1,11 @@
+*.pyc
+*.sqlite*
+*.sq_lite*
+.env
+mbntp/Manitoba_private.pem
+mbntp/media/
+**/migrations/**
+.idea/
+mbntp/settings.py
+media/
+

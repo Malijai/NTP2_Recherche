@@ -1,0 +1,42 @@
+{% load static %}
+{% load i18n %}
+<html>
+    <head>
+        <title>NTP Manitoba</title>
+        <link rel="stylesheet" href="{% static 'blog/style_b.css' %}">
+    </head>
+    <body>
+        <div class="page-header">
+            <div class="date">
+                <div class="btn-group">
+                    <form action="{% url 'set_language' %}" method="post">
+                        {% csrf_token %}
+                        <input name="next" type="hidden" value="{{ index }}" />
+                        {% get_current_language as LANGUAGE_CODE %}
+                        {% get_available_languages as LANGUAGES %}
+                        {% get_language_info_list for LANGUAGES as languages %}
+                        {% for language in languages %}
+                            {% if language.code != LANGUAGE_CODE %}
+                                <input type="submit" class="langue" name="language" value="{{ language.code }}" />
+                            {% endif %}
+                        {% endfor %}
+                        <a href="{% url 'logout' %}" class="button"> Logout</a>
+                    </form>
+                 </div>
+            </div>
+             <h1>NTP Manitoba</h1>
+
+        </div>
+    <div class="wrap">
+        <p>Nom {{ user.first_name }} {{ user.last_name }}
+        </p>
+        <h2>{% trans "Bienvenue sur le site NTP MB" %}</h2>
+        <h3><a href="{% url 'blogindex' %}" class="btn-default">{% trans "Accès au blog de l'observatoire" %}</a></h3>
+        <h3><a href="{% url 'dossier' 1 %}" class="btn-default">{% trans "Accès au dépot de fichiers" %}</a></h3>
+        <h3><a href="https://ntpmb.ca/cgi-bin/sondageS_M.pl?RA={{user.id}}" class="btn-default" >{% trans "Accès au système d'entrée des données" %}</a></h3>
+    </div>
+     <div class="footer">
+        <a href="https://github.com/Malijai/observatoire/" class="date" ><img src="/static/images/GitHub-Mark-Light-32px.png"></a>
+     </div>
+    </body>
+</html>

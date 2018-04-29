@@ -1,0 +1,44 @@
+{% extends 'Rech_base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block content %}
+
+    <div class="w3-theme-l3" style="padding:5px;">
+        <h3>Canadian Journal of Psychiatry - March 2015 >><a href=""> Table of contents and full texts</a></h3>
+        <ul>
+        {% for article in publications %}
+            {% if article.affichage.nom == "Principal" %}
+                <li class="w3-small"><b>{{ article.titre}}.</b> {{ article.auteurs}} ({{ article.annee }}) <i>{{ article.reference }}</i> <a href="{{ article.lien }}"> See online</a></li>
+            {% endif %}
+        {% endfor %}
+        </ul>
+    </div>
+
+    <div class="w3-theme-l4" style="padding:5px;">
+        <h3>Other publications</h3>
+        <ul>
+        {% for article in publications %}
+            {% if article.affichage.nom == "Other publications" %}
+                <li class="w3-small"><b>{{ article.titre}}.</b> {{ article.auteurs}} ({{ article.annee }}) <i>{{ article.reference }}</i> <a href="{{ article.lien }}"> See online</a></li>
+            {% endif %}
+        {% endfor %}
+        </ul>
+
+    </div>
+    <div class="w3-theme-l5" style="padding:5px;">
+        <h3>Reports</h3>
+        <ul>
+        {% for article in publications %}
+            {% if article.affichage.nom == "Reports" %}
+                <li class="w3-small"><b>{{ article.titre}}.</b> {{ article.auteurs}} ({{ article.annee }}) <i>{{ article.reference }}</i> <a href="{{ article.lien }}"> See online</a></li>
+            {% endif %}
+        {% endfor %}
+        </ul>
+
+    </div>
+{% endblock content %}
+
+
+
+

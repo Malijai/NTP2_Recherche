@@ -1,0 +1,119 @@
+{% load i18n %}
+{% load static %}
+
+<html>
+    <head>
+         <title>Questions etc</title>
+
+        <script type="text/javascript" src="/static/jquery.js"></script>
+        <script type="text/javascript" src="/static/tabber.js"></script>
+        <link rel="stylesheet" type="text/css" href="/static/sondageM.css" />
+
+</head>
+<body>
+
+{% if messages %}
+    {% for msg in messages %}
+        <div class="alert alert-{{msg.level_tag}}" role="alert">
+        {{msg.message}}
+        </div>
+    {% endfor %}
+{% endif %}
+<h2>{{ user.first_name }} {{ user.last_name }} </h2>
+
+   <div class="tabber">
+       <div class="tabbertab">
+           <form method="post" action="">
+               {% csrf_token %}
+               <h3>File creation</h3><b>To create a new file you need to have these infos:</b>
+                <p>
+                   <ul>
+                   <li>Name and first name</li>
+                   <li>date of verdict</li>
+                   <li>date of release from hospital</li>
+                   <li>date of consent</li>
+                    </ul>
+                    </p>
+                   <button type="submit" class="placeboutons" name="Newfile">New File</button></td></tr>
+                </table>
+            </form>
+       </div>
+       <div class="tabbertab">
+           <form method="post" action="">
+           {% csrf_token %}
+           <h3>Already created file</h3><b>For already created files</b>
+               <p>To continue an evaluation once the file is already created></p>
+               <table>
+                <tr><td></td><td></td></tr>
+                <tr><td>Personne</td><td><select name="personneid" >
+                    <option value="">Select a case</option>
+                    {% for personne in personnes %}
+                    <option value="{{personne.id }}">{{ personne.personne_code }}</option>
+                    {% endfor %}
+                    </select></td></tr>
+                <tr><td>Interview</td><td><select name="interviewid" >
+                    <option value="">Select an interview</option>
+                    {% for interview in interviews %}
+                    <option value="{{interview.id }}">{{ interview.reponse_en }}</option>
+                    {% endfor %}
+                    </select></td></tr>
+                 <tr><td>Infos from clinical file (baseline only)</td><td><button type="submit" class="placeboutons" name="Clinical File">Clinical File</button></td></tr>
+                 <tr><td>Socio demo, Relationship, Work Finances, Family friends</td><td><button type="submit" class="placeboutons" name="Interview Guide 1">Interview Guide 1</button></td></tr>
+                 <tr><td>Antisocial, Alcohol, Drugs, Treatments' Stress, Leisure, Goals</td><td><button type="submit" class="placeboutons" name="Interview Guide 2">Interview Guide 2</button></td></tr>
+                 <tr><td>Baseline VRAG, SCID Alcohol/Drug, SCID APD; All interviews HCR-20-V3, START</td><td><button type="submit" class="placeboutons" name="Instruments">Instruments</button></td></tr>
+                 <tr><td>All interviews RAS, CSI, General Impression; Followup only: SOS</td><td><button type="submit" class="placeboutons" name="Scales">Scales</button></td></tr>
+                 <tr><td>Sensible data (FPS, DOB ...) which will be encrypted</td><td><button type="submit" class="placeboutons" name="Sensible">Sensible data</button></td></tr>
+              </table>
+           </form>
+       </div>
+       <div class="tabbertab">
+        <h3>TLBF Work Housing FUI</h3>
+            <form method="post" action="">
+                {% csrf_token %}
+               <table>
+                <tr><td></td><td></td></tr>
+                <tr><td>Personne</td><td><select name="personneid" >
+                    <option value="">Select a case</option>
+                    {% for personne in personnes %}
+                    <option value="{{personne.id }}">{{ personne.personne_code }}</option>
+                    {% endfor %}
+                    </select></td></tr>
+                <tr><td>Interview</td><td><select name="interviewid" >
+                    <option value="">Select an interview</option>
+                    {% for interview in interviews %} {% if interview.id > 1 %}
+                        <option value="{{ interview.id }}">{{ interview.reponse_en }}</option>
+                    {% endif %}{% endfor %}
+                    </select></td></tr>
+                 <tr><td>Work TLFB - Follow up interviews only</td><td><button type="submit" class="placeboutons" name="WorkTLBF">Work TLBF</button></td></tr>
+                 <tr><td>Housing TLFB - Follow up interviews only</td><td><button type="submit" class="placeboutons" name="HousingTLFB">Housing TLFB</button></td></tr>
+               </table>
+                </form>
+       </div>
+       <div class="tabbertab">
+           <form method="post" action="">
+           {% csrf_token %}
+               <h3>To see list of files with the interview dates</h3>
+                <table>
+                <tr><td></td><td></td></tr>
+                <tr><td>Province</td><td><select name="provinceid" >
+                    <option value="">Select a province</option>
+                    {% for p in provinces %}
+                    {% if p.reponse_valeur < 4 %}
+                    <option value="{{p.reponse_valeur }}">{{ p.nom_en }}</option>
+                    {% endif %}
+                    {% endfor %}
+                    </select></td></tr>
+                <tr><td>See list of files with interview date and status</td><td><button type="submit" class="placeboutons" name="Voirliste">See list</button></td></tr>
+
+                </table>
+                </form>
+       </div>
+       <div class="tabbertab">
+        <h3>To perform inter rater evaluation</h3>
+        <ul>
+             <li>ffff</li>
+        </ul>
+   </div></div>
+</body>
+</html>
+
