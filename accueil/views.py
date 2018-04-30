@@ -2,24 +2,12 @@
 from django.shortcuts import render, redirect
 from accueil.models import Publication, Affichage
 from django.db.models import Q
-
-def isManitoba(http_host):
-   return True if 'ntpmb.ca' in http_host else False
-   #return True
-
-
-def isMalijai(http_host):
-   #return True if 'malijai.org' in http_host else False
-   return True
+from django.conf import settings
+from django.contrib.auth.decorators import login_required
 
 
 def accueil(request):
-    if isManitoba(request.META.get('HTTP_HOST')):
-        return render(request,'logged_out.html')
-    elif isMalijai(request.META.get('HTTP_HOST')):
-        return render(request,'indexrech.html')
-    else:
-        return render(request, "index.html")
+    return render(request,'indexrech.html')
 
 
 def publications(request):
@@ -38,3 +26,8 @@ def equipe(request):
 
 def resultats(request):
     return render(request, 'resultats.html')
+
+
+@login_required(login_url=settings.LOGIN_URI)
+def entreesystemes(request):
+    return render(request, "entreesystemes.html")

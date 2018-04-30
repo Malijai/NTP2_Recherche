@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-11-23 13:31-0500\n"
+"POT-Creation-Date: 2018-04-30 13:27-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,95 +16,277 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: accueil/templates/index.html:31
-msgid "Bienvenue sur le site privé de l'observatoire"
-msgstr "Welcome on the private part of the think tank"
+#: accueil/templates/Rech_base.html:16
+msgid "Fermer &times;"
+msgstr "Close &times;"
 
-#: accueil/templates/index.html:32
-#, python-format
+#: accueil/templates/Rech_base.html:17 blog/templates/base.html:28
+#: blog/templates/base_r.html:25 depot/templates/base_d.html:25
+#: depot/templates/base_d1.html:25
+msgid "Accueil"
+msgstr "Home"
+
+#: accueil/templates/Rech_base.html:18
+msgid "Équipes"
+msgstr "Research Team"
+
+#: accueil/templates/Rech_base.html:19
+msgid "Résultats NTP1"
+msgstr "NTP1 Results"
+
+#: accueil/templates/Rech_base.html:20
+msgid "Publications NTP1"
+msgstr "NTP1 Publications"
+
+#: accueil/templates/Rech_base.html:21
+msgid "Accès privé"
+msgstr "Private access"
+
+#: accueil/templates/Rech_base.html:33
+msgid "Les Projets Nationaux des Trajectoires"
+msgstr "The National Trajectory Projects"
+
+#: accueil/templates/Rech_base.html:66
 msgid ""
 "\n"
-"            Vous devez être inscrit pour accéder au blog et au dépot de "
-"documents.</p>\n"
-"            <p>Si vous désirez participer à cet observatoire veuillez en "
-"faire la demande par courriel en suivant ce lien :\n"
-"            <a href=\"mailto:malijai.caulet.ippm@ssss.gouv.qc.ca?cc=jp."
-"gagnon.ippm@ssss.gouv.qc.ca&subject=Inscription%%20pour%%20observatoire\">\n"
-"                Demande d'inscription à l'observatoire santé mentale justice "
-"du Québec</a></p>\n"
-"        "
+"        <h5>Projet réalisé en  <img src=\"/static/accueil/django-logo-"
+"negative.png\" height=\"32px\">\n"
+"        disponible ici <a href=\"https://github.com/Malijai/NTP2_Recherche\" "
+"class=\"date\" ><img src=\"/static/images/GitHub-Mark-Light-32px.png\"></a>\n"
+"        Thème inspiré de <a href=\"https://www.w3schools.com/w3css/default."
+"asp\" target=\"_blank\">w3.css</a> -\n"
+"        <a href=\"mailto:malijai.caulet.ippm@ssss.gouv.qc.ca?subject=NTP "
+"informations\">Contact</a></h5>\n"
+"   "
 msgstr ""
 "\n"
-"        You have to register to access to the blog and file manager. </p>\n"
-"        <p>If you want to participate to the think-tank, please email us in "
-"following this link:\n"
-"        <a href=\"mailto:malijai.caulet.ippm@ssss.gouv.qc.ca?cc=jp.gagnon."
-"ippm@ssss.gouv.qc.ca&subject=Inscription%%20pour%%20observatoire\">\n"
-"            Ask for a login to the Think-tank </a></p>\n"
-"    "
+"        <h5>Web site done in  <img src=\"/static/accueil/django-logo-"
+"negative.png\" height=\"32px\">\n"
+"        available here <a href=\"https://github.com/Malijai/NTP2_Recherche\" "
+"class=\"date\" ><img src=\"/static/images/GitHub-Mark-Light-32px.png\"></a>\n"
+"        Theme from <a href=\"https://www.w3schools.com/w3css/default.asp\" "
+"target=\"_blank\">w3.css</a> -\n"
+"        <a href=\"mailto:malijai.caulet.ippm@ssss.gouv.qc.ca?subject=NTP "
+"informations\">Contact</a></h5>\n"
+"   "
 
-#: accueil/templates/index.html:38 accueil/templates/indexmali.html:39
+#: accueil/templates/entreesystemes.html:19
+msgid "Le Projet National des Trajectoires NTP 2 Community"
+msgstr "The National Trajectory Project NTP 2 Community"
+
+#: accueil/templates/entreesystemes.html:27
+msgid "Bienvenue sur le site de gestion des projets du NTP2 Community"
+msgstr "Welcome on the NTP2 Community web site"
+
+#: accueil/templates/entreesystemes.html:28
 msgid "Accès au blog"
 msgstr "Go to the blog"
 
-#: accueil/templates/index.html:39 accueil/templates/indexmali.html:40
-#: indexmb/templates/index.html:35
+#: accueil/templates/entreesystemes.html:29 indexmb/templates/index6.html:35
 msgid "Accès au dépot de fichiers"
 msgstr "Go to the file repository"
 
-#: accueil/templates/index.html:42
-msgid "Répertoire des ressources"
-msgstr "Resources contacts"
+#: accueil/templates/entreesystemes.html:30
+msgid "Accès au système d'entrée des données NTP2"
+msgstr "Go to NTP2 data entry system"
 
-#: accueil/templates/index.html:42
-msgid " Pour rentrer les informations et documents sur les resources"
-msgstr "To enter info and doc about resources"
+#: accueil/templates/entreesystemes.html:35
+msgid "Bienvenue sur le site de gestion du projet Going Home"
+msgstr "Welcome on the Going Home data entry part"
 
-#: accueil/templates/index.html:43
-msgid "Scoping Review"
-msgstr "Scoping Review"
+#: accueil/templates/entreesystemes.html:36
+msgid "Accès au système d'entrée des données Going Home"
+msgstr "Go to the data entry system for Going Home"
 
-#: accueil/templates/index.html:43
-msgid " Scoping review"
-msgstr "Scoping Review"
-
-#: accueil/templates/index.html:44
-msgid ""
-"Pour suivre l'envoi et la réception des invitations, accès réservé aux PI :"
-msgstr "To follow the invitations, only for PIs :"
-
-#: accueil/templates/index.html:45
-msgid "Accès à la liste d'envoi des invitations"
-msgstr "Go to the invitations"
-
-#: accueil/templates/indexmali.html:31
-msgid "Bienvenue sur le site privé NTP2 Community"
-msgstr "Welcome on the NTP2 Community test web site"
-
-#: accueil/templates/indexmali.html:32
-#, python-format
+#: accueil/templates/entreesystemes.html:44
 msgid ""
 "\n"
-"            Vous devez être inscrit pour accéder à ce site.</p>\n"
-"            <p>Si vous désirez avoir un accès veuillez en faire la demande "
-"par courriel en suivant ce lien :\n"
-"            <a href=\"mailto:malijai.caulet.ippm@ssss.gouv.qc.ca?"
-"&subject=Inscription%%20pour%%20NTP2%%20Community\">\n"
-"                Demande d'inscription au site du projet NTP2 Community</a></"
-"p>\n"
+"        <h5><a href=\"mailto:malijai.caulet.ippm@ssss.gouv.qc.ca?subject=NTP "
+"informations\">Contact</a></h5>\n"
+"   "
+msgstr ""
+"\n"
+"        <h5><a href=\"mailto:malijai.caulet.ippm@ssss.gouv.qc.ca?subject=NTP "
+"informations\">Contact</a></h5>\n"
+"   "
+
+#: accueil/templates/equipe.html:8
+msgid ""
+"\n"
+"            <p class=\"w3-medium\">Le Projet national des trajectoires a "
+"permis d’examiner les dossiers de 1800 hommes et femmes déclarés NCRTM en "
+"Colombie-Britannique (n = 222), au Québec (n = 1094) et en Ontario (n = 484) "
+"de mai 2000 à avril 2005, et de les suivre jusqu’en décembre 2008.\n"
+"            La collecte des données s'est déroulée de  ... à ....</p>\n"
+"        "
+msgstr ""
+
+#: accueil/templates/equipe.html:12
+msgid "L'équipe de chercheurs était alors composée de :"
+msgstr "Research team:"
+
+#: accueil/templates/equipe.html:23
+msgid ""
+"\n"
+"            <h3>Une étude nationale sur les occasions et les obstacles pour "
+"une réintégration communautaire réussie de patients de psychiatrie légale "
+"(NTP2 Community)</h3>\n"
+"            <p class=\"w3-medium\">L'objectif de la présente étude est de "
+"mieux comprendre les\n"
+"            besoins et les évolutions des personnes déclarées NCR, la façon "
+"dont ces besoins sont comblés et\n"
+"            les mesures mises en place lorsqu'ils quittent l'hôpital, afin "
+"d'identifier la meilleure façon\n"
+"            d'assurer une réinsertion sociale réussie. Pour atteindre cet "
+"objectif, nous effectuerons un examen\n"
+"            approfondi des dossiers administratifs de santé et des dossiers "
+"criminels d'une grande cohorte\n"
+"            canadienne d'individus déclarés NCR ayant quitté l'hôpital entre "
+"2010 et 2015 et suivis jusqu'en\n"
+"            2018 dans 8 provinces. Cette recherche est actuellement financée "
+"par les IRSC depuis avril 2017\n"
+"            </p>\n"
 "        "
 msgstr ""
 "\n"
-"        You have to register to access to this site. </p>\n"
-"        <p>If you want an access, please email us in following this link:\n"
-"        <a href=\"mailto:malijai.caulet.ippm@ssss.gouv.qc.ca?"
-"&subject=Inscription%%20to%%20NTP2%%20Community\">\n"
-"  </a></p>\n"
-"    "
+"         <h3>A national study of opportunities and obstacles to successful "
+"community reintegration of forensic patients (NTP2 Community)</h3>\n"
+"            <p class=\"w3-medium\">The goal of this study is to better "
+"understand the needs and outcomes of individuals found NCR, how those needs "
+"are met and what measures are put in place as they leave the hospital, in "
+"order to identify the best way of ensuring successful community "
+"reintegration. To achieve this goal, we will conduct in-depth analyses of "
+"official administrative, health and criminal records of a large Canadian "
+"cohort of individuals found            NCR as they leave the hospital "
+"between 2010 and 2015, and followed up to 2018 in 8 provinces. This ongoing "
+"study is funded by the CIHR since April 2017             </p>\n"
+"        "
 
-#: accueil/templates/indexmali.html:38 indexmb/templates/index.html:36
-msgid "Accès au système d'entrée des données"
-msgstr "Go to the data entry system"
+#: accueil/templates/equipe.html:34
+msgid "L'équipe de chercheurs est composée de :"
+msgstr "Research team:"
+
+#: accueil/templates/indexrech.html:8
+msgid ""
+"\n"
+"        <h3>Le projet national des trajectoires (NTP 1)</h3>\n"
+"        <p>\n"
+"        Ce projet a été financé par le FRSQ (de 2006 à 2009) et par la "
+"Commission de la santé mentale du Canada (de 2009 à 2013).<br>\n"
+"        Le projet a examiné l'application des dispositions de la justice "
+"pénale pour les personnes déclarées non\n"
+"        criminellement responsable pour cause de trouble mental (NCRTM) et "
+"placées sous l'autorité des commissions d'examen (CE)\n"
+"        provinciales  du Québec, de l'Ontario et de Colombie-Britannique.\n"
+"        Les antécédents et les trajectoires des personnes déclarées NCRTM "
+"incluant l'évolution au plan de la santé mentale et de la criminalité,\n"
+"        ainsi que les processus de décision des CE ont été étudiés dans ce "
+"projet. Cette étude a été effectuée à partir des dossiers des commissions "
+"d'examen et des dossiers de la GRC.\n"
+"        Des données issues des bases de données des services de santé "
+"provinciaux ne sont disponibles que dans 2 des provinces impliquées dans ce "
+"projet.<br>\n"
+"        Les principales publications issues de ce programme de recherche "
+"sont disponibles\n"
+"            "
+msgstr ""
+"\n"
+"        <h3>The National Trajectory Project (NTP 1)</h3>\n"
+"        <p>\n"
+"        This project has been funded  by the FRSQ (2006 to 2009) and by the "
+"Mental Health (2009 to 2013).<br>\n"
+"Commission of Canada and\n"
+"        The project has examined the operation of criminal  justice "
+"provisions for individuals declared not criminally responsible on account of "
+"mental disorder (NCRMD)\n"
+"and under the authority of a provincial or territorial review board.\n"
+"in Québec, Ontario and British-Columbia.\n"
+"        It has examined the antecedents and trajectories of NCRMD accused, "
+"including mental health and criminal justice involvement,\n"
+"       review board decision-making, and mental health and criminal "
+"outcomes.\n"
+"        The review board files and RCMP files have been used for this study. "
+"The data from health databases are not available in both provinces.\n"
+"        You can access the main publications done with this research\n"
+"            "
+
+#: accueil/templates/indexrech.html:20
+msgid "&nbsp;ici&nbsp;"
+msgstr "&nbsp;here&nbsp;"
+
+#: accueil/templates/indexrech.html:25
+msgid ""
+"\n"
+"         <h3>NTP 2 Communauté</h3>\n"
+"         <p>\n"
+"         Au cours des deux dernières décennies, le Canada a connu une "
+"augmentation significative du\n"
+"         nombre d'individus déclarés non criminellement responsables pour "
+"cause de trouble mental\n"
+"         (NCR) et entrant dans les services de psychiatrie légale. Les cas "
+"récents de profils très médiatisés\n"
+"         ont suscité un débat considérable quant à la manière la plus "
+"efficace de gérer et de traiter ces\n"
+"         personnes de manière sécuritaire. <br>\n"
+"             L'objectif de la présente étude est de mieux comprendre les\n"
+"         besoins et les évolutions des personnes déclarées NCR, la façon "
+"dont ces besoins sont comblés et\n"
+"         les mesures mises en place lorsqu'ils quittent l'hôpital, afin "
+"d'identifier la meilleure façon\n"
+"         d'assurer une réinsertion sociale réussie. Pour atteindre cet "
+"objectif, nous effectuerons un examen\n"
+"         approfondi des dossiers administratifs de santé et des dossiers "
+"criminels d'une grande cohorte\n"
+"         canadienne d'individus déclarés NCR ayant quitté l'hôpital entre "
+"2010 et 2015 et suivis jusqu'en\n"
+"         2018 dans 8 provinces. <br>Avec la participation de nos partenaires "
+"des services de santé et de la\n"
+"         justice au Canada, cette recherche identifiera les facteurs "
+"individuels (personnes NCR), les\n"
+"         pratiques cliniques (traitements) et les systèmes (organisation des "
+"services et des ressources) qui\n"
+"         contribuent à une réinsertion communautaire sûre et saine de cette "
+"clientèle légale. <br>Cette étude\n"
+"         permettra d’adapter directement les pratiques, l'élaboration des "
+"politiques et les connaissances du\n"
+"         public.\n"
+"         </p>\n"
+"        "
+msgstr ""
+"\n"
+"         <h3>NTP 2 Commuity</h3>\n"
+"         <p>\n"
+"         Over the past two decades, Canada has witnessed a significant "
+"increase in the number of\n"
+"         individuals found Not Criminally Responsible on Account of Mental "
+"Disorder (NCR) and\n"
+"         entering the forensic mental health system. Recent high profile "
+"cases have elicited\n"
+"         considerable debate as to the most efficient and effective way to "
+"safely manage and treat\n"
+"         these individuals. The goal of the present study is to better "
+"understand the needs and\n"
+"         outcomes of individuals found NCR, how those needs are met and what "
+"measures are put in\n"
+"         place as they leave the hospital, in order to identify the best way "
+"of ensuring successful\n"
+"         community reintegration. To achieve this goal, we will conduct in-"
+"depth analyses of official\n"
+"         administrative, health and criminal records of a large Canadian "
+"cohort of individuals found\n"
+"         NCR as they leave the hospital between 2010 and 2015, and followed "
+"up to 2018 in 8\n"
+"         provinces. With the participation of our health and justice "
+"partners across Canada, this\n"
+"         research will identify individual (NCR persons), clinical practice "
+"(treatments) and systems\n"
+"         (organization of services and resources) factors that play into "
+"safe and healthy community\n"
+"         reintegration of these forensic patients. This study will directly "
+"inform practices, policy making\n"
+"         and public knowledge.\n"
+"         </p>\n"
+"        "
 
 #: blog/forms.py:11
 msgid "Votre commentaire"
@@ -145,11 +327,6 @@ msgstr "Find"
 #: blog/templates/base.html:27 blog/templates/base_r.html:24
 msgid "Fichiers"
 msgstr "Files"
-
-#: blog/templates/base.html:28 blog/templates/base_r.html:25
-#: depot/templates/base_d.html:25 depot/templates/base_d1.html:25
-msgid "Accueil"
-msgstr "Home"
 
 #: blog/templates/blogdetail.html:8
 #, python-format
@@ -257,34 +434,37 @@ msgstr "Posts with the keyword: "
 msgid "Il n'y a pas de billet "
 msgstr "There is no post "
 
-#: blog/views.py:47
+#: blog/views.py:50
 msgid "Nouveau commentaire dans le blog de NTP Manitoba"
 msgstr "New comment in the NTP Manitoba research blog"
 
-#: blog/views.py:48
+#: blog/views.py:51
 msgid ""
 "\n"
 "        Un nouveau commentaire au billet intitulé : {} vient d'être publié "
 "par {} {}.\n"
 "        Vous recevez ce courriel parce que vous ête membre de l'équipe du "
-"projet NTP Manitoba.\n"
+"projet NTP Manitiba.\n"
 "        Ne répondez pas à ce courriel, il s'agit d'un envoi automatisé.\n"
 "\n"
 "        Malijaï Caulet (malijai.caulet.ippm@ssss.gouv.qc.ca)\n"
+"            "
 msgstr ""
 "\n"
 "A new comment to the post: {} has been written by {} {}.\n"
 "\n"
-"You are receiving this email because you are member of the NTP Manitoba research team.\n"
+"You are receiving this email because you are member of the NTP Manitoba "
+"research team.\n"
 "Please do not answer this email as it is an automated message.\n"
 "\n"
 "Malijaï Caulet (malijai.caulet.ippm@ssss.gouv.qc.ca)\n"
+"            "
 
-#: blog/views.py:56
+#: blog/views.py:59
 msgid "Nouveau commentaire dans le blog de NTP2 Community"
 msgstr "New comment in the NTP2 Community blog"
 
-#: blog/views.py:57
+#: blog/views.py:60
 msgid ""
 "\n"
 "        Un nouveau commentaire au billet intitulé : {} vient d'être publié "
@@ -294,20 +474,23 @@ msgid ""
 "        Ne répondez pas à ce courriel, il s'agit d'un envoi automatisé.\n"
 "\n"
 "        Malijaï Caulet (malijai.caulet.ippm@ssss.gouv.qc.ca)\n"
+"            "
 msgstr ""
 "\n"
 "A new comment to the post: {} has been written by {} {}.\n"
 "\n"
-"You are receiving this email because you are member of the NTP2 Community research team.\n"
+"You are receiving this email because you are member of the NTP2 Community "
+"research team.\n"
 "Please do not answer this email as it is an automated message.\n"
 "\n"
 "Malijaï Caulet (malijai.caulet.ippm@ssss.gouv.qc.ca)\n"
+"            "
 
-#: blog/views.py:65
+#: blog/views.py:68
 msgid "Nouveau commentaire dans le blog de l'observatoire"
 msgstr "New comment in the research blog"
 
-#: blog/views.py:66
+#: blog/views.py:69
 msgid ""
 "\n"
 "    Un nouveau commentaire au billet intitulé : {} vient d'être publié par "
@@ -318,6 +501,7 @@ msgid ""
 "    Merci de participer à ce projet.\n"
 "\n"
 "    Malijaï Caulet (malijai.caulet.ippm@ssss.gouv.qc.ca)\n"
+"        "
 msgstr ""
 "\n"
 "A new comment to the post: {} has been written by {} {}.\n"
@@ -327,12 +511,13 @@ msgstr ""
 "Thanks for your involvement in the project.\n"
 "\n"
 "Malijaï Caulet (malijai.caulet.ippm@ssss.gouv.qc.ca)\n"
+"            "
 
-#: blog/views.py:80
+#: blog/views.py:83
 msgid "Nouveau billet dans le blog de NTP Manitoba"
 msgstr "New post in the NTP Manitoba research blog"
 
-#: blog/views.py:81
+#: blog/views.py:84
 msgid ""
 "\n"
 "    Un nouveau billet intitulé : {} vient d'être publié par {} {}.\n"
@@ -341,19 +526,22 @@ msgid ""
 "    Ne répondez pas à ce courriel, il s'agit d'un envoi automatisé.\n"
 "\n"
 "    Malijaï Caulet (malijai.caulet.ippm@ssss.gouv.qc.ca)\n"
+"    "
 msgstr ""
 "\n"
 "A new post: {} has been posted by {} {}.\n"
-"You are receiving this email because you are member of the NTP Manitoba research team.\n"
+"You are receiving this email because you are member of the NTP Manitoba "
+"research team.\n"
 "Please do not answer this email as it is an automated message.\n"
 "\n"
 "Malijaï Caulet (malijai.caulet.ippm@ssss.gouv.qc.ca)\n"
+"            "
 
-#: blog/views.py:89
+#: blog/views.py:92
 msgid "Nouveau billet dans le blog de NTP2 Community"
 msgstr "New post in the NTP2 Community research blog"
 
-#: blog/views.py:90
+#: blog/views.py:93
 msgid ""
 "\n"
 "    Un nouveau billet intitulé : {} vient d'être publié par {} {}.\n"
@@ -362,19 +550,22 @@ msgid ""
 "    Ne répondez pas à ce courriel, il s'agit d'un envoi automatisé.\n"
 "\n"
 "    Malijaï Caulet (malijai.caulet.ippm@ssss.gouv.qc.ca)\n"
+"    "
 msgstr ""
 "\n"
 "A new post: {} has been posted by {} {}.\n"
-"You are receiving this email because you are member of the NTP2 Community research team.\n"
+"You are receiving this email because you are member of the NTP2 Community "
+"research team.\n"
 "Please do not answer this email as it is an automated message.\n"
 "\n"
 "Malijaï Caulet (malijai.caulet.ippm@ssss.gouv.qc.ca)\n"
+"            "
 
-#: blog/views.py:98
+#: blog/views.py:101
 msgid "Nouveau billet dans le blog de l'observatoire"
 msgstr "New post in the research blog"
 
-#: blog/views.py:99
+#: blog/views.py:102
 msgid ""
 "\n"
 "        Un nouveau billet intitulé : {} vient d'être publié par {} {}.\n"
@@ -384,6 +575,7 @@ msgid ""
 "        Merci de participer à ce projet.\n"
 "\n"
 "        Malijaï Caulet (malijai.caulet.ippm@ssss.gouv.qc.ca)\n"
+"        "
 msgstr ""
 "\n"
 "A new post: {} has been posted by {} {}.\n"
@@ -393,6 +585,7 @@ msgstr ""
 "Thanks for your involvement in the project.\n"
 "\n"
 "Malijaï Caulet (malijai.caulet.ippm@ssss.gouv.qc.ca)\n"
+"            "
 
 #: depot/forms.py:16
 msgid "Selectionner un fichier"
@@ -434,42 +627,41 @@ msgstr "Upload"
 msgid "Nouveau sous dossier"
 msgstr "New sub folder"
 
-#: indexmb/templates/index.html:33
+#: indexmb/templates/index6.html:33
 msgid "Bienvenue sur le site NTP MB"
 msgstr "Welcome on site of the NTP replication for the Manitoba"
 
-#: indexmb/templates/index.html:34
+#: indexmb/templates/index6.html:34
 msgid "Accès au blog de l'observatoire"
 msgstr "Go to the blog"
 
-#: mbntp/settings.py:133
+#: indexmb/templates/index6.html:36
+msgid "Accès au système d'entrée des données"
+msgstr "Go to the data entry system"
+
+#: mbntp/settings.py:134
 msgid "French"
 msgstr "Français"
 
-#: mbntp/settings.py:134
+#: mbntp/settings.py:135
 msgid "English"
 msgstr "Anglais"
-
-#: scopingreview/templates/index.html:18
-msgid "Générer le pdf"
-msgstr ""
-
-#: scopingreview/templates/index.html:23
-msgid "Exporter tout en csv"
-msgstr ""
 
 #: templates/registration/logged_out.html:7
 msgid "Délogué!"
 msgstr "Logged out!"
 
-#: templates/registration/logged_out.html:10
-#: templates/registration/logged_out.html:12
+#: templates/registration/logged_out.html:9
 msgid "Se reloguer"
 msgstr "Click here to login again"
 
 #: templates/registration/login.html:7
 msgid "Votre nom et mot de passe ne correspondent pas. Réessayez"
 msgstr "Your username and password didn't match. Please try again."
+
+#: templates/registration/login.html:15
+msgid "Enregistrez-vous pour accéder à cette page"
+msgstr "Login to have access to this page"
 
 #: templates/registration/login.html:39
 msgid "Mot de passe perdu?"

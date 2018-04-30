@@ -31,7 +31,7 @@ urlpatterns = [
         kwargs={'redirect_authenticated_user': True}),
     url(r'^blog/', include('blog.urls')),
     url(r'^depot/', include('depot.urls')),
-    url(r'^manb/?', include('indexmb.urls')),
+#     url(r'^manb/?', include('indexmb.urls')),
     url(r'^dataentry/', include('dataentry.urls')),
     url(r'^goingh/', include('gh.urls')),
     url(r'^', include('accueil.urls')),

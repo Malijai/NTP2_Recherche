@@ -3,12 +3,13 @@
 {% load i18n %}
 
 {% block content %}
-
     <div class="w3-theme-l3" style="padding:5px;">
         <h3>National trajectory project (Part 1)</h3>
-        <p class="w3-medium">Le Projet national des trajectoires a permis d’examiner les dossiers de 1800 hommes et femmes déclarés NCRTM en Colombie-Britannique (n = 222), au Québec (n = 1094) et en Ontario (n = 484) de mai 2000 à avril 2005, et de les suivre jusqu’en décembre 2008.
-        La collecte des données s'est déroulée de  ... à ....</p>
-        <p class="w3-medium">L'équipe de chercheurs était alors composée de :</p>
+        {% blocktrans %}
+            <p class="w3-medium">Le Projet national des trajectoires a permis d’examiner les dossiers de 1800 hommes et femmes déclarés NCRTM en Colombie-Britannique (n = 222), au Québec (n = 1094) et en Ontario (n = 484) de mai 2000 à avril 2005, et de les suivre jusqu’en décembre 2008.
+            La collecte des données s'est déroulée de  ... à ....</p>
+        {% endblocktrans %}
+        <p class="w3-medium">{% trans "L'équipe de chercheurs était alors composée de :" %}</p>
         <ul>
             <li class="w3-medium"><b>Anne G. Crocker <i>QC</i></b> titres et affiliations</li>
             <li class="w3-medium"><b>Tonia Nicholls <i>BC</i></b> titres et affiliations</li>
@@ -19,12 +20,18 @@
     </div>
 
     <div class="w3-theme-l4" style="padding:5px;">
-        <h3>A national study of opportunities and obstacles to successful community reintegration of forensic patients (NTP2 Community)</h3>
-       <p class="w3-medium">The goal of this study is to better understand the needs and outcomes of individuals found NCR, how those needs are met and what measures are put in
-        place as they leave the hospital, in order to identify the best way of ensuring successful community reintegration.
-        To achieve this goal, we will conduct in-depth analyses of official administrative, health and criminal records of a large Canadian cohort of individuals found
-        NCR as they leave the hospital between 2010 and 2015, and followed up to 2018 in 8 provinces. This ongoing study is funded by the CIHR since April 2017</pw3-small>
-        <p class="w3-medium">L'équipe de chercheurs est composée de :</p>
+        {% blocktrans %}
+            <h3>Une étude nationale sur les occasions et les obstacles pour une réintégration communautaire réussie de patients de psychiatrie légale (NTP2 Community)</h3>
+            <p class="w3-medium">L'objectif de la présente étude est de mieux comprendre les
+            besoins et les évolutions des personnes déclarées NCR, la façon dont ces besoins sont comblés et
+            les mesures mises en place lorsqu'ils quittent l'hôpital, afin d'identifier la meilleure façon
+            d'assurer une réinsertion sociale réussie. Pour atteindre cet objectif, nous effectuerons un examen
+            approfondi des dossiers administratifs de santé et des dossiers criminels d'une grande cohorte
+            canadienne d'individus déclarés NCR ayant quitté l'hôpital entre 2010 et 2015 et suivis jusqu'en
+            2018 dans 8 provinces. Cette recherche est actuellement financée par les IRSC depuis avril 2017
+            </p>
+        {% endblocktrans %}
+        <p class="w3-medium">{% trans "L'équipe de chercheurs est composée de :" %}</p>
         <ul>
             <li class="w3-medium"><b>Anne G. Crocker <i>QC</i></b> Director, Research & Academics Institut Philippe-Pinel de Montréal, Professor, Department of Psychiatry and addictions Université de Montréal</li>
             <li class="w3-medium"><b>Tonia Nicholls <i>BC</i></b> Associate Professor, Psychiatry, Faculty of Medicine, UBC</li>
