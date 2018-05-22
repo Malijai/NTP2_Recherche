@@ -31,11 +31,10 @@ urlpatterns = [
         kwargs={'redirect_authenticated_user': True}),
     url(r'^blog/', include('blog.urls')),
     url(r'^depot/', include('depot.urls')),
-#     url(r'^manb/?', include('indexmb.urls')),
     url(r'^dataentry/', include('dataentry.urls')),
     url(r'^goingh/', include('gh.urls')),
+    url(r'^viol/', include('violation.urls')),
     url(r'^', include('accueil.urls')),
-#    url(r'^', include('django.contrib.auth.urls')),
 
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

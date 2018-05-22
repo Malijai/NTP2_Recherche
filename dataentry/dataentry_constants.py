@@ -18,6 +18,5 @@ CHOIX_BOOLEAN = {
     '1': 'Yes mentioned',
     '3': 'Maybe but not explicit',
     '100': 'No not mentioned',
-    '98': 'NA',
     '99': 'Unknown'
     }

@@ -8,33 +8,21 @@ DEFAULT_UID=1       #met tous les utilisateurs par defauta 1 (maliadmin)
 #######################
 ## listes de valeurs typequestion_id=13 (PROVINCE)
 class Province(models.Model):
-    nom_en = models.CharField(max_length=200,)
-    nom_fr = models.CharField(max_length=200,)
+    reponse_en = models.CharField(max_length=200,)
+    reponse_fr = models.CharField(max_length=200,)
 
     def __str__(self):
-        return '%s' % self.nom_en
+        return '%s' % self.reponse_en
 
     def __unicode__(self):
-        return u'%s' % self.nom_en
-
-
-## listes de valeurs typequestion_id=20 (PAYS)
-class Pays(models.Model):
-    nom_en = models.CharField(max_length=200,)
-    nom_fr = models.CharField(max_length=200,)
-
-    class Meta:
-       ordering = ['nom_en']
-
-    def __str__(self):
-        return '%s' % self.nom_en
-
-    def __unicode__(self):
-        return u'%s' % self.nom_en
+        return u'%s' % self.reponse_en
 
 
 class Personne(models.Model):
     code = models.CharField(max_length=200,)
+    hospcode = models.CharField(max_length=250)
+    selecthosp = models.CharField(max_length=250)
+    date_indexh = models.DateTimeField(blank=True, null=True)
     province = models.ForeignKey(Province, on_delete=models.DO_NOTHING)
     completed = models.CharField(max_length=200,blank=True, null=True)
     assistant = models.ForeignKey(User, default=DEFAULT_UID, on_delete=models.DO_NOTHING)
@@ -54,117 +42,58 @@ class Personne(models.Model):
         return u'%s' % self.code
 
 
-class Langue(models.Model):
-    ## listes de valeurs typequestion_id=19 (LANGUE)
-    nom_en = models.CharField(max_length=200, )
-    nom_fr = models.CharField(max_length=200, )
-
-    class Meta:
-        ordering = ['nom_en']
-
-    def __str__(self):
-        return '%s' % self.nom_en
-
-    def __unicode__(self):
-        return u'%s' % self.nom_en
-
-
-class Violation(models.Model):
-    ## listes de valeurs typequestion_id=45 (VIOLATION)
-    nom_en = models.CharField(max_length=200, )
-    nom_fr = models.CharField(max_length=200, )
-
-    class Meta:
-        ordering = ['id']
-
-    def __str__(self):
-        return '%s' % self.nom_en
-
-    def __unicode__(self):
-        return u'%s' % self.nom_en
-
-
-class Hcr(models.Model):
-    ## listes de valeurs typequestion_id=11 (HCR20)
-    reponse_valeur = models.CharField(max_length=200)
-    nom_en = models.CharField(max_length=200, )
-    nom_fr = models.CharField(max_length=200, )
-
-    class Meta:
-        ordering = ['reponse_valeur']
-
-    def __str__(self):
-        return '%s' % self.nom_en
-
-    def __unicode__(self):
-        return u'%s' % self.nom_en
-
-
 class Victime(models.Model):
     ## listes de valeurs typequestion_id=14 (VICTIME)
+    #Restee a part a cause de la logique du tri des items
     reponse_valeur = models.CharField(max_length=200)
-    nom_en = models.CharField(max_length=200, )
-    nom_fr = models.CharField(max_length=200, )
+    reponse_en = models.CharField(max_length=200, )
+    reponse_fr = models.CharField(max_length=200, )
 
     class Meta:
         ordering = ['id']
 
     def __str__(self):
-        return '%s' % self.nom_en
+        return '%s' % self.reponse_en
 
     def __unicode__(self):
-        return u'%s' % self.nom_en
+        return u'%s' % self.reponse_en
 
 
-class Posologie(models.Model):
-    ## listes de valeurs typequestion_id=10 (POSOLOGIE)
-    reponse_valeur = models.CharField(max_length=200)
-    nom_en = models.CharField(max_length=200, )
-    nom_fr = models.CharField(max_length=200, )
 
-    class Meta:
-        ordering = ['reponse_valeur']
-
-    def __str__(self):
-        return '%s' % self.nom_en
-
-    def __unicode__(self):
-        return u'%s' % self.nom_en
-
-
+#listes valeurs dependantes des provinces
 DEFAULT_PID = 1
 class Etablissement(models.Model):
     ## listes de valeurs typequestion_id=9 (ETABLISSEMENT)
     reponse_valeur = models.CharField(max_length=200)
-    nom_en = models.CharField(max_length=200, )
-    nom_fr = models.CharField(max_length=200, )
+    reponse_en = models.CharField(max_length=200, )
+    reponse_fr = models.CharField(max_length=200, )
     province = models.ForeignKey(Province,default=DEFAULT_PID, on_delete=models.DO_NOTHING)
 
     class Meta:
-        ordering = ['nom_en']
+        ordering = ['reponse_en']
 
     def __str__(self):
-        return '%s' % self.nom_en
+        return '%s' % self.reponse_en
 
     def __unicode__(self):
-        return u'%s' % self.nom_en
+        return u'%s' % self.reponse_en
 
 
 class Municipalite(models.Model):
     ## listes de valeurs typequestion_id=15 (MUNICIPALITE)
     reponse_valeur = models.CharField(max_length=200)
-    nom_en = models.CharField(max_length=200, )
-    nom_fr = models.CharField(max_length=200, )
+    reponse_en = models.CharField(max_length=200, )
+    reponse_fr = models.CharField(max_length=200, )
     province = models.ForeignKey(Province,default=DEFAULT_PID, on_delete=models.DO_NOTHING)
 
     class Meta:
-        ordering = ['nom_en']
+        ordering = ['reponse_en']
 
     def __str__(self):
-        return '%s' % self.nom_en
+        return '%s' % self.reponse_en
 
     def __unicode__(self):
-        return u'%s' % self.nom_en
+        return u'%s' % self.reponse_en
 
 
 class Typequestion(models.Model):
@@ -177,6 +106,23 @@ class Typequestion(models.Model):
 
     def __unicode__(self):
         return u'%s' % self.nom
+
+
+#listes valeurs non dependantes des provinces SANS province
+class Listevaleur(models.Model):
+    reponse_valeur = models.CharField(max_length=200)
+    reponse_en = models.CharField(max_length=200, )
+    reponse_fr = models.CharField(max_length=200, )
+    typequestion = models.ForeignKey(Typequestion, on_delete=models.DO_NOTHING)
+
+    class Meta:
+        ordering = ['typequestion', 'reponse_valeur']
+
+    def __str__(self):
+        return '%s' % self.reponse_en
+
+    def __unicode__(self):
+        return u'%s' % self.reponse_en
 
 
 class Questionnaire(models.Model):
@@ -217,6 +163,7 @@ class Questionntp2(models.Model):
 
     def __unicode__(self):
         return u'%s' % self.questionen
+
 
 #######################
 ## listes de valeurs des questions de typequestion_id=4 (CATEGORIAL)

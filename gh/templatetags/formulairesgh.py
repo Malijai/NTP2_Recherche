@@ -146,6 +146,7 @@ def gh_codetexte(qid,type, *args, **kwargs):
         return question.render(name, '')
 
 
+####Pour les listes de valeurs qui etaient dans des tables
 @register.simple_tag
 def gh_table(qid,type, *args, **kwargs):
     #questid type
@@ -346,6 +347,8 @@ def gh_creedate(qid, *args, **kwargs):
     return year.render(name + '_year', an) + month.render(name + '_month',mois) + day.render(name + '_day',jour)
 
 
+##############################
+##Pour l'affichage des reponses aux questions dans les intruments
 @register.simple_tag
 def gh_lieedichou(a,b, *args, **kwargs):
     qid = a
@@ -413,6 +416,8 @@ def gh_liee_prov(qid,type, *args, **kwargs):
         reponse = '---'
 
     return reponse
+##############################
+
 
 @register.simple_tag
 def refaitliste(texte):

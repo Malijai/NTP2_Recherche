@@ -145,6 +145,9 @@ $(function() {
 
 </head>
     <body>
+
+
+
     <form action="" method="post">
         <div id="container">
             {% if messages %}
@@ -163,8 +166,9 @@ $(function() {
 
     <div class="footer">
          <div class="pagination">
-             <a href="{% url 'SelectPersonne' %}" >Return to questionnaire choice</a>
-          <button type="submit" class="btn-default">Save</button>
+            <a href="{% url 'SelectPersonne' %}" >Return to questionnaire choice</a>
+            <button type="submit" class="btn-default">Save</button>
+            <a href="{% url 'Rechercherviol' %}" target="Codes Violation/CC" onclick="window.open('', 'Codes Violation/CC', 'width=700,height=250,status=yes,resizable=yes,scrollbars=yes,toolbar=no')"  >Violation code finder</a>
          </div>
     </div>
 

@@ -33,6 +33,24 @@ class Profile(models.Model):
         return self.user.username
 
 
+class Projet(models.Model):
+    GH = 1
+    NTP1 = 2
+    NTP2 = 3
+    ALL = 10
+    PROJETS_CHOICES = (
+                           (GH, 'Going Home'),
+                           (NTP1, 'National Trajectory Project'),
+                           (NTP2, 'NTP2 Community'),
+                           (ALL, 'All projects'),
+                        )
+    user = models.ForeignKey (User, on_delete=models.CASCADE)
+    projet = models.PositiveSmallIntegerField(choices=PROJETS_CHOICES, verbose_name="Projets", null=True, blank=True)
+
+    def __str__(self):
+        return self.user.username
+
+
 @receiver(post_save, sender=User)
 def create_or_update_user_profile(sender, instance, created, **kwargs):
     if created:

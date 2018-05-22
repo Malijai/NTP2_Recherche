@@ -1,5 +1,5 @@
 from django.conf.urls import url
-from .views import SelectPersonne, saverepetntp2, saventp2, some_pdf, ffait_csv, decrypt, some_texte
+from .views import SelectPersonne, saverepetntp2, saventp2, some_pdf, ffait_csv, decrypt, some_texte, creerdossierntp2
 from django.contrib.auth import views as auth_views
 
 urlpatterns = [
@@ -12,5 +12,6 @@ urlpatterns = [
     url(r'^pdf/(?P<pk>[-\w]+)/$', some_pdf, name='do_some_pdf'),
     url(r'^txt/(?P<pid>[-\w]+)', some_texte, name='do_some_texte'),
     url(r'^csv/$', ffait_csv, name='do_csv'),
+    url(r'^new/$', creerdossierntp2, name='creerdossierntp2'),
 
 ]

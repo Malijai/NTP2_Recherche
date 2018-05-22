@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="{% static 'accueil/w3-theme-maison.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css">
 <body>
-<div class="principal">
+<div class="principal w3-theme-l5">
 <!-- Side Navigation -->
 <!-- Sidebar -->
   <nav class="w3-sidebar w3-bar-block w3-border-right w3-theme-d5" style="display:none" id="mySidebar">
@@ -62,7 +62,7 @@
 
 </div>
 
-<footer class="w3-container w3-theme-d5 footer">
+<footer class="w3-container w3-theme-d5 footerw3">
    {% blocktrans %}
         <h5>Projet réalisé en  <img src="/static/accueil/django-logo-negative.png" height="32px">
         disponible ici <a href="https://github.com/Malijai/NTP2_Recherche" class="date" ><img src="/static/images/GitHub-Mark-Light-32px.png"></a>
@@ -106,6 +106,16 @@ function showDivs(n) {
   }
   x[slideIndex-1].style.display = "block";
 }
+
+function openCity(cityName) {
+    var i;
+    var x = document.getElementsByClassName("city");
+    for (i = 0; i < x.length; i++) {
+       x[i].style.display = "none";
+    }
+    document.getElementById(cityName).style.display = "block";
+}
+
 </script>
 </body>
 </html>

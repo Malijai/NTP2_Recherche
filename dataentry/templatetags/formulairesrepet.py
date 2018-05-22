@@ -2,12 +2,13 @@ from __future__ import unicode_literals
 from django import template
 import re
 from django.apps import apps
-from dataentry.models import Resultatrepetntp2, Reponsentp2, Questionntp2
+from dataentry.models import Resultatrepetntp2, Reponsentp2, Questionntp2, Typequestion, Listevaleur, Victime
 from django import forms
 from .formulairesntp2 import fait_select_date, fait_liste_tables, enlevelisttag
 from dataentry.dataentry_constants import CHOIX_ONUK, CHOIX_ON, CHOIX_BOOLEAN
 
 register = template.Library()
+
 
 @register.simple_tag
 def fait_table(qid,type, *args, **kwargs):
@@ -15,17 +16,14 @@ def fait_table(qid,type, *args, **kwargs):
     personneid = kwargs['persid']
     relation = kwargs['relation']
     cible = kwargs['cible']
-    typetable = {"PROVINCE": "province", "PAYS": "pays", "LANGUE": "langue","VIOLATION": "violation"}
-    tableext = typetable[type]
     assistant = kwargs['uid']
     ordre = kwargs['ordre']
 
     defaultvalue = fait_default(personneid, qid, assistant=assistant, ordre=ordre)
     IDCondition = fait_id(qid,cible,relation=relation)
 
-    Klass = apps.get_model('dataentry', tableext)
-    # Klass = apps.get_model('dataentry'', typetable[b])
-    listevaleurs = Klass.objects.all()
+    typeq = Typequestion.objects.get(nom=type)
+    listevaleurs = Listevaleur.objects.filter(typequestion=typeq)
     name = 'q{}Z_Z{}'.format(qid, ordre)
     if type == "VIOLATION":
         liste = fait_liste_tables(listevaleurs, 'violation')
@@ -33,8 +31,8 @@ def fait_table(qid,type, *args, **kwargs):
         liste = fait_liste_tables(listevaleurs, 'id')
 
     question = forms.Select(choices = liste, attrs={'id': IDCondition,'name': name, })
-
     return question.render(name, defaultvalue)
+
 
 @register.simple_tag
 def fait_reponse(qid,b, *args, **kwargs):
@@ -57,27 +55,23 @@ def fait_reponse(qid,b, *args, **kwargs):
     return question.render(name, defaultvalue)
 
 @register.simple_tag
-def fait_table_valeurs(qid,type, *args, **kwargs):
+def fait_victimes(qid,type, *args, **kwargs):
     #pour les tables dont la valeur a enregistrer n'est pas l'id mais la reponse_valeur (independant de la province)
     personneid = kwargs['persid']
     relation = kwargs['relation']
     cible = kwargs['cible']
-    typetable = {"HCR20": "hcr", "POSOLOGIE":"posologie", "VICTIME":"victime",}
-    tableext = typetable[type]
     assistant = kwargs['uid']
     ordre = kwargs['ordre']
     defaultvalue = fait_default(personneid, qid, assistant=assistant, ordre=ordre)
     IDCondition = fait_id(qid,cible,relation=relation)
 
-    Klass = apps.get_model('dataentry', tableext)
-    # Klass = apps.get_model('dataentry', typetable[b])
-    listevaleurs = Klass.objects.all()
+    listevaleurs = Victime.objects.all()
     name = 'q{}Z_Z{}'.format(qid, ordre)
-    liste = fait_liste_tables(listevaleurs, 'nom')
+    liste = fait_liste_tables(listevaleurs, 'reponse')
 
     question = forms.Select(choices = liste, attrs={'id': IDCondition,'name': name, })
-
     return question.render(name, defaultvalue)
+
 
 @register.simple_tag
 def fait_table_valeurs_prov(qid,type, *args, **kwargs):
@@ -98,11 +92,12 @@ def fait_table_valeurs_prov(qid,type, *args, **kwargs):
     # Klass = apps.get_model('dataentry', typetable[b])
     listevaleurs = Klass.objects.filter(province__id = province)
     name = 'q{}Z_Z{}'.format(qid, ordre)
-    liste = fait_liste_tables(listevaleurs, 'nom')
+    liste = fait_liste_tables(listevaleurs, 'reponse')
 
     question = forms.Select(choices = liste, attrs={'id': IDCondition,'name': name, })
 
     return question.render(name, defaultvalue)
+
 
 @register.simple_tag
 def fait_dichou(qid,type, *args, **kwargs):
@@ -127,6 +122,7 @@ def fait_dichou(qid,type, *args, **kwargs):
         question = forms.RadioSelect(choices=liste, attrs={'id': IDCondition, 'name': name, })
 
     return enlevelisttag(question.render(name, defaultvalue))
+
 
 @register.simple_tag
 def fait_court(qid,type, *args, **kwargs):
@@ -189,12 +185,6 @@ def fait_date(qid,b, *args, **kwargs):
     return year.render(name + '_year' , an) + month.render(name + '_month', mois) + day.render(name + '_day', jour)
 
 
-#Utlitaires generaux
-@register.filter
-def get_item(dictionary, key):
-    return dictionary.get(key)
-
-
 def fait_default(personneid, qid, *args, **kwargs):
     ##fail la valeur par deffaut
     assistant = kwargs['assistant']
@@ -220,6 +210,7 @@ def fait_id(qid, cible, *args, **kwargs):
 
 @register.simple_tag
 def fait_dateh(persid,province,*args, ** kwargs):
+    #Va chercher les dates de type 60 pour les afficher dans les tabs
     ordre = kwargs['ordre']
     assistant = kwargs['assistant']
 

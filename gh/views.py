@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 from django.shortcuts import render, redirect
 #from django.http import HttpResponse
-from gh.models import Questionnaire, Personne, Interview, Resultatrepet,Question, Resultat, \
-                     Instrument, Province,Typequestion
+from gh.models import Questionnaire, Personne, Interview, Resultatrepet, Question, Resultat, \
+                     Instrument, Province, Reponse, User
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -10,8 +11,10 @@ from django.contrib import messages
 from django.db.models import Q
 import datetime
 from dataentry.encrypter import Encrypter
-from gh.gh_constants import LISTE_PROVINCE
-
+import csv
+from django.template import loader, Context
+from django.http import HttpResponse, StreamingHttpResponse
+from gh.gh_constants import LISTE_PROVINCE, LISTE_START, LISTE_HCR, CHOIX_ONUK
 
 
 @login_required(login_url=settings.LOGIN_URI)
@@ -32,8 +35,7 @@ def SelectDossier(request):
                     {
                     'personnes': personnes,
                     'interviews': Interview.objects.all(),
-                    'provinces': Province.objects.all(),
-
+                    'provinces': Province.objects.all()
                     }
                 )
         if 'Clinical File' in request.POST:
@@ -56,10 +58,9 @@ def SelectDossier(request):
         elif 'HousingTLFB' in request.POST:
             return rendu_questionnairerep(request, 3)
         elif 'Newfile' in request.POST:
-            return redirect(creerdossier, )
+            return redirect(creerdossier)
         elif 'Voirliste' in request.POST:
             return redirect(listedossiers, request.POST.get('provinceid'),)
-
     else:
         return render(
                     request,
@@ -113,7 +114,6 @@ def creerdossier(request):
                 reponses[question.varname] = reponseaquestion
         prov = LISTE_PROVINCE[request.user.profile.province]
         reponses['personne_code'] = "{}_{}{}_P".format(prov,reponses['PartP'][:3], reponses['date_consentement'])
-
         Personne.objects.create(
                                 personne_code = reponses['personne_code'],
                                 province_id = request.user.profile.province,
@@ -132,6 +132,12 @@ def creerdossier(request):
         textefin=  "{}  has been created".format(reponses['personne_code'])
         messages.add_message(request, messages.ERROR, textefin)
         return redirect('SelectDossier')
+    else:
+        return render(request, 'createghh.html',
+                      {
+                          'questions': questionstoutes,
+                      }
+                      )
 
 
 @login_required(login_url=settings.LOGIN_URI)
@@ -426,7 +432,7 @@ def fait_pagination(pid, qid, intid, request):
 
 def encode_donnee(message):
     PK_path = settings.PUBLIC_KEY_PATH
-    PK_name = settings.PUBLIC_KEY
+    PK_name = settings.PUBLIC_KEY_GH
     e = Encrypter()
     #public_key = e.read_key(PK_path + 'Manitoba_public.pem')
     public_key = e.read_key(PK_path + PK_name)
@@ -441,3 +447,93 @@ def cherchefin(questionfin,pid,intid,assistant,province):
         if sectionterminee.reponse_texte == '1':
             return True
     return False
+
+
+class Echo(object):
+    """An object that implements just the write method of the file-like
+    interface.
+    """
+    def write(self, value):
+        """Write the value by returning it, instead of storing in a buffer."""
+        return value
+
+
+@login_required(login_url=settings.LOGIN_URI)
+def gh_csv(request, pid):
+    # Create the HttpResponse object with the appropriate CSV header.
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="exportation.txt"'
+    # The data is hard-coded here, but you could load it from a database or
+    # some other source.
+
+    personne = Personne.objects.get(pk=pid)
+    csv_data = ([])
+    debut = []
+    debut.append('Province & File code')
+    debut.append(personne.province.reponse_en)
+    debut.append(personne.personne_code)
+    csv_data.append(debut)
+    questionnaires = Questionnaire.objects.filter(id__gt=1)
+    assistants = User.objects.all()
+    entrevues = Interview.objects.all()
+    for assistant in assistants:
+        for entrevue in entrevues:
+            if Resultat.objects.filter(personne__id=pid, assistant_id=assistant.id, interview_id=entrevue.id).exists():
+                for questionnaire in questionnaires:
+                    ligne2 = []
+                    questions = Question.objects.filter(questionnaire_id=questionnaire.id).order_by('questionno')
+                    ligne2.append(assistant.username)
+                    ligne2.append(questionnaire.nom_en)
+                    ligne2.append(entrevue.reponse_en)
+                    csv_data.append(ligne2)
+                    if questionnaire.id != 2000:
+                        for question in questions:
+                            ligne = []
+                            donnee = Resultat.objects.filter(personne__id=pid, question__id=question.id, assistant_id=assistant.id,interview_id=entrevue.id )
+                            if donnee:
+                                ligne.append(question.varname)
+                                ligne.append(question.questionen)
+                                reponse = fait_reponsegh(donnee[0].reponse_texte, question, personne.province)
+                                ligne.append(reponse)
+                            if ligne != []:
+                                csv_data.append(ligne)
+                    else:
+                        donnees = Resultatrepet.objects.order_by().filter(personne__id=pid, assistant__id=assistant.id,
+                                                                              questionnaire__id=2000).values_list('fiche',
+                                                                                                                  flat=True).distinct()
+                        compte = donnees.count()
+                        ligne2 = []
+                        ligne2.append(str(compte) + ' different hospitalizations')
+                        csv_data.append(ligne2)
+                        for i in donnees:
+                            ligne2 = []
+                            ligne2.append('Hospitalization card number ' + str(i))
+                            csv_data.append(ligne2)
+                            for question in questions:
+                                ligne = []
+                                donnee = Resultatrepet.objects.filter(personne__id=pid, question_id=question.id,
+                                                                          assistant_id=assistant.id, fiche=i)
+                                if donnee:
+                                    ligne.append(question.varname)
+                                    ligne.append(question.questionen)
+                                    reponse = fait_reponsegh(donnee[0].reponse_texte, question, personne.province)
+                                    ligne.append(reponse)
+
+                                csv_data.append(ligne)
+
+    pseudo_buffer = Echo()
+    writer = csv.writer(pseudo_buffer, dialect="excel-tab")
+    response = StreamingHttpResponse((writer.writerow(row) for row in csv_data),
+                                     content_type="text/csv")
+    response['Content-Disposition'] = 'attachment; filename="' + str(personne.personne_code) + '.txt"'
+    return response
+
+
+def fait_reponsegh(reponsetexte, question, province):
+    if question.typequestion.nom == 'CATEGORIAL':
+        resultat = Reponse.objects.get(question=question.id,reponse_valeur=reponsetexte).__str__()
+#     elif question.typequestion.nom == 'DICHO' or question.typequestion.nom  == 'DICHOU':
+#         resultat = CHOIX_ONUK[int(reponsetexte)]
+    else:
+        resultat = reponsetexte
+    return resultat

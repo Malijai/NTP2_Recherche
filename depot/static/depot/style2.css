@@ -1,23 +1,4 @@
-@font-face {
-    font-family: myFirstFont;
-    src: url(Arsenal-Regular.otf);
-}
-
 html {height: 100%;}
-
-body  {
-    margin: 0;
-    font-size: 16px;
-    font-family: myFirstFont;
-    background: url(IMG_2765.JPG) no-repeat center fixed;
-    background-size: cover;
-    height: 95%;
-}
-
-p  {
-    margin: 0;
-    font-size: 16px;
-}
 
 input, select, textarea {
     background-color: #E5E5E5;
@@ -314,4 +295,15 @@ tr:nth-child(even){background-color: #E5E5E5}
 {
     color: #FFFFFF;
     background-color: #000000;
+}
+
+.principal {
+    margin-bottom: 80px;
+    margin-left: 30px;
+}
+
+.footerw3 {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
 }

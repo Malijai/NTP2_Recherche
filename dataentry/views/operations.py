@@ -10,6 +10,7 @@ from django.db.models import Q
 import datetime
 #import logging
 from dataentry.encrypter import Encrypter
+from dataentry.ntp_constants import LISTE_PROVINCE
 
 
 @login_required(login_url=settings.LOGIN_URI)
@@ -47,6 +48,8 @@ def SelectPersonne(request):
                                 request.POST.get('questionnaireid'),
                                 request.POST.get('personneid'),
                                 )
+        elif 'Creer' in request.POST:
+            return redirect(creerdossierntp2)
         elif 'Fermer' in request.POST:
             # pour fermer un dossier
             pid = request.POST.get('personneid')
@@ -76,6 +79,50 @@ def SelectPersonne(request):
                         'questionnaires': Questionnaire.objects.all(),
                         'message':'welcome'
                     }
+                )
+
+
+@login_required(login_url=settings.LOGIN_URI)
+def creerdossierntp2(request):
+    qid = 500
+    questionstoutes = Questionntp2.objects.filter(questionnaire__id=qid)
+    if request.method == 'POST':
+        reponses = {}
+        for question in questionstoutes:
+            if question.typequestion.nom == 'DATE' or question.typequestion.nom == 'CODEDATE':
+                an = request.POST.get('q{}_year'.format(question.id))
+                if an != "":
+                    mois = request.POST.get('q{}_month'.format(question.id))
+                    jour = request.POST.get('q{}_day'.format(question.id))
+                    reponseaquestion = "{}-{}-{}".format(an, mois, jour)
+                else:
+                    reponseaquestion = ''
+            else:
+                reponseaquestion = request.POST.get('q' + str(question.id))
+            if reponseaquestion:
+                if question.typequestion.nom == 'CODEDATE' or question.typequestion.nom == 'CODESTRING':
+                    reponseaquestion = encode_donnee(reponseaquestion)
+                reponses[question.varname] = reponseaquestion
+        prov = LISTE_PROVINCE[request.user.profile.province]
+        pref= request.user.profile.province * 10000
+        dernier = Personne.objects.all().order_by('-id').first()
+        reponses['personne_code'] = "{}_{}".format(prov,pref + dernier.id + 1,)
+        Personne.objects.create(
+                                code = reponses['personne_code'],
+                                hospcode=reponses['hospcode'],
+                                selecthosp=reponses['SelectHosp'],
+                                province_id = request.user.profile.province,
+                                date_indexh = reponses['RDIH'],
+                                assistant_id = request.user.id
+                                )
+        textefin=  "{}  has been created".format(reponses['personne_code'])
+        messages.add_message(request, messages.ERROR, textefin)
+        return redirect('SelectPersonne')
+    else:
+        return render(
+                    request,
+                    'createntp2.html',
+                    {'questions': questionstoutes}
                 )
 
 
@@ -116,7 +163,8 @@ def saventp2(request, qid, pid):
         now = datetime.datetime.now().strftime('%H:%M:%S')
         messages.add_message(request, messages.WARNING, 'Data saved at ' + now)
 
-    return render(request, 'saventp2.html',
+    return render(request,
+                  'saventp2.html',
                   {
                       'qid': qid,
                       'pid': pid,
@@ -126,7 +174,7 @@ def saventp2(request, qid, pid):
                       'code': nomcode,
                       'questionnaire': questionnaire
                   }
-                  )
+                )
 
 
 @login_required(login_url=settings.LOGIN_URI)
@@ -199,7 +247,8 @@ def saverepetntp2(request, qid, pid):#(request, qid, pid, province):
                             )
 
     compte, fiches = fait_pagination(pid, qid, request)
-    return render(request, 'saverepetntp2.html',
+    return render(request,
+                      'saverepetntp2.html',
                       {
                           'qid': qid,
                           'pid': pid,
@@ -210,7 +259,7 @@ def saverepetntp2(request, qid, pid):#(request, qid, pid, province):
                           'compte': compte,
                           'code': nomcode,
                       }
-                      )
+                    )
 
 
 def fait_pagination(pid, qid, request):
@@ -245,7 +294,8 @@ def genere_questions(qid):
 
 
 def fait_rendu(ascendancesF, ascendancesM, nomcode, pid, qid, questionstoutes, request, questionnaire):
-    return render(request, 'saventp2.html',
+    return render(request,
+                  'saventp2.html',
                   {
                       'qid': qid,
                       'pid': pid,
@@ -255,12 +305,12 @@ def fait_rendu(ascendancesF, ascendancesM, nomcode, pid, qid, questionstoutes, r
                       'code': nomcode,
                       'questionnaire': questionnaire
                   }
-                  )
+                )
 
 
 def encode_donnee(message):
     PK_path = settings.PUBLIC_KEY_PATH
-    PK_name = settings.PUBLIC_KEY
+    PK_name = settings.PUBLIC_KEY_NTP2
     e = Encrypter()
     #public_key = e.read_key(PK_path + 'Manitoba_public.pem')
     public_key = e.read_key(PK_path + PK_name)

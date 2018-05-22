@@ -1,0 +1,21 @@
+{% load i18n %}
+{% load static %}
+<html>
+   <head>
+         <title>Questions etc</title>
+         <!--<link rel="stylesheet" href="{% static 'blog/style_b.css' %}">-->
+         <link rel="stylesheet" type="text/css" href="/static/admin/css/base.css" />
+         <link rel="stylesheet" type="text/css" href="/static/admin/css/forms.css" />
+    </head>
+    <body>
+
+<h2>Violation Code search</h2>
+
+    {% for code in codes %}
+    <b>Criminal code:</b> {{ code.reponse_valeur }} = {{ code.reponse_en }} <b>Violation code:</b> {{ code.violation.reponse_valeur }} {{ code.violation.reponse_en }} </br>
+    {% endfor %}
+            <a href="{% url 'Rechercherviol' %}" >Violation code finder</a>
+
+
+    </body>
+</html>

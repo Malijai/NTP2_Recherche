@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-from dataentry.models import Questionnaire, Reponsentp2, Resultatrepetntp2, Questionntp2, Violation, Etablissement, Municipalite
-from dataentry.models import Personne, Resultatntp2
+from dataentry.models import Questionnaire, Reponsentp2, Resultatrepetntp2, Questionntp2, Listevaleur, Etablissement, Municipalite
+from dataentry.models import Personne, Resultatntp2, Victime, Typequestion
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 import csv
@@ -162,14 +162,18 @@ def some_pdf(request,pk):
                 bogustext = '&#124;' + espace + str(list.reponse_valeur) + '&nbsp;&nbsp;' + str(list.reponse_en)
                 p = Paragraph(bogustext, bullettes)
                 Story.append(p)
-        elif question.typequestion.nom == "HCR20" or question.typequestion.nom == "POSOLOGIE" or question.typequestion.nom == "VICTIME":
-            typetable = {"HCR20": "hcr", "POSOLOGIE": "posologie", "VICTIME": "victime", }
-            tableext = typetable[question.typequestion.nom]
-            Klass = apps.get_model('dataentry', tableext)
-            liste = Klass.objects.all()
+        elif question.typequestion.nom == "HCR20" or question.typequestion.nom == "POSOLOGIE" :
+            liste = Listevaleur.objects.filter(typequestion=question.typequestion.id)
             for list in liste:
                 espace = '&nbsp;'*25 +'&#x00B7;'
-                bogustext = '&#124;' + espace + str(list.reponse_valeur) + '&nbsp;&nbsp;' + str(list.nom_en)
+                bogustext = '&#124;' + espace + str(list.reponse_valeur) + '&nbsp;&nbsp;' + str(list.reponse_en)
+                p = Paragraph(bogustext, bullettes)
+                Story.append(p)
+        elif question.typequestion.nom == "VICTIME":
+            liste = Victime.objects.all()
+            for list in liste:
+                espace = '&nbsp;' * 25 + '&#x00B7;'
+                bogustext = '&#124;' + espace + str(list.reponse_valeur) + '&nbsp;&nbsp;' + str(list.reponse_en)
                 p = Paragraph(bogustext, bullettes)
                 Story.append(p)
         elif question.typequestion.nom == "PAYS" or question.typequestion.nom == "LANGUE":
@@ -195,11 +199,12 @@ def some_pdf(request,pk):
         #Story.append(Spacer(1, 0.2 * inch))
         Story.append(PageBreak())
         Story.append(Paragraph(ptext, styles["Heading3"]))
-        liste = Violation.objects.all()
+        typeviol = Typequestion.objects.get(nom='VIOLATION')
+        liste = Listevaleur.objects.filter(typequestion=typeviol.id)
         for list in liste:
             espace1 = '&nbsp;'*3 + '&#x00B7;'
             espace2 = '&nbsp;'*3
-            bogustext = '&#124;' + espace1 + str(list.id) + espace2 + list.nom_en
+            bogustext = '&#124;' + espace1 + str(list.id) + espace2 + list.reponse_en
             p = Paragraph(bogustext,  bullettes)
             Story.append(p)
 
@@ -224,7 +229,7 @@ def some_texte(request, pid):
     csv_data = ([])
     debut = []
     debut.append('Province & File code')
-    debut.append(personne.province.nom_en)
+    debut.append(personne.province.reponse_en)
     debut.append(personne.code)
     csv_data.append(debut)
     questionnaires = Questionnaire.objects.filter(id__gt=1 )
@@ -260,7 +265,7 @@ def some_texte(request, pid):
                     ligne = []
                     ligne.append(question.varname)
                     ligne.append(question.questionen)
-                    donnee = Resultatrepetntp2.objects.filter(pk=pid, question_id=question.id, assistant_id=1, fiche=i)
+                    donnee = Resultatrepetntp2.objects.filter(personne__id=pid, question_id=question.id, assistant_id=1, fiche=i)
                     if donnee:
                         reponse = fait_reponse(donnee[0].reponsetexte, question, province)
                         ligne.append(reponse)

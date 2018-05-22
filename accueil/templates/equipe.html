@@ -2,24 +2,38 @@
 {% load static %}
 {% load i18n %}
 
+
 {% block content %}
+<div class="w3-theme-l4" style="padding:5px;">
+    <h5>{% trans "Cliquer sur le nom du projet pour voir les détails à propos de l'équipe" %}</h5>
+</div>
+
+<div class="w3-theme-dark">
+  <button class="w3-theme-d5 w3-button" onclick="openCity('Paris')">{% trans "Le projet National des trajectoires (NTP 1)" %}</button>
+  <button class="w3-theme-d3 w3-button" onclick="openCity('Tokyo')">NTP2 Community</button>
+</div>
+
+
+<div id="Paris" class="w3-container city" style="display:none">
     <div class="w3-theme-l3" style="padding:5px;">
         <h3>National trajectory project (Part 1)</h3>
         {% blocktrans %}
             <p class="w3-medium">Le Projet national des trajectoires a permis d’examiner les dossiers de 1800 hommes et femmes déclarés NCRTM en Colombie-Britannique (n = 222), au Québec (n = 1094) et en Ontario (n = 484) de mai 2000 à avril 2005, et de les suivre jusqu’en décembre 2008.
-            La collecte des données s'est déroulée de  ... à ....</p>
+            La collecte des données s'est déroulée de 2006 à 2013</p>
         {% endblocktrans %}
         <p class="w3-medium">{% trans "L'équipe de chercheurs était alors composée de :" %}</p>
         <ul>
-            <li class="w3-medium"><b>Anne G. Crocker <i>QC</i></b> titres et affiliations</li>
-            <li class="w3-medium"><b>Tonia Nicholls <i>BC</i></b> titres et affiliations</li>
-            <li class="w3-medium"><b>Michael Seto <i>ON</i></b> titres et affiliations</li>
+            <li class="w3-medium"><b>Anne G. Crocker <i>QC</i></b> Director, Research & Academics Institut Philippe-Pinel de Montréal, Professor, Department of Psychiatry and addictions Université de Montréal</li>
+            <li class="w3-medium"><b>Tonia Nicholls <i>BC</i></b> Associate Professor, Psychiatry, Faculty of Medicine, UBC</li>
+            <li class="w3-medium"><b>Michael Seto <i>ON</i></b> Director, Forensic Research Unit, The Royal's Institute of Mental Health Research</li>
             <li class="w3-medium"><b>Gilles Côté <i>QC</i></b> titres et affiliations</li>
             <li class="w3-medium"><b>Eric Latimer <i>QC</i></b> titres et affiliations</li>
        </ul>
     </div>
+</div>
 
-    <div class="w3-theme-l4" style="padding:5px;">
+<div id="Tokyo" class="w3-container city">
+   <div class="w3-theme-light" style="padding:5px;">
         {% blocktrans %}
             <h3>Une étude nationale sur les occasions et les obstacles pour une réintégration communautaire réussie de patients de psychiatrie légale (NTP2 Community)</h3>
             <p class="w3-medium">L'objectif de la présente étude est de mieux comprendre les
@@ -37,16 +51,16 @@
             <li class="w3-medium"><b>Tonia Nicholls <i>BC</i></b> Associate Professor, Psychiatry, Faculty of Medicine, UBC</li>
             <li class="w3-medium"><b>Michael Seto <i>ON</i></b> Director, Forensic Research Unit, The Royal's Institute of Mental Health Research</li>
             <li class="w3-medium"><b>Andrew Haag <i>AL</i></b> Alberta Health Services</li>
-            <li class="w3-medium"><b>Mark Olver <i>SK</i></b> University of Saskatchewan | U of S · Department of Psychology</li>
-            <li class="w3-medium"><b>Jamie Livingston <i>NS</i></b> Assistant Professor, Criminology, Saint Mary’s University, Halifax</li>
-            <li class="w3-medium"><b>David Hill <i>MB</i></b> Clinical Psychologist and Assistant Professor, Department of Clinical Health Psychology, University of Manitoba</li>
-            <li class="w3-medium"><b>Yanick Charette <i>QC</i></b> Social work school, Université Laval. He is an assistant professor at Université Laval's School of social work and criminology. His research discusses the effect of dynamic, structural and neighborhood factors on treatment and criminal recidivism. He is also interested in social network analysis, criminal deterrence, and rational choice theory.</li>
+            <li class="w3-medium"><b>Mark Olver <i>SK</i></b> University of Saskatchewan, U of S · Department of Psychology</li>
+            <li class="w3-medium"><b>Jamie Livingston (NS):</b> Assistant Professor, Criminology, Saint Mary’s University, Halifax. He is a criminologist who studies and teaches about issues of social inclusion and social justice for people with mental illnesses, with an emphasis on those who are involved with the criminal justice and legal systems. The substantive areas of his research program focus on stigma, service improvements, and innovations in forensic mental health.</li>
+            <li class="w3-medium"><b>David Hill (MB):</b> Clinical Psychologist and Assistant Professor, Department of Clinical Health Psychology, University of Manitoba<. His research interests include forensic psychology, forensic mental health assessment, malingering, psychopathy, and violence risk assessment. /li>
+            <li class="w3-medium"><b>Yanick Charette (QC):</b> Social work school, Université Laval. He is an assistant professor at Université Laval's School of social work and criminology. His research discusses the effect of dynamic, structural and neighborhood factors on treatment and criminal recidivism. He is also interested in social network analysis, criminal deterrence, and rational choice theory.</li>
             <li class="w3-medium"><b>Michael Martin</b> </li>
-            <li class="w3-medium"><b>Leila Salem</b> </li>
+            <li class="w3-medium"><b>Leila Salem (QC):</b> She has conducted her doctoral studies in clinical psychology, focusing her research on the influence of supportive housing in the clinical and criminal trajectories of individuals found not criminally responsible on account of mental disorder.  Her research interests lie in the community reintegration of mentally ill individuals involved with the criminal justice system. She is currently practicing as a forensic psychologist at the Institut Philippe Pinel of Montreal and at the Correctional Service of Canada.</li>
             <li class="w3-medium"><b>Cathy Willson</b> </li>
         </ul>
-
-    </div>
+   </div>
+</div>
 
 {% endblock content %}
 
