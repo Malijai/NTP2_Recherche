@@ -58,7 +58,7 @@
            <form method="post" action="">
            {% csrf_token %}
            <h3>Already created file</h3><b>For already created files</b>
-               <p>To continue an evaluation once the file is already created></p>
+               <p>To continue an evaluation once the file is already created</p>
                <table>
                 <tr><td></td><td></td></tr>
                 <tr><td>Personne</td><td><select name="personneid" >
@@ -73,13 +73,14 @@
                     <option value="{{interview.id }}">{{ interview.reponse_en }}</option>
                     {% endfor %}
                     </select></td></tr>
-                 <tr><td>Infos from clinical file (baseline only)</td><td><button type="submit" class="placeboutons" name="Clinical File">Clinical File</button></td></tr>
-                 <tr><td>Socio demo, Relationship, Work Finances, Family friends</td><td><button type="submit" class="placeboutons" name="Interview Guide 1">Interview Guide 1</button></td></tr>
-                 <tr><td>Antisocial, Alcohol, Drugs, Treatments' Stress, Leisure, Goals</td><td><button type="submit" class="placeboutons" name="Interview Guide 2">Interview Guide 2</button></td></tr>
-                 <tr><td>Baseline VRAG, SCID Alcohol/Drug, SCID APD; All interviews HCR-20-V3, START</td><td><button type="submit" class="placeboutons" name="Instruments">Instruments</button></td></tr>
-                 <tr><td>All interviews RAS, CSI, General Impression; Followup only: SOS</td><td><button type="submit" class="placeboutons" name="Scales">Scales</button></td></tr>
-                 <tr><td>Sensible data (FPS, DOB ...) which will be encrypted</td><td><button type="submit" class="placeboutons" name="Sensible">Sensible data</button></td></tr>
-              </table>
+                <tr><td>Infos from clinical file (baseline only)</td><td><button type="submit" class="placeboutons" name="Clinical File">Clinical File</button></td></tr>
+                <tr><td>Socio demo, Relationship, Work Finances, Family friends</td><td><button type="submit" class="placeboutons" name="Interview Guide 1">Interview Guide 1</button></td></tr>
+                <tr><td>Antisocial, Alcohol, Drugs, Treatments' Stress, Leisure, Goals</td><td><button type="submit" class="placeboutons" name="Interview Guide 2">Interview Guide 2</button></td></tr>
+                <tr><td>Baseline VRAG, SCID Alcohol/Drug, SCID APD; All interviews HCR-20-V3, START</td><td><button type="submit" class="placeboutons" name="Instruments">Instruments</button></td></tr>
+                <tr><td>All interviews RAS, CSI, General Impression; Followup only: SOS</td><td><button type="submit" class="placeboutons" name="Scales">Scales</button></td></tr>
+                <tr><td>Sensible data (FPS, DOB ...) which will be encrypted</td><td><button type="submit" class="placeboutons" name="Sensible">Sensible data</button></td></tr>
+                <tr><td>To see saved data in tabular form</td><td><button type="submit" class="placeboutons" name="PrintFile">Export case to csv</button></td></tr>
+               </table>
            </form>
        </div>
        <div class="tabbertab">

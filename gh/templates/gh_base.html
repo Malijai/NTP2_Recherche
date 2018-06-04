@@ -188,10 +188,13 @@ function basculer(item, nb_item,niveau) {
     </div>
 
     <div class="footer">
-         <div class="pagination">
-             <a href="{% url 'SelectDossier' %}" >Return to questionnaire choice</a>
-          <button type="submit" class="btn-default">Save</button>
-         </div>
+         <table>
+            <tr>
+                <td class="pagination"><a href="{% url 'SelectDossier' %}">Return to questionnaire choice</a></td>
+                <td><button type="submit" class="btn-default">Save</button></td>
+                <td class="pagination"><a href="{% url 'Rechercherviol' %}" target="Codes Violation/CC" onclick="window.open('', 'Codes Violation/CC', 'width=700,height=250,status=yes,resizable=yes,scrollbars=no,toolbar=no')"  >Violation code finder</a></td>
+            </tr>
+        </table>
     </div>
 
     </form>

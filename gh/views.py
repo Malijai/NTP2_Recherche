@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 from django.shortcuts import render, redirect
 #from django.http import HttpResponse
 from gh.models import Questionnaire, Personne, Interview, Resultatrepet, Question, Resultat, \
-                     Instrument, Province, Reponse, User
+                     Instrument, Province, Reponse, User, Listevaleur, Victime
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -14,7 +14,7 @@ from dataentry.encrypter import Encrypter
 import csv
 from django.template import loader, Context
 from django.http import HttpResponse, StreamingHttpResponse
-from gh.gh_constants import LISTE_PROVINCE, LISTE_START, LISTE_HCR, CHOIX_ONUK
+from gh.gh_constants import LISTE_PROVINCE, LISTE_START, LISTE_HCR, CHOIX_ONUK, CHOIX_ON
 
 
 @login_required(login_url=settings.LOGIN_URI)
@@ -61,6 +61,8 @@ def SelectDossier(request):
             return redirect(creerdossier)
         elif 'Voirliste' in request.POST:
             return redirect(listedossiers, request.POST.get('provinceid'),)
+        elif 'PrintFile' in request.POST:
+            return redirect(gh_csv,request.POST.get('personneid'),)
     else:
         return render(
                     request,
@@ -486,7 +488,7 @@ def gh_csv(request, pid):
                     ligne2.append(questionnaire.nom_en)
                     ligne2.append(entrevue.reponse_en)
                     csv_data.append(ligne2)
-                    if questionnaire.id != 2000:
+                    if questionnaire.id != 4 and questionnaire.id != 3:
                         for question in questions:
                             ligne = []
                             donnee = Resultat.objects.filter(personne__id=pid, question__id=question.id, assistant_id=assistant.id,interview_id=entrevue.id )
@@ -499,25 +501,27 @@ def gh_csv(request, pid):
                                 csv_data.append(ligne)
                     else:
                         donnees = Resultatrepet.objects.order_by().filter(personne__id=pid, assistant__id=assistant.id,
-                                                                              questionnaire__id=2000).values_list('fiche',
+                                                                          interview_id=entrevue.id, questionnaire__id=questionnaire.id).values_list('fiche',
                                                                                                                   flat=True).distinct()
                         compte = donnees.count()
                         ligne2 = []
-                        ligne2.append(str(compte) + ' different hospitalizations')
+                        ligne2.append(str(compte) + ' different entries for '+ questionnaire.nom_en)
                         csv_data.append(ligne2)
                         for i in donnees:
                             ligne2 = []
-                            ligne2.append('Hospitalization card number ' + str(i))
+                            ligne2.append(questionnaire.nom_en + ' card number ' + str(i))
                             csv_data.append(ligne2)
                             for question in questions:
-                                ligne = []
-                                donnee = Resultatrepet.objects.filter(personne__id=pid, question_id=question.id,
-                                                                          assistant_id=assistant.id, fiche=i)
+                                try:
+                                    donnee = Resultatrepet.objects.get(personne_id=pid, question_id=question.id,interview_id=entrevue.id, assistant_id=assistant.id, fiche=i)
+                                except Resultatrepet.DoesNotExist:
+                                    donnee = None
                                 if donnee:
+                                    ligne = []
                                     ligne.append(question.varname)
                                     ligne.append(question.questionen)
-                                    reponse = fait_reponsegh(donnee[0].reponse_texte, question, personne.province)
-                                    ligne.append(reponse)
+                                    #reponse = fait_reponsegh(donnee.reponse_texte, question, personne.province)
+                                    ligne.append(donnee.reponsetexte)
 
                                 csv_data.append(ligne)
 
@@ -532,8 +536,28 @@ def gh_csv(request, pid):
 def fait_reponsegh(reponsetexte, question, province):
     if question.typequestion.nom == 'CATEGORIAL':
         resultat = Reponse.objects.get(question=question.id,reponse_valeur=reponsetexte).__str__()
-#     elif question.typequestion.nom == 'DICHO' or question.typequestion.nom  == 'DICHOU':
-#         resultat = CHOIX_ONUK[int(reponsetexte)]
+    #elif question.typequestion.nom == 'DICHO':
+    #     resultat = CHOIX_ON[int(reponsetexte)]
+    elif question.typequestion.nom == "BOOLEAN" or question.typequestion.nom == "DICHOU"\
+        or question.typequestion.nom == "DICHON":
+         resultat = CHOIX_ONUK[int(reponsetexte)]
+    elif question.typequestion.nom == "HCR20" or question.typequestion.nom == "START"\
+         or question.typequestion.nom == "RAS"\
+         or question.typequestion.nom == "CSI" or question.typequestion.nom == "VRAG"\
+         or question.typequestion.nom == "SCID" or question.typequestion.nom == "SOS"\
+         or question.typequestion.nom == "HCRREL" \
+         or question.typequestion.nom == "PROVINCE" or question.typequestion.nom == "PAYS" \
+         or question.typequestion.nom == "LANGUE" \
+         or question.typequestion.nom  == "POSOLOGIE" \
+         or question.typequestion.nom == "VIOLATION":
+        resultat = Listevaleur.objects.get(typequestion__id=question.typequestion.id , reponse_valeur = int(reponsetexte))
+    elif question.typequestion.nom == "VICTIME":
+        resultat = Victime.objects.get(reponse_valeur = int(reponsetexte))
+    elif question.typequestion.nom == "CODESTRING" or question.typequestion.nom == "CODEDATE":
+        resultat = "Data encrypted"
     else:
         resultat = reponsetexte
     return resultat
+
+
+
