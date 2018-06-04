@@ -3,7 +3,7 @@
 {% load i18n %}
 
 {% block content %}
-<h2>Publications issues des donn/es de NTP1</h2>
+<h2>{% trans "Publications issues des données de NTP1" %}</h2>
     <div class="w3-theme-l3" style="padding:5px;">
         <h3>Canadian Journal of Psychiatry - March 2015 >><a href="http://cpa.sagepub.com/content/60/3.toc" target="_blank"> Table of contents and full texts</a></h3>
         <ul>
@@ -16,7 +16,7 @@
     </div>
 
     <div class="w3-theme-l4" style="padding:5px;">
-        <h3>Other publications</h3>
+        <h3>{% trans "Autres publications" %}</h3>
         <ul>
         {% for article in publications %}
             {% if article.affichage.nom == "Other publications" %}
@@ -27,7 +27,7 @@
 
     </div>
     <div class="w3-theme-l5" style="padding:5px;">
-        <h3>Reports</h3>
+        <h3>{% trans "Rapports" %}</h3>
         <ul>
         {% for article in publications %}
             {% if article.affichage.nom == "Reports" %}
