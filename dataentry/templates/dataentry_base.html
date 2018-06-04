@@ -3,12 +3,8 @@
 <html>
    <head>
          <title>Questions etc</title>
-         <!--<link rel="stylesheet" href="{% static 'blog/style_b.css' %}">-->
          <link rel="stylesheet" type="text/css" href="/static/admin/css/base.css" />
          <link rel="stylesheet" type="text/css" href="/static/admin/css/forms.css" />
-         <!--<script type="text/javascript" src="/static/admin/js/core.js"></script>-->
-         <!--<script type="text/javascript" src="/static/admin/js/vendor/jquery/jquery.js"></script>-->
-         <!--<script type="text/javascript" src="/admin/jsi18n/"></script>-->
 
         <script type="text/javascript" src="/static/jquery.js"></script>
         <script type="text/javascript" src="/static/tabber.js"></script>
@@ -165,11 +161,13 @@ $(function() {
     </div>
 
     <div class="footer">
-         <div class="pagination">
-            <a href="{% url 'SelectPersonne' %}" >Return to questionnaire choice</a>
-            <button type="submit" class="btn-default">Save</button>
-            <a href="{% url 'Rechercherviol' %}" target="Codes Violation/CC" onclick="window.open('', 'Codes Violation/CC', 'width=700,height=250,status=yes,resizable=yes,scrollbars=yes,toolbar=no')"  >Violation code finder</a>
-         </div>
+        <table>
+            <tr>
+                <td class="pagination"><a href="{% url 'SelectPersonne' %}">Return to questionnaire choice</a></td>
+                <td><button type="submit" class="btn-default">Save</button></td>
+                <td class="pagination"><a href="{% url 'Rechercherviol' %}" target="Codes Violation/CC" onclick="window.open('', 'Codes Violation/CC', 'width=700,height=250,status=yes,resizable=yes,scrollbars=no,toolbar=no')"  >Violation code finder</a></td>
+            </tr>
+        </table>
     </div>
 
     </form>

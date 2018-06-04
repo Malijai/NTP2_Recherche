@@ -180,7 +180,7 @@ def fait_date(qid,b, *args, **kwargs):
 
     IDCondition = fait_id(qid, cible, relation=relation)
     name = 'q{}Z_Z{}'.format(qid, ordre)
-    day, month, year = fait_select_date(IDCondition, name)
+    day, month, year = fait_select_date(IDCondition, name,1960, 2019)
 # #name=q69_year, id=row...
     return year.render(name + '_year' , an) + month.render(name + '_month', mois) + day.render(name + '_day', jour)
 
