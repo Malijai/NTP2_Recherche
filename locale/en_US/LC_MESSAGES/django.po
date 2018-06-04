@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-04-30 13:27-0400\n"
+"POT-Creation-Date: 2018-06-03 21:18-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,9 +20,9 @@ msgstr ""
 msgid "Fermer &times;"
 msgstr "Close &times;"
 
-#: accueil/templates/Rech_base.html:17 blog/templates/base.html:28
-#: blog/templates/base_r.html:25 depot/templates/base_d.html:25
-#: depot/templates/base_d1.html:25
+#: accueil/templates/Rech_base.html:17 blog/templates/base.html:21
+#: blog/templates/base_r.html:18 depot/templates/base_d.html:18
+#: depot/templates/base_d1.html:18
 msgid "Accueil"
 msgstr "Home"
 
@@ -74,31 +74,31 @@ msgstr ""
 msgid "Le Projet National des Trajectoires NTP 2 Community"
 msgstr "The National Trajectory Project NTP 2 Community"
 
-#: accueil/templates/entreesystemes.html:27
+#: accueil/templates/entreesystemes.html:28
 msgid "Bienvenue sur le site de gestion des projets du NTP2 Community"
 msgstr "Welcome on the NTP2 Community web site"
 
-#: accueil/templates/entreesystemes.html:28
+#: accueil/templates/entreesystemes.html:29
 msgid "Accès au blog"
 msgstr "Go to the blog"
 
-#: accueil/templates/entreesystemes.html:29 indexmb/templates/index6.html:35
+#: accueil/templates/entreesystemes.html:30 indexmb/templates/index6.html:35
 msgid "Accès au dépot de fichiers"
 msgstr "Go to the file repository"
 
-#: accueil/templates/entreesystemes.html:30
+#: accueil/templates/entreesystemes.html:31
 msgid "Accès au système d'entrée des données NTP2"
 msgstr "Go to NTP2 data entry system"
 
-#: accueil/templates/entreesystemes.html:35
+#: accueil/templates/entreesystemes.html:38
 msgid "Bienvenue sur le site de gestion du projet Going Home"
 msgstr "Welcome on the Going Home data entry part"
 
-#: accueil/templates/entreesystemes.html:36
+#: accueil/templates/entreesystemes.html:39
 msgid "Accès au système d'entrée des données Going Home"
 msgstr "Go to the data entry system for Going Home"
 
-#: accueil/templates/entreesystemes.html:44
+#: accueil/templates/entreesystemes.html:49
 msgid ""
 "\n"
 "        <h5><a href=\"mailto:malijai.caulet.ippm@ssss.gouv.qc.ca?subject=NTP "
@@ -111,21 +111,35 @@ msgstr ""
 "   "
 
 #: accueil/templates/equipe.html:8
+msgid "Cliquer sur le nom du projet pour voir les détails à propos de l'équipe"
+msgstr "Click on the project name to see details about the team"
+
+#: accueil/templates/equipe.html:12
+msgid "Le projet National des trajectoires (NTP 1)"
+msgstr "The National Trajectory Project (NTP 1)"
+
+#: accueil/templates/equipe.html:20
 msgid ""
 "\n"
 "            <p class=\"w3-medium\">Le Projet national des trajectoires a "
 "permis d’examiner les dossiers de 1800 hommes et femmes déclarés NCRTM en "
 "Colombie-Britannique (n = 222), au Québec (n = 1094) et en Ontario (n = 484) "
 "de mai 2000 à avril 2005, et de les suivre jusqu’en décembre 2008.\n"
-"            La collecte des données s'est déroulée de  ... à ....</p>\n"
+"            La collecte des données s'est déroulée de 2006 à 2013</p>\n"
 "        "
 msgstr ""
+"\n"
+"            <p class=\"w3-medium\">With the National Trajectory Project, "
+"1800 files of men and women found NCRMD in British-Columbia (n = 222), Québec (n = 1094) and in Ontario (n = 484) "
+"from May 2000 to April 2005, have been analysed and followed untill December 2008.\n"
+"            The data collection was done between 2006 and 2013</p>\n"
+"        "
 
-#: accueil/templates/equipe.html:12
+#: accueil/templates/equipe.html:24
 msgid "L'équipe de chercheurs était alors composée de :"
 msgstr "Research team:"
 
-#: accueil/templates/equipe.html:23
+#: accueil/templates/equipe.html:37
 msgid ""
 "\n"
 "            <h3>Une étude nationale sur les occasions et les obstacles pour "
@@ -162,7 +176,7 @@ msgstr ""
 "study is funded by the CIHR since April 2017             </p>\n"
 "        "
 
-#: accueil/templates/equipe.html:34
+#: accueil/templates/equipe.html:48
 msgid "L'équipe de chercheurs est composée de :"
 msgstr "Research team:"
 
@@ -220,22 +234,36 @@ msgid ""
 "         <h3>NTP 2 Communauté</h3>\n"
 "         <p>\n"
 "         Au cours des deux dernières décennies, le Canada a connu une "
-"augmentation significative du nombre d'individus déclarés non criminellement responsables pour "
-"cause de trouble mental (NCR) et entrant dans les services de psychiatrie légale. Les cas "
-"récents de profils très médiatisés ont suscité un débat considérable quant à la manière la plus "
-"efficace de gérer et de traiter ces personnes de manière sécuritaire. <br>\n"
+"augmentation significative du\n"
+"         nombre d'individus déclarés non criminellement responsables pour "
+"cause de trouble mental\n"
+"         (NCR) et entrant dans les services de psychiatrie légale. Les cas "
+"récents de profils très médiatisés\n"
+"         ont suscité un débat considérable quant à la manière la plus "
+"efficace de gérer et de traiter ces\n"
+"         personnes de manière sécuritaire. <br>\n"
 "             L'objectif de la présente étude est de mieux comprendre les\n"
-" besoins et les évolutions des personnes déclarées NCR, la façon "
-"dont ces besoins sont comblés et les mesures mises en place lorsqu'ils quittent l'hôpital, afin "
-"d'identifier la meilleure façon d'assurer une réinsertion sociale réussie. Pour atteindre cet "
-"objectif, nous effectuerons un examen approfondi des dossiers administratifs de santé et des dossiers "
-"criminels d'une grande cohorte canadienne d'individus déclarés NCR ayant quitté l'hôpital entre "
-"2010 et 2015 et suivis jusqu'en 2018 dans 8 provinces. <br>Avec la participation de nos partenaires "
-"des services de santé et de la justice au Canada, cette recherche identifiera les facteurs "
-"individuels (personnes NCR), les pratiques cliniques (traitements) et les systèmes (organisation des "
-"services et des ressources) qui contribuent à une réinsertion communautaire sûre et saine de cette "
-"clientèle légale. <br>Cette étude permettra d’adapter directement les pratiques, l'élaboration des "
-"politiques et les connaissances du public.\n"
+"         besoins et les évolutions des personnes déclarées NCR, la façon "
+"dont ces besoins sont comblés et\n"
+"         les mesures mises en place lorsqu'ils quittent l'hôpital, afin "
+"d'identifier la meilleure façon\n"
+"         d'assurer une réinsertion sociale réussie. Pour atteindre cet "
+"objectif, nous effectuerons un examen\n"
+"         approfondi des dossiers administratifs de santé et des dossiers "
+"criminels d'une grande cohorte\n"
+"         canadienne d'individus déclarés NCR ayant quitté l'hôpital entre "
+"2010 et 2015 et suivis jusqu'en\n"
+"         2018 dans 8 provinces. <br>Avec la participation de nos partenaires "
+"des services de santé et de la\n"
+"         justice au Canada, cette recherche identifiera les facteurs "
+"individuels (personnes NCR), les\n"
+"         pratiques cliniques (traitements) et les systèmes (organisation des "
+"services et des ressources) qui\n"
+"         contribuent à une réinsertion communautaire sûre et saine de cette "
+"clientèle légale. <br>Cette étude\n"
+"         permettra d’adapter directement les pratiques, l'élaboration des "
+"politiques et les connaissances du\n"
+"         public.\n"
 "         </p>\n"
 "        "
 msgstr ""
@@ -243,22 +271,38 @@ msgstr ""
 "         <h3>NTP 2 Commuity</h3>\n"
 "         <p>\n"
 "         Over the past two decades, Canada has witnessed a significant "
-"increase in the number of individuals found Not Criminally Responsible on Account of Mental "
-"Disorder (NCR) and entering the forensic mental health system. Recent high profile "
-"cases have elicited considerable debate as to the most efficient and effective way to "
-"safely manage and treat these individuals. <br>The goal of the present study is to better "
-"understand the needs and outcomes of individuals found NCR, how those needs are met and what "
-"measures are put in  place as they leave the hospital, in order to identify the best way "
-"of ensuring successful community reintegration. To achieve this goal, we will conduct in-"
-"depth analyses of official administrative, health and criminal records of a large Canadian "
-"cohort of individuals found NCR as they leave the hospital between 2010 and 2015, and followed "
-"up to 2018 in 8 provinces. <br>With the participation of our health and justice "
-"partners across Canada, this research will identify individual (NCR persons), clinical practice "
-"(treatments) and systems (organization of services and resources) factors that play into "
-"safe and healthy community reintegration of these forensic patients. This study will directly "
-"inform practices, policy making and public knowledge.\n"
+"increase in the number of individuals found Not Criminally Responsible on "
+"Account of Mental Disorder (NCR) and entering the forensic mental health "
+"system. Recent high profile cases have elicited considerable debate as to "
+"the most efficient and effective way to safely manage and treat these "
+"individuals. <br>The goal of the present study is to better understand the "
+"needs and outcomes of individuals found NCR, how those needs are met and "
+"what measures are put in  place as they leave the hospital, in order to "
+"identify the best way of ensuring successful community reintegration. To "
+"achieve this goal, we will conduct in-depth analyses of official "
+"administrative, health and criminal records of a large Canadian cohort of "
+"individuals found NCR as they leave the hospital between 2010 and 2015, and "
+"followed up to 2018 in 8 provinces. <br>With the participation of our health "
+"and justice partners across Canada, this research will identify individual "
+"(NCR persons), clinical practice (treatments) and systems (organization of "
+"services and resources) factors that play into safe and healthy community "
+"reintegration of these forensic patients. This study will directly inform "
+"practices, policy making and public knowledge.\n"
 "         </p>\n"
 "        "
+
+#: accueil/templates/publications.html:6
+msgid "Publications issues des données de NTP1"
+msgstr "NTP1 data papers"
+
+#: accueil/templates/publications.html:19
+#, fuzzy
+msgid "Autres publications"
+msgstr "Other Publications"
+
+#: accueil/templates/publications.html:30
+msgid "Rapports"
+msgstr "Repports"
 
 #: blog/forms.py:11
 msgid "Votre commentaire"
@@ -288,15 +332,15 @@ msgstr "New keyword"
 msgid "Ce mot clef existe déjà"
 msgstr "This keyword already exists"
 
-#: blog/templates/base.html:24
+#: blog/templates/base.html:17
 msgid "Ajouter un billet"
 msgstr "Add a post"
 
-#: blog/templates/base.html:25
+#: blog/templates/base.html:18
 msgid "Recherche"
 msgstr "Find"
 
-#: blog/templates/base.html:27 blog/templates/base_r.html:24
+#: blog/templates/base.html:20 blog/templates/base_r.html:17
 msgid "Fichiers"
 msgstr "Files"
 
@@ -571,7 +615,7 @@ msgstr "Description"
 msgid "Nom du sous-dossier"
 msgstr "New sub folder"
 
-#: depot/templates/base_d.html:30 depot/templates/base_d1.html:30
+#: depot/templates/base_d.html:32 depot/templates/base_d1.html:32
 msgid "Dépot de documents"
 msgstr "File repository"
 
@@ -579,19 +623,23 @@ msgstr "File repository"
 msgid "Nom"
 msgstr "Name"
 
-#: depot/templates/dossier.html:34
+#: depot/templates/dossier.html:33
 msgid "Pour ajouter un sous-dossier au dossier"
 msgstr "To add a sub folder to the current folder "
 
-#: depot/templates/dossier.html:38
+#: depot/templates/dossier.html:35
 msgid "Créer un sous-dossier"
 msgstr "Create a sub folder"
 
-#: depot/templates/dossier.html:43
+#: depot/templates/dossier.html:39
 msgid "Pour ajouter un document au dossier"
 msgstr "To add a document to the current folder "
 
-#: depot/templates/dossier.html:49
+#: depot/templates/dossier.html:42
+msgid "PAS D'ACCENT dans les noms des fichiers"
+msgstr "NO ACCENTUATION in file names"
+
+#: depot/templates/dossier.html:48
 msgid "Téléverser"
 msgstr "Upload"
 
