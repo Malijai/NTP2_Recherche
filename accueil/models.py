@@ -30,7 +30,10 @@ class Profile(models.Model):
     province = models.PositiveSmallIntegerField(choices=PROVINCE_CHOICES, verbose_name="Province", null=True, blank=True)
 
     def __str__(self):
-        return self.user.username
+        return self.province
+
+    def __unicode__(self):
+        return u'%s' % self.province
 
 
 class Projet(models.Model):
@@ -48,7 +51,10 @@ class Projet(models.Model):
     projet = models.PositiveSmallIntegerField(choices=PROJETS_CHOICES, verbose_name="Projets", null=True, blank=True)
 
     def __str__(self):
-        return self.user.username
+        return self.projet
+
+    def __unicode__(self):
+        return u'%s' % self.projet
 
 
 @receiver(post_save, sender=User)
