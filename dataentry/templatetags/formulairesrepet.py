@@ -28,7 +28,7 @@ def fait_table(qid,type, *args, **kwargs):
     if type == "VIOLATION":
         liste = fait_liste_tables(listevaleurs, 'violation')
     else:
-        liste = fait_liste_tables(listevaleurs, 'id')
+        liste = fait_liste_tables(listevaleurs, 'reponse')
 
     question = forms.Select(choices = liste, attrs={'id': IDCondition,'name': name, })
     return question.render(name, defaultvalue)

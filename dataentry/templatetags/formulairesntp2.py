@@ -159,7 +159,7 @@ def fait_table(qid,type, *args, **kwargs):
     if type == "VIOLATION":
         liste = fait_liste_tables(listevaleurs, 'violation')
     else:
-        liste = fait_liste_tables(listevaleurs, 'id')
+        liste = fait_liste_tables(listevaleurs, 'reponse')
 
     question = forms.Select(choices = liste, attrs={'id': IDCondition,'name': name, })
     return question.render(name, defaultvalue)
@@ -270,12 +270,8 @@ def fait_liste_tables(listevaleurs,type):
             nen = valeur.reponse_en
             liste.append((val, nen))
         elif type == 'violation':
-            val = str(valeur.id)
+            val = str(valeur.reponse_valeur)
             nen = val + ' - ' + valeur.reponse_en
-            liste.append((val, nen))
-        elif type == 'id':
-            val = str(valeur.id)
-            nen = valeur.reponse_en
             liste.append((val, nen))
     return liste
 

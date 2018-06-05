@@ -541,15 +541,8 @@ def fait_reponsegh(reponsetexte, question, province):
     elif question.typequestion.nom == "BOOLEAN" or question.typequestion.nom == "DICHOU"\
         or question.typequestion.nom == "DICHON":
          resultat = CHOIX_ONUK[int(reponsetexte)]
-    elif question.typequestion.nom == "HCR20" or question.typequestion.nom == "START"\
-         or question.typequestion.nom == "RAS"\
-         or question.typequestion.nom == "CSI" or question.typequestion.nom == "VRAG"\
-         or question.typequestion.nom == "SCID" or question.typequestion.nom == "SOS"\
-         or question.typequestion.nom == "HCRREL" \
-         or question.typequestion.nom == "PROVINCE" or question.typequestion.nom == "PAYS" \
-         or question.typequestion.nom == "LANGUE" \
-         or question.typequestion.nom  == "POSOLOGIE" \
-         or question.typequestion.nom == "VIOLATION":
+    elif question.typequestion.nom in ("HCR20","START","RAS","CSI","VRAG",
+        "SCID","SOS","HCRREL","PROVINCE","PAYS","LANGUE","POSOLOGIE","VIOLATION"):
         resultat = Listevaleur.objects.get(typequestion__id=question.typequestion.id , reponse_valeur = int(reponsetexte))
     elif question.typequestion.nom == "VICTIME":
         resultat = Victime.objects.get(reponse_valeur = int(reponsetexte))

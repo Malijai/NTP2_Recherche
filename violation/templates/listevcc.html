@@ -9,13 +9,15 @@
     </head>
     <body>
 
-<h2>Violation Code search</h2>
+<h2>Violation Code results</h2>
 
-    {% for code in codes %}
-    <b>Criminal code:</b> {{ code.reponse_valeur }} = {{ code.reponse_en }} <b>Violation code:</b> {{ code.violation.reponse_valeur }} {{ code.violation.reponse_en }} </br>
-    {% endfor %}
-            <a href="{% url 'Rechercherviol' %}" >Violation code finder</a>
-
+    <table>
+        <tr class="row2"><th>Criminal code</th><th>Violation code</th></tr>
+        {% for code in codes %}
+            <tr class="{% cycle 'row1' 'row2' %}"><td>{{ code.reponse_valeur }} = {{ code.reponse_en }}</td><td>{{ code.violation.reponse_valeur }} {{ code.violation.reponse_en }}</td></tr>
+        {% endfor %}
+         <tr><td></td><td><b><a href="{% url 'Rechercherviol' %}">Violation code finder</a></b></td></tr>
+    </table>
 
     </body>
 </html>

@@ -233,7 +233,7 @@ def gh_table_valeurs_prov(qid,type, *args, **kwargs):
     # Klass = apps.get_model('dataentry', typetable[b])
     listevaleurs = Klass.objects.filter(province__id = province)
     name = "q" + str(qid)
-    liste = gh_liste_tables(listevaleurs, 'valeur')
+    liste = gh_liste_tables(listevaleurs, 'reponse')
 
     question = forms.Select(choices = liste, attrs={'id': IDCondition,'name': name, })
 
@@ -275,21 +275,13 @@ def gh_id(qid, cible, *args, **kwargs):
 def gh_liste_tables(listevaleurs,type):
     liste = [('', '')]
     for valeur in listevaleurs:
-        if type == 'nom':
-            val = str(valeur.reponse_valeur)
-            nen = valeur.nom_en
-            liste.append((val, nen))
-        elif type == 'reponse':
+        if type == 'reponse':
             val = valeur.reponse_valeur
             nen = valeur.reponse_en
             liste.append((val, nen))
         elif type == 'violation':
             val = str(valeur.reponse_valeur)
             nen = val + ' - ' + valeur.reponse_en
-            liste.append((val, nen))
-        elif type == 'id':
-            val = str(valeur.id)
-            nen = valeur.reponse_en
             liste.append((val, nen))
     return liste
 

@@ -10,7 +10,8 @@ from django.db.models import Q
 import datetime
 #import logging
 from dataentry.encrypter import Encrypter
-from dataentry.ntp_constants import LISTE_PROVINCE
+from dataentry.dataentry_constants import  LISTE_PROVINCE
+
 
 
 @login_required(login_url=settings.LOGIN_URI)
