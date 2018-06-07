@@ -125,7 +125,7 @@ def fait_dichou(qid,type, *args, **kwargs):
 
 
 @register.simple_tag
-def fait_court(qid,type, *args, **kwargs):
+def fait_court(qid, type, *args, **kwargs):
     personneid = kwargs['persid']
     relation = kwargs['relation']
     cible = kwargs['cible']
@@ -143,7 +143,7 @@ def fait_court(qid,type, *args, **kwargs):
 
 
 @register.simple_tag
-def fait_textechar(persid, relation, cible, uid, ordre, qid, type, *args, **kwargs):
+def fait_textechar(qid, type, persid, relation, cible, uid, ordre, *args, **kwargs):
     personneid = persid
     relation = relation
     cible = cible
