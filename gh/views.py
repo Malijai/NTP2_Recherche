@@ -475,7 +475,7 @@ def gh_csv(request, pid):
     debut.append(personne.province.reponse_en)
     debut.append(personne.personne_code)
     csv_data.append(debut)
-    questionnaires = Questionnaire.objects.filter(id__gt=1)
+    questionnaires = Questionnaire.objects.filter(id__gt=1).exclude(id=300)
     assistants = User.objects.all()
     entrevues = Interview.objects.all()
     for assistant in assistants:
@@ -536,8 +536,8 @@ def gh_csv(request, pid):
 def fait_reponsegh(reponsetexte, question, province):
     if question.typequestion.nom == 'CATEGORIAL':
         resultat = Reponse.objects.get(question=question.id,reponse_valeur=reponsetexte).__str__()
-    #elif question.typequestion.nom == 'DICHO':
-    #     resultat = CHOIX_ON[int(reponsetexte)]
+    elif question.typequestion.nom == 'DICHO':
+         resultat = CHOIX_ON[int(reponsetexte)]
     elif question.typequestion.nom == "BOOLEAN" or question.typequestion.nom == "DICHOU"\
         or question.typequestion.nom == "DICHON":
          resultat = CHOIX_ONUK[int(reponsetexte)]
