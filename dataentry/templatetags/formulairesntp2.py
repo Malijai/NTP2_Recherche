@@ -113,7 +113,7 @@ def fait_textechar(qid,type, *args, **kwargs):
     IDCondition = fait_id(qid,cible,relation=relation)
     name = "q" + str(qid)
 
-    if type == 'STRING':
+    if type == 'STRING' or type == 'TIME':
         question = forms.TextInput(attrs={'size': 30, 'id': IDCondition,'name': name,})
     else:
         question = forms.NumberInput(attrs={'size': 30, 'id': IDCondition,'name': name,})

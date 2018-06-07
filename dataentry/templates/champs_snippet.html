@@ -3,7 +3,7 @@
 {% autoescape off %}
     <td class=" {{ classe }} " width = "75%">{{ textequest }}</td>
     <td class=" {{ classe }} " width = "20%">
-    {% if type == "STRING" or type == "NUMBER" %}
+    {% if type == "STRING" or type == "NUMBER" or type == "TIME" %}
         {% fait_textechar questid type persid=pid parent=parent relation=relation cible=cible uid=user.id %}</td>
     {% elif type == "CODESTRING" %}
         {% fait_codetexte questid type persid=pid parent=parent relation=relation cible=cible uid=user.id varname=varname %}</td>

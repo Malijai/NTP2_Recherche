@@ -143,17 +143,17 @@ def fait_court(qid,type, *args, **kwargs):
 
 
 @register.simple_tag
-def fait_textechar(qid,type, *args, **kwargs):
-    personneid = kwargs['persid']
-    relation = kwargs['relation']
-    cible = kwargs['cible']
-    assistant = kwargs['uid']
-    ordre = kwargs['ordre']
+def fait_textechar(persid, relation, cible, uid, ordre, qid, type, *args, **kwargs):
+    personneid = persid
+    relation = relation
+    cible = cible
+    assistant = uid
+    ordre = ordre
 
     defaultvalue = fait_default(personneid, qid, assistant=assistant, ordre=ordre)
     IDCondition = fait_id(qid,cible,relation=relation)
     name = 'q{}Z_Z{}'.format(qid, ordre)
-    if type == 'STRING' or type == 'CODESTRING':
+    if type == 'STRING' or type == 'CODESTRING' or type == 'TIME':
         question = forms.TextInput(attrs={'size': 30, 'id': IDCondition,'name': name,})
     else:
         question = forms.NumberInput(attrs={'size': 30, 'id': IDCondition,'name': name,})

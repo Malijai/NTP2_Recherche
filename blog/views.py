@@ -21,8 +21,14 @@ def isManitoba(http_host):
     return True if 'ntpmb.ca' in http_host else False
    #return True
 
+
 def isMalijai(http_host):
     return True if 'malijai.org' in http_host else False
+    #return True
+
+
+def isNTP(http_host):
+    return True if 'ntp-ptn.org' in http_host else False
     #return True
 
 
@@ -123,7 +129,7 @@ def commentaire_new(request, pk):
             commentaire.save()
             if isManitoba(request.META.get('HTTP_HOST')):
                 sujet, textecourriel = fait_courriel_commentaire(commentaire, posttitre, billetacommenter,'MB')
-            elif isMalijai(request.META.get('HTTP_HOST')):
+            elif isNTP(request.META.get('HTTP_HOST')):
                 sujet, textecourriel = fait_courriel_commentaire(commentaire, posttitre, billetacommenter,'NTP2')
             else:
                 sujet, textecourriel = fait_courriel_commentaire(commentaire, posttitre, billetacommenter,'')
@@ -160,13 +166,15 @@ def entree_new(request):
             entree.save()
             form.save_m2m()             # form save many to many (ici les tags selectionnes)
              #import ipdb; ipdb.set_trace()
-            sujet, textecourriel = fait_courriel_entree(entree)
             if isManitoba(request.META.get('HTTP_HOST')):
-                envoi_courriel(entree.groupe, sujet, textecourriel,'MB')
-            elif isMalijai(request.META.get('HTTP_HOST')):
-                envoi_courriel(entree.groupe, sujet, textecourriel, 'NTP2')
+                sujet, textecourriel = fait_courriel_entree(entree,'MB')
+                envoi_courriel(entree.groupe, sujet, textecourriel)
+            elif isNTP(request.META.get('HTTP_HOST')):
+                sujet, textecourriel = fait_courriel_entree(entree, 'NTP2')
+                envoi_courriel(entree.groupe, sujet, textecourriel)
             else:
-                envoi_courriel(entree.groupe, sujet, textecourriel, '')
+                sujet, textecourriel = fait_courriel_entree(entree, '')
+                envoi_courriel(entree.groupe, sujet, textecourriel)
             return redirect('blogdetail', entree.id)
     else:
         form = EntreeForm()

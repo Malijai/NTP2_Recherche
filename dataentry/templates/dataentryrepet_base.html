@@ -142,6 +142,23 @@ $(function() {
 	});
 });
 </script>
+<script language="JavaScript" type="text/javascript">
+    function sayHello()
+        {
+            alert("Click on the SAVE button.Don t forget to save your work. Clicking on OK will not save anything");
+        }
+
+    function timeGreeting()
+        {
+            //assign the timer to a variable:
+            //you need to do this so the timer can be
+            //referenced by another function when you want
+            //to stop it:
+            var greeting = setInterval(sayHello, 900000);
+            //Notice how the time is set in milliseconds.
+        }
+    timeGreeting();
+</script>
 
 </head>
     <body>

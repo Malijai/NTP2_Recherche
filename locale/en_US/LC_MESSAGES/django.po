@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-06-03 21:18-0400\n"
+"POT-Creation-Date: 2018-06-06 11:21-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -98,7 +98,7 @@ msgstr "Welcome on the Going Home data entry part"
 msgid "Accès au système d'entrée des données Going Home"
 msgstr "Go to the data entry system for Going Home"
 
-#: accueil/templates/entreesystemes.html:49
+#: accueil/templates/entreesystemes.html:50
 msgid ""
 "\n"
 "        <h5><a href=\"mailto:malijai.caulet.ippm@ssss.gouv.qc.ca?subject=NTP "
@@ -130,8 +130,9 @@ msgid ""
 msgstr ""
 "\n"
 "            <p class=\"w3-medium\">With the National Trajectory Project, "
-"1800 files of men and women found NCRMD in British-Columbia (n = 222), Québec (n = 1094) and in Ontario (n = 484) "
-"from May 2000 to April 2005, have been analysed and followed untill December 2008.\n"
+"1800 files of men and women found NCRMD in British-Columbia (n = 222), "
+"Québec (n = 1094) and in Ontario (n = 484) from May 2000 to April 2005, have "
+"been analysed and followed untill December 2008.\n"
 "            The data collection was done between 2006 and 2013</p>\n"
 "        "
 
@@ -293,16 +294,15 @@ msgstr ""
 
 #: accueil/templates/publications.html:6
 msgid "Publications issues des données de NTP1"
-msgstr "NTP1 data papers"
+msgstr "NTP1 papers"
 
 #: accueil/templates/publications.html:19
-#, fuzzy
 msgid "Autres publications"
 msgstr "Other Publications"
 
 #: accueil/templates/publications.html:30
 msgid "Rapports"
-msgstr "Repports"
+msgstr "Reports"
 
 #: blog/forms.py:11
 msgid "Votre commentaire"
@@ -313,7 +313,7 @@ msgid "Votre texte"
 msgstr "Your text"
 
 #: blog/forms.py:20
-msgid "Votre titre doit etre explicite"
+msgid "Votre titre doit être explicite"
 msgstr "The title as to be clear"
 
 #: blog/forms.py:21
@@ -450,11 +450,11 @@ msgstr "Posts with the keyword: "
 msgid "Il n'y a pas de billet "
 msgstr "There is no post "
 
-#: blog/views.py:50
+#: blog/views.py:56
 msgid "Nouveau commentaire dans le blog de NTP Manitoba"
 msgstr "New comment in the NTP Manitoba research blog"
 
-#: blog/views.py:51
+#: blog/views.py:57
 msgid ""
 "\n"
 "        Un nouveau commentaire au billet intitulé : {} vient d'être publié "
@@ -476,11 +476,11 @@ msgstr ""
 "Malijaï Caulet (malijai.caulet.ippm@ssss.gouv.qc.ca)\n"
 "            "
 
-#: blog/views.py:59
+#: blog/views.py:65
 msgid "Nouveau commentaire dans le blog de NTP2 Community"
 msgstr "New comment in the NTP2 Community blog"
 
-#: blog/views.py:60
+#: blog/views.py:66
 msgid ""
 "\n"
 "        Un nouveau commentaire au billet intitulé : {} vient d'être publié "
@@ -502,11 +502,11 @@ msgstr ""
 "Malijaï Caulet (malijai.caulet.ippm@ssss.gouv.qc.ca)\n"
 "            "
 
-#: blog/views.py:68
+#: blog/views.py:74
 msgid "Nouveau commentaire dans le blog de l'observatoire"
 msgstr "New comment in the research blog"
 
-#: blog/views.py:69
+#: blog/views.py:75
 msgid ""
 "\n"
 "    Un nouveau commentaire au billet intitulé : {} vient d'être publié par "
@@ -529,11 +529,11 @@ msgstr ""
 "Malijaï Caulet (malijai.caulet.ippm@ssss.gouv.qc.ca)\n"
 "            "
 
-#: blog/views.py:83
+#: blog/views.py:89
 msgid "Nouveau billet dans le blog de NTP Manitoba"
 msgstr "New post in the NTP Manitoba research blog"
 
-#: blog/views.py:84
+#: blog/views.py:90
 msgid ""
 "\n"
 "    Un nouveau billet intitulé : {} vient d'être publié par {} {}.\n"
@@ -553,11 +553,11 @@ msgstr ""
 "Malijaï Caulet (malijai.caulet.ippm@ssss.gouv.qc.ca)\n"
 "            "
 
-#: blog/views.py:92
+#: blog/views.py:98
 msgid "Nouveau billet dans le blog de NTP2 Community"
 msgstr "New post in the NTP2 Community research blog"
 
-#: blog/views.py:93
+#: blog/views.py:99
 msgid ""
 "\n"
 "    Un nouveau billet intitulé : {} vient d'être publié par {} {}.\n"
@@ -577,11 +577,11 @@ msgstr ""
 "Malijaï Caulet (malijai.caulet.ippm@ssss.gouv.qc.ca)\n"
 "            "
 
-#: blog/views.py:101
+#: blog/views.py:107
 msgid "Nouveau billet dans le blog de l'observatoire"
 msgstr "New post in the research blog"
 
-#: blog/views.py:102
+#: blog/views.py:108
 msgid ""
 "\n"
 "        Un nouveau billet intitulé : {} vient d'être publié par {} {}.\n"
