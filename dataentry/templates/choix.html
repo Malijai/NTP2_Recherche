@@ -57,7 +57,7 @@
                 <tr><td>Personne</td><td><select name="personneid" >
                     <option value="">Select a case</option>
                     {% for personne in personnes %}
-                    <option value="{{personne.id}}">{{ personne.code}}</option>
+                    <option value="{{personne.id}}">{{personne.code}}-{{personne.hospcode}}</option>
                     {% endfor %}
                     </select></td></tr>
                 <tr><td>Questionnaire</td><td><select name="questionnaireid" >
@@ -80,15 +80,15 @@
                <br>These questionnaires are made to code:
                <ul>
                   <li>the sociodemographic informations which can change over time (past and future)</li>
-                  <li>all the hospitalizations except the Index one (past and future)</li>
-                  <li>minimal informations from all Review Board Hearings (past and future)</li>
+                  <li>all the hospitalizations from verdict date to date of data entry except the Index one (past and future)</li>
+                  <li>minimal informations from all Review Board Hearings from verdict date to date of data entry (past and future)</li>
                </ul></p>
             <table>
                 <tr><td></td><td></td></tr>
                  <tr><td>Personne</td><td><select name="personneid" >
                     <option value="">Select a case</option>
                     {% for personne in personnes %}
-                    <option value="{{personne.id}}">{{ personne.code}}</option>
+                    <option value="{{personne.id}}">{{ personne.code}}-{{personne.hospcode}}</option>
                     {% endfor %}
                     </select></td></tr>
                 <tr><td>Questionnaire</td><td><select name="questionnaireid" >
@@ -125,7 +125,7 @@
                  <tr><td>Personne</td><td><select name="personneid" >
                     <option value="">Select a case</option>
                     {% for personne in personnes %}
-                    <option value="{{personne.id}}">{{ personne.code}}</option>
+                    <option value="{{personne.id}}">{{ personne.code}}-{{personne.hospcode}}</option>
                     {% endfor %}
                     </select></td></tr>
                 <tr><td>First, select one case and verify the essential dates</td><td><button type="submit" class="placeboutons" name="Verifier">See essential dates</button></td></tr>
