@@ -132,6 +132,7 @@ def saventp2(request, qid, pid):
     #genere le questionnaire demande NON repetitif
     ascendancesF, ascendancesM, questionstoutes = genere_questions(qid)
     nomcode = Personne.objects.get(id=pid).code
+    hospcode = Personne.objects.get(id=pid).hospcode
     questionnaire = Questionnaire.objects.get(id=qid).nom_en
     if request.method == 'POST':
         for question in questionstoutes:
@@ -173,6 +174,7 @@ def saventp2(request, qid, pid):
                       'ascendancesM': ascendancesM,
                       'ascendancesF': ascendancesF,
                       'code': nomcode,
+                      'hospcode' : hospcode,
                       'questionnaire': questionnaire
                   }
                 )
@@ -182,6 +184,7 @@ def saventp2(request, qid, pid):
 def saverepetntp2(request, qid, pid):#(request, qid, pid, province):
     ascendancesF, ascendancesM, questionstoutes = genere_questions(qid)
     nomcode = Personne.objects.get(id=pid).code
+    hospcode = Personne.objects.get(id=pid).hospcode
 
     if request.method == 'POST':
         actions = request.POST.keys()
@@ -259,7 +262,8 @@ def saverepetntp2(request, qid, pid):#(request, qid, pid, province):
                           'fiches': fiches,
                           'compte': compte,
                           'code': nomcode,
-                      }
+                          'hospcode': hospcode,
+                  }
                     )
 
 
@@ -292,21 +296,6 @@ def genere_questions(qid):
             # #va chercher si a des filles (question_ fille)
             ascendancesF.add(fille.id)
     return ascendancesF, ascendancesM, questionstoutes
-
-
-def fait_rendu(ascendancesF, ascendancesM, nomcode, pid, qid, questionstoutes, request, questionnaire):
-    return render(request,
-                  'saventp2.html',
-                  {
-                      'qid': qid,
-                      'pid': pid,
-                      'questions': questionstoutes,
-                      'ascendancesM': ascendancesM,
-                      'ascendancesF': ascendancesF,
-                      'code': nomcode,
-                      'questionnaire': questionnaire
-                  }
-                )
 
 
 def encode_donnee(message):

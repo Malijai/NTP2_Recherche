@@ -205,7 +205,7 @@ class Personne(models.Model):
 class Resultat(models.Model):
     personne = models.ForeignKey(Personne, on_delete=models.CASCADE)
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
-    reponse_texte = models.CharField(max_length=200, blank=True, null=True)
+    reponse_texte = models.TextField(blank=True, null=True)
     reponse_code = models.CharField(max_length=10, blank=True, null=True)
     assistant = models.ForeignKey(User, related_name='assistantgh', on_delete=models.DO_NOTHING)
     interview = models.ForeignKey(Interview, on_delete=models.CASCADE)

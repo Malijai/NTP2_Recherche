@@ -280,10 +280,13 @@ def fait_select_date(IDCondition, name, deb, fin):
 
     years = {x: x for x in range(deb, fin)}
     years[''] = ''
+    years['99'] = 'UKN'
     days = {x: x for x in range(1, 32)}
     days[''] = ''
+    days['99'] = 'UKN'
+
     months = (('', ''), (1, 'Jan'), (2, 'Feb'), (3, 'Mar'), (4, 'Apr'), (5, 'May'), (6, 'Jun'), (7, 'Jul'), (8, 'Aug'),
-              (9, 'Sept'), (10, 'Oct'), (11, 'Nov'), (12, 'Dec'))
+              (9, 'Sept'), (10, 'Oct'), (11, 'Nov'), (12, 'Dec'),('99', 'UKN'))
     year = forms.Select(choices=years.items(), attrs={'id': IDCondition, 'name': name + '_year', })
     month = forms.Select(choices=months, attrs={'name': name + '_month'})
     day = forms.Select(choices=days.items(), attrs={'name': name + '_day'})
