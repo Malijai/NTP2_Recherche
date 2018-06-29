@@ -17,7 +17,7 @@ class EntreeForm(forms.ModelForm):
         model = Entree
         fields = ('titre_en', 'texte_en', 'tag', 'groupe')
         labels = {'texte_en': _('Votre texte'),
-                  'titre_en': _('Votre titre doit etre explicite'),
+                  'titre_en': _('Votre titre doit être explicite'),
                   'tag': _('Indiquez des mots clefs (Ctrl + Click)'),
                   'groupe':_('Indiquer le groupe cible si nécessaire'),
                   }

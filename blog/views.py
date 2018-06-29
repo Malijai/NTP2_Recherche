@@ -2,7 +2,8 @@
 from django.shortcuts import render_to_response, render, redirect, get_object_or_404
 from django.views import generic
 from .forms import CommentaireForm, EntreeForm, TagForm, RechercheForm
-from .models import Entree, Tag, User, Group
+from .models import Entree, Tag, User
+from accueil.models import Projet
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.template.defaultfilters import slugify
 from django.conf import settings
@@ -144,6 +145,7 @@ def commentaire_new(request, pk):
 
 def envoi_courriel(groupe, sujet, textecourriel):
     courriel_query = User.objects.exclude(Q(email__isnull=True) | Q(email=u'') | Q(groups__name=u'SansCourriel'))
+    courriel_query = courriel_query & (User.objects.filter(projet=Projet.NTP2) | User.objects.filter(projet=Projet.ALL))
     if groupe:
         courriel_query = courriel_query & (User.objects.filter(groups=groupe))
     courriels = [user.email for user in courriel_query]

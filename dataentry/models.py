@@ -14,8 +14,6 @@ class Province(models.Model):
     def __str__(self):
         return '%s' % self.reponse_en
 
-    def __unicode__(self):
-        return u'%s' % self.reponse_en
 
 
 class Personne(models.Model):
@@ -38,8 +36,6 @@ class Personne(models.Model):
     def __str__(self):
         return '%s' % self.code
 
-    def __unicode__(self):
-        return u'%s' % self.code
 
 
 class Victime(models.Model):
@@ -54,10 +50,6 @@ class Victime(models.Model):
 
     def __str__(self):
         return '%s' % self.reponse_en
-
-    def __unicode__(self):
-        return u'%s' % self.reponse_en
-
 
 
 #listes valeurs dependantes des provinces
@@ -75,9 +67,6 @@ class Etablissement(models.Model):
     def __str__(self):
         return '%s' % self.reponse_en
 
-    def __unicode__(self):
-        return u'%s' % self.reponse_en
-
 
 class Municipalite(models.Model):
     ## listes de valeurs typequestion_id=15 (MUNICIPALITE)
@@ -92,9 +81,6 @@ class Municipalite(models.Model):
     def __str__(self):
         return '%s' % self.reponse_en
 
-    def __unicode__(self):
-        return u'%s' % self.reponse_en
-
 
 class Typequestion(models.Model):
     nom = models.CharField(max_length=200, )
@@ -103,9 +89,6 @@ class Typequestion(models.Model):
 
     def __str__(self):
         return '%s' % self.nom
-
-    def __unicode__(self):
-        return u'%s' % self.nom
 
 
 #listes valeurs non dependantes des provinces SANS province
@@ -121,9 +104,6 @@ class Listevaleur(models.Model):
     def __str__(self):
         return '%s' % self.reponse_en
 
-    def __unicode__(self):
-        return u'%s' % self.reponse_en
-
 
 class Questionnaire(models.Model):
     nom_en = models.CharField(max_length=200, )
@@ -132,9 +112,6 @@ class Questionnaire(models.Model):
 
     def __str__(self):
         return '%s' % self.nom_en
-
-    def __unicode__(self):
-        return u'%s' % self.nom_en
 
 
 #######################
@@ -161,9 +138,6 @@ class Questionntp2(models.Model):
     def __str__(self):
         return '%s' % self.questionen
 
-    def __unicode__(self):
-        return u'%s' % self.questionen
-
 
 #######################
 ## listes de valeurs des questions de typequestion_id=4 (CATEGORIAL)
@@ -182,8 +156,6 @@ class Reponsentp2(models.Model):
     def __str__(self):
         return '%s' % self.reponse_en
 
-    def __unicode__(self):
-        return u'%s' % self.reponse_en
 
 
 #######################
@@ -201,9 +173,6 @@ class Resultatntp2(models.Model):
 
     def __str__(self):
         return '%s' % self.reponsetexte
-
-    def __unicode__(self):
-        return u'%s' % self.reponsetexte
 
 
 #######################
@@ -228,8 +197,6 @@ class Resultatrepetntp2(models.Model):
     def __str__(self):
         return '%s' % self.reponsetexte
 
-    def __unicode__(self):
-        return u'%s' % self.reponsetexte
 
 ############################################
 

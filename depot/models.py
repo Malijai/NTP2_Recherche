@@ -10,8 +10,6 @@ class Dossier(models.Model):
     def __str__(self):
         return '%s' % self.nomdossier
 
-    def __unicode__(self):
-        return u'%s' % self.nomdossier
 
 class Document(models.Model):
     docfile = models.FileField(upload_to='documents/%Y/%m/%d/')

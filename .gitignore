@@ -9,3 +9,6 @@ mbntp/media/
 mbntp/settings.py
 media/
 
+/dataentry/myprivatekeyNTP2.pem
+/dataentry/myprivatekey.pem
+/mbntp/GH_PKPK.private
