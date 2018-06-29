@@ -12,9 +12,6 @@ class Violation(models.Model):
     def __str__(self):
         return '%s' % self.reponse_en
 
-    def __unicode__(self):
-        return u'%s' % self.reponse_en
-
 
 class Codecriminel(models.Model):
     reponse_valeur = models.CharField(max_length=200, )
@@ -25,6 +22,4 @@ class Codecriminel(models.Model):
     def __str__(self):
         return '%s' % self.reponse_en
 
-    def __unicode__(self):
-        return u'%s' % self.reponse_en
 

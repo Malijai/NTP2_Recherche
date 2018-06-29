@@ -20,8 +20,6 @@ class Tag(models.Model):
    def __str__(self):
        return '%s' % self.mot_en
 
-   def __unicode__(self):
-       return u'%s' % self.mot_en
 
    @permalink
    def get_absolute_url(self):
@@ -34,7 +32,7 @@ class Entree(models.Model):
     posted = models.DateTimeField(db_index=True, auto_now_add=True)
     tag = models.ManyToManyField(Tag)
 #    groupe = models.ForeignKey(Group, blank=True, null=True,limit_choices_to={'name' : 'SansCourriel'})
-    groupe = models.ForeignKey(Group, blank=True, null=True, on_delete=models.DO_NOTHING, help_text="optionnel: définir un groupe pour limiter l'envoi de courriel à ses membres", limit_choices_to=~models.Q(name__in=['SansCourriel']))
+    groupe = models.ForeignKey(Group, blank=True, null=True, on_delete=models.DO_NOTHING, help_text=_("optionnel: définir un groupe pour limiter l'envoi de courriel à ses membres"), limit_choices_to=~models.Q(name__in=['SansCourriel']))
 
     class Meta:
        ordering = ['-posted']
@@ -42,8 +40,6 @@ class Entree(models.Model):
     def __str__(self):
         return '%s' % self.titre_en
 
-    def __unicode__(self):
-        return u'%s' % self.titre_en
 
 class Commentaire(models.Model):
     texte_en = RichTextField(config_name='comment')
@@ -57,8 +53,6 @@ class Commentaire(models.Model):
     def __str__(self):
         return  '%s' % self.texte_en
 
-    def __unicode__(self):
-        return u'%s' % self.texte_en
 
     
 

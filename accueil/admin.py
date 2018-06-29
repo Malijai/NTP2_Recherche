@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
-from .models import Profile, Affichage, Publication,  Projet
+from .models import Profile, Affichage, Publication, Projet, AuditEntree
 
 
 class ProfilInline(admin.StackedInline):
@@ -16,7 +16,7 @@ class AutreprofilInline(admin.StackedInline):
 
 class CustomUserAdmin(UserAdmin):
     inlines = (ProfilInline, AutreprofilInline)
-    list_display = ('username', 'email','first_name', 'last_name', 'is_staff', 'get_province')
+    list_display = ('username', 'email','first_name', 'last_name', 'is_staff', 'get_province','last_login')
     #list_select_related = ('profile', )
 
 
@@ -43,6 +43,12 @@ class Pubs(admin.ModelAdmin):
 
     def save_model(self, request, obj, form, change):
         obj.save()
+
+
+@admin.register(AuditEntree)
+class AuditEntreeAdmin(admin.ModelAdmin):
+    list_display = ['username', 'ip', 'action', 'logintime','logouttime']
+    list_filter = ['action','username']
 
 
 admin.site.unregister(User)

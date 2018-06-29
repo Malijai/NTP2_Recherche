@@ -16,9 +16,6 @@ class Province(models.Model):
     def __str__(self):
         return '%s' % self.reponse_en
 
-    def __unicode__(self):
-        return u'%s' % self.reponse_en
-
 
 class Etablissement(models.Model):
     reponse_valeur = models.CharField(max_length=200)
@@ -32,9 +29,6 @@ class Etablissement(models.Model):
     def __str__(self):
         return '%s' % self.reponse_en
 
-    def __unicode__(self):
-        return u'%s' % self.reponse_en
-
 
 ##############
 #Indispensable au questionnaire
@@ -45,9 +39,6 @@ class Typequestion(models.Model):
 
     def __str__(self):
         return '%s' % self.nom
-
-    def __unicode__(self):
-        return u'%s' % self.nom
 
 
 class Victime(models.Model):
@@ -61,9 +52,6 @@ class Victime(models.Model):
 
     def __str__(self):
         return '%s' % self.reponse_en
-
-    def __unicode__(self):
-        return u'%s' % self.reponse_en
 
 
 #listes valeurs SANS province
@@ -79,9 +67,6 @@ class Listevaleur(models.Model):
     def __str__(self):
         return '%s' % self.reponse_en
 
-    def __unicode__(self):
-        return u'%s' % self.reponse_en
-
 
 class Questionnaire(models.Model):
     nom_en = models.CharField(max_length=200, )
@@ -91,9 +76,6 @@ class Questionnaire(models.Model):
     def __str__(self):
         return '%s' % self.nom_en
 
-    def __unicode__(self):
-        return u'%s' % self.nom_en
-
 
 class Interview(models.Model):
     reponse_valeur = models.CharField(max_length=200, )
@@ -102,9 +84,6 @@ class Interview(models.Model):
 
     def __str__(self):
         return '%s' % self.reponse_en
-
-    def __unicode__(self):
-        return u'%s' % self.reponse_en
 
 
 ##############
@@ -129,9 +108,6 @@ class Question(models.Model):
 
     def __str__(self):
         return '%s' % self.questionen
-
-    def __unicode__(self):
-        return u'%s' % self.questionen
 
 
 #########################
@@ -168,9 +144,6 @@ class Reponse(models.Model):
     def __str__(self):
         return '%s' % self.reponse_en
 
-    def __unicode__(self):
-        return u'%s' % self.reponse_en
-
 
 class Personne(models.Model):
     personne_code = models.CharField(max_length=200,)
@@ -198,9 +171,6 @@ class Personne(models.Model):
     def __str__(self):
         return '%s' % self.personne_code
 
-    def __unicode__(self):
-        return u'%s' % self.personne_code
-
 
 class Resultat(models.Model):
     personne = models.ForeignKey(Personne, on_delete=models.CASCADE)
@@ -217,9 +187,6 @@ class Resultat(models.Model):
 
     def __str__(self):
         return '%s' % self.reponse_texte
-
-    def __unicode__(self):
-        return u'%s' % self.reponse_texte
 
 
 #Pour housing et jobs repetitive (questionnaire 4 Work TLBF et 3 Housing TLFB
@@ -242,6 +209,3 @@ class Resultatrepet(models.Model):
 
     def __str__(self):
         return '%s' % self.reponsetexte
-
-    def __unicode__(self):
-        return u'%s' % self.reponsetexte

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-06-12 11:39-0400\n"
+"POT-Creation-Date: 2018-06-28 10:14-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -312,9 +312,7 @@ msgid "Votre texte"
 msgstr "Your text"
 
 #: blog/forms.py:20
-#, fuzzy
-#| msgid "Votre titre doit être explicite"
-msgid "Votre titre doit etre explicite"
+msgid "Votre titre doit être explicite"
 msgstr "The title as to be clear"
 
 #: blog/forms.py:21
@@ -332,6 +330,11 @@ msgstr "New keyword"
 #: blog/models.py:14
 msgid "Ce mot clef existe déjà"
 msgstr "This keyword already exists"
+
+#: blog/models.py:37
+msgid ""
+"optionnel: définir un groupe pour limiter l'envoi de courriel à ses membres"
+msgstr "optional: Use it to send email only to selected group members"
 
 #: blog/templates/base.html:17
 msgid "Ajouter un billet"
