@@ -47,7 +47,7 @@ class Pubs(admin.ModelAdmin):
 
 @admin.register(AuditEntree)
 class AuditEntreeAdmin(admin.ModelAdmin):
-    list_display = ['username', 'ip', 'action', 'logintime','logouttime']
+    list_display = ['username', 'ip', 'action', 'action_time']
     list_filter = ['action','username']
 
 
