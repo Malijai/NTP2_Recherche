@@ -89,9 +89,10 @@ def user_logged_out_callback(sender, request, user, **kwargs):
 
 
 @receiver(user_login_failed)
-def user_login_failed_callback(sender, credentials, **kwargs):
+def user_login_failed_callback(sender, request, credentials, **kwargs):
 
-    AuditEntree.objects.create(action='user_login_failed', username=credentials.get('username', None))
+    ip = request.META.get('REMOTE_ADDR')
+    AuditEntree.objects.create(action='user_login_failed', ip=ip, username=credentials.get('username', None))
 
 
 ##Pour les publications

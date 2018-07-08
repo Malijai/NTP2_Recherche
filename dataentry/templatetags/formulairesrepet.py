@@ -5,7 +5,7 @@ from django.apps import apps
 from dataentry.models import Resultatrepetntp2, Reponsentp2, Questionntp2, Typequestion, Listevaleur, Victime
 from django import forms
 from .formulairesntp2 import fait_select_date, fait_liste_tables, enlevelisttag
-from dataentry.dataentry_constants import CHOIX_ONUK, CHOIX_ON, CHOIX_BOOLEAN
+from dataentry.dataentry_constants import CHOIX_ONUK, CHOIX_ON
 
 register = template.Library()
 
