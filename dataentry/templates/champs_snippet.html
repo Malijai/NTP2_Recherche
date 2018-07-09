@@ -11,9 +11,9 @@
         {% fait_date questid type persid=pid parent=parent relation=relation cible=cible uid=user.id %}</td>
     {% elif type == "CODEDATE" %}
         {% fait_datecode questid type persid=pid parent=parent relation=relation cible=cible uid=user.id varname=varname %}</td>
-    {% elif type == "BOOLEAN" or type == "DICHO" or type == "DICHOU" or type == "DICHON" %}
+    {% elif type == "DICHO" or type == "DICHOU" or type == "DICHON" %}
         {% fait_dichou questid type persid=pid parent=parent relation=relation cible=cible uid=user.id %}</td>
-    {% elif type == "PROVINCE"  or type == "PAYS" or type == "LANGUE" or type == "VIOLATION" or type == "HCR20" or type == "POSOLOGIE" %}
+    {% elif  type == "BOOLEAN" or type == "PROVINCE"  or type == "PAYS" or type == "LANGUE" or type == "VIOLATION" or type == "HCR20" or type == "POSOLOGIE" %}
         {% fait_table questid type persid=pid parent=parent relation=relation cible=cible uid=user.id %}</td>
     {% elif type == "CATEGORIAL" %}
          {% fait_reponse questid type persid=pid parent=parent relation=relation cible=cible uid=user.id %}</td>

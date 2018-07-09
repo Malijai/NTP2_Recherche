@@ -4,7 +4,7 @@ import re
 from django.apps import apps
 from dataentry.models import Reponsentp2, Resultatntp2, Personne, Typequestion, Listevaleur, Victime
 from django import forms
-from dataentry.dataentry_constants import CHOIX_ONUK, CHOIX_ON, CHOIX_BOOLEAN
+from dataentry.dataentry_constants import CHOIX_ONUK, CHOIX_ON
 
 register = template.Library()
 

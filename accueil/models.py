@@ -63,35 +63,33 @@ def create_or_update_user_profile(sender, instance, created, **kwargs):
 
 ##Pour le logging
 class AuditEntree(models.Model):
-
     action = models.CharField(max_length=64)
     ip = models.GenericIPAddressField(null=True)
     username =  models.CharField(max_length=256, null=True)
-    logintime = models.DateTimeField(null=True)
-    logouttime = models.DateTimeField(null=True)
+    action_time = models.DateTimeField(null=True)
 
     def __str__(self):
         return '{0} - {1} - {2}'.format(self.action, self.username, self.ip)
 
 
+def user_action_callback(sender, request, username, **kwargs):
+    user_action = kwargs.get('user_action')
+    ip = request.META.get('REMOTE_ADDR')
+    AuditEntree.objects.create(action=user_action, ip=ip, username=username, action_time=now)
+
 @receiver(user_logged_in)
 def user_logged_in_callback(sender, request, user, **kwargs):
-
-    ip = request.META.get('REMOTE_ADDR')
-    AuditEntree.objects.create(action='user_logged_in', ip=ip, username=user.username, logintime = now)
+    user_action_callback (sender, request, user.username, user_action='user_logged_in')
 
 
 @receiver(user_logged_out)
 def user_logged_out_callback(sender, request, user, **kwargs):
-
-    ip = request.META.get('REMOTE_ADDR')
-    AuditEntree.objects.create(action='user_logged_out', ip=ip, username=user.username, logouttime = now)
+    user_action_callback (sender, request, user.username, user_action='user_logged_out')
 
 
 @receiver(user_login_failed)
-def user_login_failed_callback(sender, credentials, **kwargs):
-
-    AuditEntree.objects.create(action='user_login_failed', username=credentials.get('username', None))
+def user_login_failed_callback(sender, request, credentials, **kwargs):
+    user_action_callback (sender, request, credentials.get('username', None), user_action='login_failed')
 
 
 ##Pour les publications
