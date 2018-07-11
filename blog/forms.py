@@ -15,7 +15,7 @@ class EntreeForm(forms.ModelForm):
 
      class Meta:
         model = Entree
-        fields = ('titre_en', 'texte_en', 'tag', 'groupe')
+        fields = ('titre_en', 'texte_en', 'tag')
         labels = {'texte_en': _('Votre texte'),
                   'titre_en': _('Votre titre doit être explicite'),
                   'tag': _('Indiquez des mots clefs (Ctrl + Click)'),
