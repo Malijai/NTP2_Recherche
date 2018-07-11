@@ -30,25 +30,24 @@ def isMalijai(http_host):
 
 def isNTP(http_host):
     return True if 'ntp-ptn.org' in http_host else False
-    #return True
+    # return True
 
 
 @login_required(login_url=settings.LOGIN_URI)
 def listing(request):
-#    if request.user.is_authenticated:
-        post_list = Entree.objects.all()
-        paginator = Paginator(post_list, 5) # Show 5 post par page
-        tag_list = Tag.objects.all() # Utilisé pour la liste de tous les mots clefs avec un lien
-        page = request.GET.get('page')
-        try:
-            posts = paginator.page(page)
-        except PageNotAnInteger:
-            # If page is not an integer, deliver first page.
-            posts = paginator.page(1)
-        except EmptyPage:
-            # If page is out of range (e.g. 9999), deliver last page of results.
-            posts = paginator.page(paginator.num_pages)
-        return render(request, 'list.html', {'posts': posts, 'tags':tag_list})
+    post_list = Entree.objects.all()
+    paginator = Paginator(post_list, 5) # Show 5 post par page
+    tag_list = Tag.objects.all() # Utilisé pour la liste de tous les mots clefs avec un lien
+    page = request.GET.get('page')
+    try:
+        posts = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        posts = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        posts = paginator.page(paginator.num_pages)
+    return render(request, 'list.html', {'posts': posts, 'tags':tag_list})
 
 
 def fait_courriel_commentaire(commentaire, posttitre, billetacommenter,host):
@@ -134,7 +133,7 @@ def commentaire_new(request, pk):
                 sujet, textecourriel = fait_courriel_commentaire(commentaire, posttitre, billetacommenter,'NTP2')
             else:
                 sujet, textecourriel = fait_courriel_commentaire(commentaire, posttitre, billetacommenter,'')
-            envoi_courriel(commentaire.entree.groupe, sujet, textecourriel)
+            envoi_courriel(sujet, textecourriel)
             return redirect('blogdetail', pk=pk)
     else:
         form = CommentaireForm()
@@ -143,12 +142,9 @@ def commentaire_new(request, pk):
                                                         'Posttitre':  posttitre})
 
 
-def envoi_courriel(groupe, sujet, textecourriel):
-    courriel_query = User.objects.exclude(Q(email__isnull=True) | Q(email=u'') | Q(groups__name=u'SansCourriel'))
-    courriel_query = courriel_query & (User.objects.filter(projet=Projet.NTP2) | User.objects.filter(projet=Projet.ALL))
-    if groupe:
-        courriel_query = courriel_query & (User.objects.filter(groups=groupe))
-    courriels = [user.email for user in courriel_query]
+def envoi_courriel(sujet, textecourriel):
+    users_ntp2 = [p.user for p in Projet.objects.filter(Q(projet=Projet.NTP2) | Q(projet=Projet.ALL))]
+    courriels = [user.email for user in users_ntp2 if user.email]
     with mail.get_connection() as connection:
         mail.EmailMessage(
             sujet, textecourriel, 'malijai.caulet.ippm@ssss.gouv.qc.ca', courriels,
@@ -170,13 +166,13 @@ def entree_new(request):
              #import ipdb; ipdb.set_trace()
             if isManitoba(request.META.get('HTTP_HOST')):
                 sujet, textecourriel = fait_courriel_entree(entree,'MB')
-                envoi_courriel(entree.groupe, sujet, textecourriel)
+                envoi_courriel(sujet, textecourriel)
             elif isNTP(request.META.get('HTTP_HOST')):
                 sujet, textecourriel = fait_courriel_entree(entree, 'NTP2')
-                envoi_courriel(entree.groupe, sujet, textecourriel)
+                envoi_courriel(sujet, textecourriel)
             else:
                 sujet, textecourriel = fait_courriel_entree(entree, '')
-                envoi_courriel(entree.groupe, sujet, textecourriel)
+                envoi_courriel(sujet, textecourriel)
             return redirect('blogdetail', entree.id)
     else:
         form = EntreeForm()
@@ -225,8 +221,6 @@ def get_recherchetexte(request):
 
     return render(request, 'recherche.html', {'form': form_class})
 
-#def index(request):
-#    return render(request, 'index.html')
 
 def index(request):
     return render(request, 'logout.html')

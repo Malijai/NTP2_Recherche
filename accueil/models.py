@@ -47,7 +47,7 @@ class Projet(models.Model):
                            (NTP2, 'NTP2 Community'),
                            (ALL, 'All projects'),
                         )
-    user = models.ForeignKey (User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     projet = models.PositiveSmallIntegerField(choices=PROJETS_CHOICES, verbose_name="Projets", null=True, blank=True)
 
     def __str__(self):

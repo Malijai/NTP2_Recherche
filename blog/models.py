@@ -31,8 +31,7 @@ class Entree(models.Model):
     author = models.ForeignKey(User, blank=True, null=True, on_delete=models.DO_NOTHING)
     posted = models.DateTimeField(db_index=True, auto_now_add=True)
     tag = models.ManyToManyField(Tag)
-#    groupe = models.ForeignKey(Group, blank=True, null=True,limit_choices_to={'name' : 'SansCourriel'})
-    groupe = models.ForeignKey(Group, blank=True, null=True, on_delete=models.DO_NOTHING, help_text=_("optionnel: définir un groupe pour limiter l'envoi de courriel à ses membres"), limit_choices_to=~models.Q(name__in=['SansCourriel']))
+    #    groupe = models.ForeignKey(Group, blank=True, null=True, on_delete=models.DO_NOTHING, help_text=_("optionnel: définir un groupe pour limiter l'envoi de courriel à ses membres"), limit_choices_to=~models.Q(name__in=['SansCourriel']))
 
     class Meta:
        ordering = ['-posted']
