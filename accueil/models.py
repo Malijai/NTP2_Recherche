@@ -4,8 +4,7 @@ from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.contrib.auth.signals import user_logged_in, user_logged_out, user_login_failed
-import datetime
-now = datetime.datetime.now()
+
 
 ##Pour les utilisateurs
 class Profile(models.Model):
@@ -66,7 +65,7 @@ class AuditEntree(models.Model):
     action = models.CharField(max_length=64)
     ip = models.GenericIPAddressField(null=True)
     username =  models.CharField(max_length=256, null=True)
-    action_time = models.DateTimeField(null=True)
+    action_time = models.DateTimeField(auto_now=True, null=True)
 
     def __str__(self):
         return '{0} - {1} - {2}'.format(self.action, self.username, self.ip)
@@ -75,7 +74,7 @@ class AuditEntree(models.Model):
 def user_action_callback(sender, request, username, **kwargs):
     user_action = kwargs.get('user_action')
     ip = request.META.get('REMOTE_ADDR')
-    AuditEntree.objects.create(action=user_action, ip=ip, username=username, action_time=now)
+    AuditEntree.objects.create(action=user_action, ip=ip, username=username)
 
 @receiver(user_logged_in)
 def user_logged_in_callback(sender, request, user, **kwargs):

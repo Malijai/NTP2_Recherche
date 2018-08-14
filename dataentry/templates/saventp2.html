@@ -4,7 +4,6 @@
 {% load formulairesntp2 %}
 
 {% block content %}
-<h2>{{Questtitre}}</h2>
 <h2> {{ code }}--{{hospcode}} - {{ questionnaire }}</h2>
 {% csrf_token %}
    <input name="pid" type="hidden" value="{{ pid }}" />
@@ -24,7 +23,7 @@
             {% if question.id not in ascendancesF and question.id not in ascendancesM %}
                 <tr class="{% cycle 'Q1' 'Q2' %}">
                     {% include "champs_snippet.html" with typequest=question.typequestion textequest=question.questionen questid=question.id varname=question.varname %}
-                    {% include "aide_snippet.html" with aide=question.aideen %}
+                    {% include "aide_snippet.html" with aide=question.aideen  classe="" %}
                 </tr>
             {% elif question.id in ascendancesF and question.id in ascendancesM %}
                      {% for enfant in question.questionntp2_set.all %}

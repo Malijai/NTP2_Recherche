@@ -243,7 +243,7 @@ def some_texte(request, pid):
                 ligne = []
                 ligne.append(question.varname)
                 ligne.append(question.questionen)
-                donnee = Resultatntp2.objects.filter(personne__id=pid, question__id=question.id, assistant_id=1, )
+                donnee = Resultatntp2.objects.filter(personne__id=pid, question__id=question.id, assistant__id=request.user.id, )
                 if donnee:
                     reponse = fait_reponse(donnee[0].reponsetexte, question, province)
                     ligne.append(reponse)
@@ -265,7 +265,7 @@ def some_texte(request, pid):
                     ligne = []
                     ligne.append(question.varname)
                     ligne.append(question.questionen)
-                    donnee = Resultatrepetntp2.objects.filter(personne__id=pid, question_id=question.id, assistant_id=1, fiche=i)
+                    donnee = Resultatrepetntp2.objects.filter(personne__id=pid, question_id=question.id, assistant__id=request.user.id, fiche=i)
                     if donnee:
                         reponse = fait_reponse(donnee[0].reponsetexte, question, province)
                         ligne.append(reponse)
