@@ -14,12 +14,10 @@
         {% for x in fiches %}
             {% if forloop.first %}
                 <div class="tabbertab">{% include "datehospit_snippet.html" with ordre=x %}
-                <button type="submit" class="confirm-delete" name="remove_{{ x }}">Remove the current card # {{ x }}</button>
                 <div class="tabber">
             {% else %}
                 </div>
                 <div class="tabbertab">{% include "datehospit_snippet.html" with ordre=x %}
-                <button type="submit" class="confirm-delete" name="remove_{{ x }}">Remove the current card # {{ x }}</button>
                 <div class="tabber">
             {% endif %}
             {% for question in questions %}
