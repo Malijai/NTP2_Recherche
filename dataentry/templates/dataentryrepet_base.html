@@ -2,17 +2,15 @@
 {% load static %}
 <html>
    <head>
-         <title>Questions etc</title>
-         <!--<link rel="stylesheet" href="{% static 'blog/style_b.css' %}">-->
-         <link rel="stylesheet" type="text/css" href="/static/admin/css/base.css" />
-         <link rel="stylesheet" type="text/css" href="/static/admin/css/forms.css" />
-         <!--<script type="text/javascript" src="/static/admin/js/core.js"></script>-->
-         <!--<script type="text/javascript" src="/static/admin/js/vendor/jquery/jquery.js"></script>-->
-         <!--<script type="text/javascript" src="/admin/jsi18n/"></script>-->
-
+        <title>Questions etc</title>
+        <link rel="stylesheet" type="text/css" href="/static/admin/css/base.css" />
+        <link rel="stylesheet" type="text/css" href="/static/admin/css/forms.css" />
         <script type="text/javascript" src="/static/jquery.js"></script>
         <script type="text/javascript" src="/static/tabber.js"></script>
         <link rel="stylesheet" type="text/css" href="/static/sondageM.css" />
+
+
+
 
 <script type="text/javascript" >
 $(function() {
@@ -159,7 +157,17 @@ $(function() {
     timeGreeting();
 </script>
 
+<script>
+$(function() {
+    $("[@id^=target]").click(function(){
+        var reg = new RegExp("_");
+		res = this.id.split(reg);
+		var card=res[1];
+        return confirm( 'Are you sure you want to remove the card number ' + card +'?');
+    });
+});
 
+</script>
 </head>
     <body>
     <form action="" method="post">
@@ -184,7 +192,8 @@ $(function() {
 
 {% endblock %}
 
-        </div>
+</div>
+
 
     </body>
 </html>

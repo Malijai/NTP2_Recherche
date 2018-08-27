@@ -10,7 +10,7 @@ from django.db.models import Q
 import datetime
 #import logging
 from dataentry.encrypter import Encrypter
-from dataentry.dataentry_constants import  LISTE_PROVINCE
+from dataentry.dataentry_constants import LISTE_PROVINCE
 
 
 
