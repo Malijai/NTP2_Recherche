@@ -11,7 +11,7 @@
   name: 24 H/24
   choices: []
 '4':
-  name: Heures Limitées
+  name: Heures Limitees
   choices: []
 '5':
   name: Soins Continus
@@ -23,19 +23,19 @@
   name: Non-Mobiles
   choices: ['8', '9', '0']
 '8':
-  name: Très Intensifs
+  name: Tres Intensifs
   choices: []
 '9':
-  name: Modérément Intensifs
+  name: Moderement Intensifs
   choices: []
 z:
-  name: Institutionnalisés
+  name: Institutionnalises
   choices: [a, b, e]
 a:
-  name: Securisés
+  name: Securises
   choices: []
 b:
-  name: Génériques Aigus
+  name: Generiques Aigus
   choices: [c, d]
 c:
   name: Hospitaliers
@@ -47,7 +47,7 @@ e:
   name: Non Aigus
   choices: [m, n]
 f:
-  name: Durée Limitée
+  name: Duree Limitee
   choices: [g, h]
 g:
   name: Soutien 24 H/24
@@ -56,16 +56,16 @@ h:
   name: Soutien Quotidien
   choices: []
 i:
-  name: Sejour Durée Indéfinie
+  name: Sejour Duree Indefinie
   choices: [g, h]
 j:
-  name: Durée Limitée
+  name: Duree Limitee
   choices: [g, h, l]
 k:
-  name: Sejour Durée Indéfinie
+  name: Sejour Duree Indefinie
   choices: [g, h, l]
 l:
-  name: Soutien Léger
+  name: Soutien Leger
   choices: []
 m:
   name: Hospitaliers
@@ -74,7 +74,7 @@ n:
   name: Non Hospitaliers
   choices: [j, k]
 o:
-  name: Jour &<br />Activités Structurées
+  name: Jour &<br />Activites Structurees
   choices: [p, q]
 p:
   name: Aigus
@@ -83,16 +83,16 @@ q:
   name: Non Aigus
   choices: [r, w]
 r:
-  name: Très Intensifs
+  name: Tres Intensifs
   choices: [s, t, u, v]
 s:
   name: Travail
   choices: []
 t:
- name: Activités en <br />rapport avec le Travail
+ name: Activites en <br />rapport avec le Travail
  choices: []
 u:
-  name: Autre Activité Structurée
+  name: Autre Activite Structuree
   choices: []
 v:
   name: Contact Social
