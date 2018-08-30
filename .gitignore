@@ -12,3 +12,7 @@ media/
 /dataentry/myprivatekeyNTP2.pem
 /dataentry/myprivatekey.pem
 /mbntp/GH_PKPK.private
+/gh/GH_PKPK.private
+/mbntp/ENV_NTP2
+/mbntp/GH_PKPK.public
+
