@@ -48,7 +48,7 @@ def fait_court(a, b, *args, **kwargs):
     IDCondition = fait_id(qid, cible, relation=relation)
     name = "q" + str(qid)
 
-    court_liste = [(1, 'Municipal'), (2, 'Provincial'), (3, 'Superior')]
+    court_liste = [(1, 'Municipal'), (2, 'Provincial'), (3, 'Superior'), (99, 'Unknown')]
     question = forms.Select(choices=court_liste, attrs={'id': IDCondition, 'name': name, })
 
     return enlevelisttag(question.render(name, defaultvalue))

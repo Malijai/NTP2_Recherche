@@ -251,8 +251,7 @@ def some_texte(request, pid):
                     ligne.append('-')
                 csv_data.append(ligne)
         else:
-            donnees = Resultatrepetntp2.objects.order_by().filter(personne__id=pid, assistant__id=request.user.id,
-                                                                  questionnaire__id=2000).values_list('fiche', flat=True).distinct()
+            donnees = Resultatrepetntp2.objects.order_by().filter(personne__id=pid, assistant__id=request.user.id, questionnaire__id=2000).values_list('fiche', flat=True).distinct()
             compte = donnees.count()
             ligne2 = []
             ligne2.append(str(compte) + ' different hospitalizations')
