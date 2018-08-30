@@ -14,18 +14,32 @@
 </header>
     <body>
 <div class="w3-container w3-padding-8">
+
+ {% for a in entrees %}
+
+<div class="w3-row">
+    <div class="w3-col s3 w3-dark-grey" style="padding-left:5px;">
+        <h3 class="w3-center w3-hover-theme"><a href="{% url 'Faitinstitution' a.0 choixprecedent %}" class="w3-button">{{a.1|safe}}</a></h3>
+    </div>
+    <div class="w3-col s6 w3-border w3-border-theme w3-light-grey" style="padding-left:5px;" >
+        {{ a.2|safe }}
+    </div>
+</div>
+    {% endfor %}
+
+
     <div class="w3-row">
         {% for item in  historiques %}
         <div class="w3-col s2 w3-light-grey" style="padding-left:5px;">
-            <h5 class="w3-center"><i class="fa fa-arrow-right"></i> {{item}}</h5>
+
+            <h5 class="w3-center"><i class="fa fa-arrow-right"></i> {{item|safe}}</h5>
         </div>
         {% endfor %}
        <div class="w3-col s2 w3-light-grey" style="padding-left:5px;">
         {% if dernier %}
-             <h5 class="w3-center"><span class="w3-xlarge"><i class="fa fa-arrow-right"></i></span> {{dernier}}</h5>
-
-        {% else %}
-            <h5 class="w3-center"><span class="w3-xlarge"><i class="fa fa-arrow-right"></i></span> {{choisi}}</h5>
+             <h5 class="w3-center"><span class="w3-xlarge"><i class="fa fa-arrow-right"></i></span> {{dernier|safe}}</h5>
+        {% elif choisi %}
+            <h5 class="w3-center"><span class="w3-xlarge"><i class="fa fa-arrow-right"></i></span> {{choisi|safe}}</h5>
         {% endif %}
         </div>
 
@@ -43,9 +57,9 @@
     {% for c in choixs %}
         <div class="w3-row">
             <div class="w3-col s3 w3-dark-grey" style="padding-left:5px;">
-                <h3 class="w3-center w3-hover-theme"><a href="{% url 'Faitinstitution' c.0 choixprecedent %}" class="w3-button">{{c.1}}</a></h3>
+                <h3 class="w3-center w3-hover-theme"><a href="{% url 'Faitinstitution' c.0 choixprecedent %}" class="w3-button">{{c.1|safe}}</a></h3>
             </div>
-            <div class="w3-col s6 w3-border w3-border-theme" style="padding-left:5px;" >
+            <div class="{% cycle 'w3-col s6 w3-border w3-border-theme w3-light-grey' 'w3-col s6 w3-border w3-border-themew3-dark-grey' %}" style="padding-left:5px;" >
                 {{ c.2|safe }}
             </div>
         </div>
