@@ -9,12 +9,12 @@ from esms.esms_constants import CHOIX_FINAL, EXPLICATIONSFR, EXPLICATIONSEN, CHO
 def Faitinstitution(request, choix='', histoire=''):
     # 'b': {'name': 'Génériques aigus', 'choices': ['c', 'd']},
 
-    if langue == 'FR':
-        CHOIX = CHOIXFR
-        EXPLICATIONS = EXPLICATIONSFR
-    else:
-        CHOIX = CHOIXEN
-        EXPLICATIONS = EXPLICATIONSEN
+    #if langue == 'FR':
+    CHOIX = CHOIXFR
+    EXPLICATIONS = EXPLICATIONSFR
+    #else:
+    #    CHOIX = CHOIXEN
+    #    EXPLICATIONS = EXPLICATIONSEN
 
     liste =('z','o','x','qq')
     if not choix:

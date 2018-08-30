@@ -16,3 +16,24 @@ media/
 /mbntp/ENV_NTP2
 /mbntp/GH_PKPK.public
 
+/esms/templatetags/
+Supprimerait accueil/__pycache__/
+Supprimerait accueil/migrations/
+Supprimerait blog/__pycache__/
+Supprimerait blog/migrations/
+Supprimerait dataentry/__pycache__/
+Supprimerait dataentry/migrations/
+Supprimerait dataentry/templatetags/__pycache__/
+Supprimerait dataentry/views/__pycache__/
+Supprimerait depot/__pycache__/
+Supprimerait depot/migrations/
+Supprimerait esms/__pycache__/
+Supprimerait esms/migrations/
+Supprimerait esms/templatetags/__pycache__/
+Supprimerait gh/__pycache__/
+Supprimerait gh/migrations/
+Supprimerait gh/templatetags/__pycache__/
+Supprimerait indexmb/__pycache__/
+Supprimerait mbntp/__pycache__/
+Supprimerait violation/__pycache__/
+Supprimerait violation/migrations/
