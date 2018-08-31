@@ -155,7 +155,9 @@ def saventp2(request, qid, pid):
                     personne.assistant = request.user
                     personne.save()
                 else:
-                    Resultatntp2.objects.update_or_create(
+                    if not Resultatntp2.objects.filter(personne_id=pid, question=question, assistant=request.user,
+                                                       reponsetexte=reponseaquestion).exists():
+                        Resultatntp2.objects.update_or_create(
                                  personne_id=pid, question=question, assistant=request.user,
                                 # update these fields, or create a new object with these values
                                 defaults={
@@ -192,7 +194,7 @@ def saverepetntp2(request, qid, pid):#(request, qid, pid, province):
             if action.startswith('remove_'):
                 x = action[len('remove_'):]
                 Resultatrepetntp2.objects.filter(personne__id=pid, assistant=request.user, questionnaire__id=qid,
-                                                 fiche=x ).delete()
+                                                 fiche=x).delete()
                 messages.add_message(request, messages.ERROR, 'Card # ' + str(x) + ' removed')
                 continue
             elif action.startswith('current_') or action.startswith('add_'):
@@ -227,15 +229,23 @@ def saverepetntp2(request, qid, pid):#(request, qid, pid, province):
                     else:
                         reponseaquestion = request.POST.get('q{}Z_Z{}'.format(question.id, x))
                     if reponseaquestion:
-                        Resultatrepetntp2.objects.update_or_create(
-                                            personne_id=pid,
-                                            assistant_id=request.user.id,
-                                            questionnaire_id=qid,
-                                            question_id=question.id,
-                                            fiche=x,
-                                            # update these fields, or create a new object with these values
-                                            defaults={'reponsetexte': reponseaquestion}
-                                        )
+                        if not Resultatrepetntp2.objects.filter(personne_id=pid,
+                                                                assistant_id=request.user.id,
+                                                                questionnaire_id=qid,
+                                                                question_id=question.id,
+                                                                fiche=x,
+                                                                reponsetexte=reponseaquestion).exists():
+                            Resultatrepetntp2.objects.update_or_create(
+                                personne_id=pid,
+                                assistant_id=request.user.id,
+                                questionnaire_id=qid,
+                                question_id=question.id,
+                                fiche=x,
+                                # update these fields, or create a new object with these values
+                                defaults={
+                                    'reponsetexte': reponseaquestion,
+                                }
+                            )
                 now = datetime.datetime.now().strftime('%H:%M:%S')
                 messages.add_message(request, messages.WARNING, 'Data saved at ' + now)
 

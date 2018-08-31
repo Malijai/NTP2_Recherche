@@ -190,7 +190,7 @@ class Resultatrepetntp2(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        unique_together = (('personne', 'assistant', 'questionnaire', 'question', 'fiche',))
+        unique_together = (('personne', 'assistant', 'questionnaire', 'question', 'fiche'))
 
         ordering = ['personne', 'assistant', 'questionnaire', 'question', 'fiche']
 
