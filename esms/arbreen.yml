@@ -109,3 +109,9 @@ y:
 qq:
   name: Self-Help & Other<br />Non-Professional Services
   choices: []
+rr:
+  name: Soutien &<br />Écoute Téléphonique
+  choices: []
+ss:
+  name: Soutien ou Répit&<br />pour Familles ou Proches
+  choices: []

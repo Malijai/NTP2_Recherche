@@ -16,7 +16,7 @@ def Faitinstitution(request, choix='', histoire=''):
     #    CHOIX = CHOIXEN
     #    EXPLICATIONS = EXPLICATIONSEN
 
-    liste =('z','o','x','qq')
+    liste =('z','o','x','qq','rr','ss')
     if not choix:
         entrees =  [(c, CHOIX[c]['name'], EXPLICATIONS[c]) for c in liste]
 

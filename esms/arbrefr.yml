@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 '0':
   name: Peu Intensifs
   choices: []
@@ -11,7 +13,7 @@
   name: 24 H/24
   choices: []
 '4':
-  name: Heures Limitees
+  name: Heures Limitées
   choices: []
 '5':
   name: Soins Continus
@@ -29,13 +31,13 @@
   name: Moderement Intensifs
   choices: []
 z:
-  name: Institutionnalises
+  name: Institutionnalisés
   choices: [a, b, e]
 a:
-  name: Securises
+  name: Securisés
   choices: []
 b:
-  name: Generiques Aigus
+  name: Génériques Aigus
   choices: [c, d]
 c:
   name: Hospitaliers
@@ -47,7 +49,7 @@ e:
   name: Non Aigus
   choices: [m, n]
 f:
-  name: Duree Limitee
+  name: Duree Limitée
   choices: [g, h]
 g:
   name: Soutien 24 H/24
@@ -56,16 +58,16 @@ h:
   name: Soutien Quotidien
   choices: []
 i:
-  name: Sejour Duree Indefinie
+  name: Sejour Durée Indéfinie
   choices: [g, h]
 j:
-  name: Duree Limitee
+  name: Durée Limitée
   choices: [g, h, l]
 k:
-  name: Sejour Duree Indefinie
+  name: Séjour Durée Indéfinie
   choices: [g, h, l]
 l:
-  name: Soutien Leger
+  name: Soutien Léger
   choices: []
 m:
   name: Hospitaliers
@@ -74,7 +76,7 @@ n:
   name: Non Hospitaliers
   choices: [j, k]
 o:
-  name: Jour &<br />Activites Structurees
+  name: Jour &<br />Activites Structurées
   choices: [p, q]
 p:
   name: Aigus
@@ -83,16 +85,16 @@ q:
   name: Non Aigus
   choices: [r, w]
 r:
-  name: Tres Intensifs
+  name: Très Intensifs
   choices: [s, t, u, v]
 s:
   name: Travail
   choices: []
 t:
- name: Activites en <br />rapport avec le Travail
+ name: Activités en <br />rapport avec le Travail
  choices: []
 u:
-  name: Autre Activite Structuree
+  name: Autre Activité Structurée
   choices: []
 v:
   name: Contact Social
@@ -104,9 +106,15 @@ x:
   name: Ambulatoires &<br />Communautaires
   choices: [y, '5']
 y:
-  name: Emergency
+  name: Soins d'urgence
   choices: ['1', '2']
 qq:
-  name: Self-Help & Other<br />Non-Professional Services
+  name: Entraide &<br />NonProfessionnalisés
+  choices: []
+rr:
+  name: Soutien &<br />Ecoute Téléphonique
+  choices: []
+ss:
+  name: Soutien ou Répit&<br />pour Familles ou Proches
   choices: []
 

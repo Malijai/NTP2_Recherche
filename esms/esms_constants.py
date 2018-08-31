@@ -1,6 +1,5 @@
 import yaml
 
-
 CHOIXFR = {}
 CHOIXEN = {}
 
@@ -44,7 +43,9 @@ CHOIX_FINAL = {
     'x579': 'Out-Patient & Community Services: Branch O9',
     'x570': 'Out-Patient & Community Services: Branch O10',
     'qq': 'Self-Help & Other Non-Professional Services: Branch S1',
-    }
+    'rr': 'Soutien & Ecoute Téléphonique: Branch T1',
+    'ss': 'Soutien ou Répit pour Familles ou Proches: Branch F1',
+}
 
 
 EXPLICATIONSFR = {
@@ -85,6 +86,8 @@ EXPLICATIONSFR = {
     '9': "Services qui n'ont pas la possibilité d'assurer des contacts avec les patients au rythme de trois fois par semaine, mais qui peuvent assurer des contacts au moins une fois tous les quinze jours, si cela s'avère nécessaire.",
     '0': "Services qui assurent aux patients des contacts réguliers avec des professionnels de la santé mentale, mais qui n'ont pas la possibilité de voir les patients au rythme d'une fois tous les quinze jours.",
     'qq': "Services qui ciblent spécifiquement les adultes atteints de troubles mentaux, mais qui n'emploient pas de personnel spécialisé chargé d'évaluer, de soutenir ou de traiter les personnes atteintes de troubles mentaux.<br /><b>les services classés ici sont les services dont le rôle principal est d'assurer une certaine forme de soutien, d'aide ou de contact à des personnes atteintes de maladies mentales ou à leurs soignants, mais qui n'emploient pas de personnel dont le rôle serait d'assurer les services institutionnalisés, de jour, ambulatoires ou communautaires décrits pour les autres branches. <br />Les groupes d'entraide animés par les utilisateurs ou bien les centres d'accueil, les groupements de soignants informels assurant un soutien mutuel ainsi que les services exclusivement fournis par des bénévoles doivent être regroupés dans cette branche.</b>",
+    'rr': 'Soutien & Ecoute Téléphonique: Branch T1',
+    'ss': 'Soutien ou Répit pour Familles ou Proches: Branch F1',
 }
 
 EXPLICATIONSEN = {
@@ -125,5 +128,7 @@ EXPLICATIONSEN = {
     '9': "Services which do not have the capacity to supply three times weekly contact to patients, but which can provide contacts at least once a fortnight when indicated.",
     '0': "Services which provide regular contacts with mental health professionals for patients, but which do not have the capacity to see patients as often as once a fortnight.",
     'qq': "Services which specifically target adults with mental illnesses, but which do not employ any specialist staff whose work is to assess, support or treat people with mental illnesses",
+    'rr': 'Soutien & Ecoute Téléphonique: Branch T1',
+    'ss': 'Soutien ou Répit pour Familles ou Proches: Branch F1',
 }
 
