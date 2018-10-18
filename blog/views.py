@@ -56,7 +56,7 @@ def fait_courriel_commentaire(commentaire, posttitre, billetacommenter,host):
         sujet = _(u"Nouveau commentaire dans le blog de NTP Manitoba")
         textecourriel = _(u"""
         Un nouveau commentaire au billet intitulé : {} vient d'être publié par {} {}.
-        Vous recevez ce courriel parce que vous ête membre de l'équipe du projet NTP Manitiba.
+        Vous recevez ce courriel parce que vous ête membre de l'équipe du projet NTP Manitoba.
         Ne répondez pas à ce courriel, il s'agit d'un envoi automatisé.
 
         Malijaï Caulet (malijai.caulet.ippm@ssss.gouv.qc.ca)
@@ -147,7 +147,7 @@ def envoi_courriel(sujet, textecourriel):
     courriels = [user.email for user in users_ntp2 if user.email]
     with mail.get_connection() as connection:
         mail.EmailMessage(
-            sujet, textecourriel, 'malijai.caulet.ippm@ssss.gouv.qc.ca', courriels,
+            sujet, textecourriel, 'malijai.caulet@ntp-ptn.org', courriels,
             connection=connection,
         ).send()
 
