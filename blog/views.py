@@ -2,7 +2,7 @@
 from django.shortcuts import render_to_response, render, redirect, get_object_or_404
 from django.views import generic
 from .forms import CommentaireForm, EntreeForm, TagForm, RechercheForm
-from .models import Entree, Tag, User
+from .models import Entree, Tag
 from accueil.models import Projet
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.template.defaultfilters import slugify
@@ -18,39 +18,41 @@ class BlogDetail(generic.DetailView):
     model = Entree
 
 
-def isManitoba(http_host):
+def ismanitoba(http_host):
     return True if 'ntpmb.ca' in http_host else False
-   #return True
+    #   return True
 
 
-def isMalijai(http_host):
+def ismalijai(http_host):
     return True if 'malijai.org' in http_host else False
-    #return True
+    #   return True
 
 
-def isNTP(http_host):
+def isntp(http_host):
     return True if 'ntp-ptn.org' in http_host else False
-    # return True
+    #   return True
 
 
 @login_required(login_url=settings.LOGIN_URI)
 def listing(request):
     post_list = Entree.objects.all()
-    paginator = Paginator(post_list, 5) # Show 5 post par page
-    tag_list = Tag.objects.all() # Utilisé pour la liste de tous les mots clefs avec un lien
+    paginator = Paginator(post_list, 5)
+    #  Show 5 post par page
+    tag_list = Tag.objects.all()
+    #  Utilisé pour la liste de tous les mots clefs avec un lien
     page = request.GET.get('page')
     try:
         posts = paginator.page(page)
     except PageNotAnInteger:
-        # If page is not an integer, deliver first page.
+        #   If page is not an integer, deliver first page.
         posts = paginator.page(1)
     except EmptyPage:
-        # If page is out of range (e.g. 9999), deliver last page of results.
+        #   If page is out of range (e.g. 9999), deliver last page of results.
         posts = paginator.page(paginator.num_pages)
-    return render(request, 'list.html', {'posts': posts, 'tags':tag_list})
+    return render(request, 'list.html', {'posts': posts, 'tags': tag_list})
 
 
-def fait_courriel_commentaire(commentaire, posttitre, billetacommenter,host):
+def fait_courriel_commentaire(commentaire, posttitre, billetacommenter, host):
     lienpost = posttitre + ' (' + settings.BLOG_URL + str(billetacommenter.id) + '/ )'
     if host == 'MB':
         sujet = _(u"Nouveau commentaire dans le blog de NTP Manitoba")
@@ -119,7 +121,7 @@ def fait_courriel_entree(entree, host):
 @login_required(login_url=settings.LOGIN_URI)
 def commentaire_new(request, pk):
     billetacommenter = Entree.objects.get(pk=pk)
-    posttitre=billetacommenter.titre_en
+    posttitre = billetacommenter.titre_en
     if request.method == "POST":
         form = CommentaireForm(request.POST)
         if form.is_valid():
@@ -127,19 +129,17 @@ def commentaire_new(request, pk):
             commentaire.entree = Entree.objects.get(pk=pk)
             commentaire.author = request.user
             commentaire.save()
-            if isManitoba(request.META.get('HTTP_HOST')):
-                sujet, textecourriel = fait_courriel_commentaire(commentaire, posttitre, billetacommenter,'MB')
-            elif isNTP(request.META.get('HTTP_HOST')):
-                sujet, textecourriel = fait_courriel_commentaire(commentaire, posttitre, billetacommenter,'NTP2')
+            if ismanitoba(request.META.get('HTTP_HOST')):
+                sujet, textecourriel = fait_courriel_commentaire(commentaire, posttitre, billetacommenter, 'MB')
+            elif isntp(request.META.get('HTTP_HOST')):
+                sujet, textecourriel = fait_courriel_commentaire(commentaire, posttitre, billetacommenter, 'NTP2')
             else:
-                sujet, textecourriel = fait_courriel_commentaire(commentaire, posttitre, billetacommenter,'')
+                sujet, textecourriel = fait_courriel_commentaire(commentaire, posttitre, billetacommenter, '')
             envoi_courriel(sujet, textecourriel)
             return redirect('blogdetail', pk=pk)
     else:
         form = CommentaireForm()
-    return render(request, "commentaire_edit.html", {'form': form,
-                                                        'post_id': pk,
-                                                        'Posttitre':  posttitre})
+    return render(request, "commentaire_edit.html", {'form': form, 'post_id': pk, 'Posttitre':  posttitre})
 
 
 def envoi_courriel(sujet, textecourriel):
@@ -155,19 +155,20 @@ def envoi_courriel(sujet, textecourriel):
 @login_required(login_url=settings.LOGIN_URI)
 def entree_new(request):
     tag_list = Tag.objects.all()
-#    group_list = Group.objects.exclude(name=u'SansCourriel')
+    #    group_list = Group.objects.exclude(name=u'SansCourriel')
     if request.method == "POST":
         form = EntreeForm(request.POST)
         if form.is_valid():
             entree = form.save(commit=False)
             entree.author = request.user
             entree.save()
-            form.save_m2m()             # form save many to many (ici les tags selectionnes)
-             #import ipdb; ipdb.set_trace()
-            if isManitoba(request.META.get('HTTP_HOST')):
-                sujet, textecourriel = fait_courriel_entree(entree,'MB')
+            form.save_m2m()
+            #  form save many to many (ici les tags selectionnes)
+            #  import ipdb; ipdb.set_trace()
+            if ismanitoba(request.META.get('HTTP_HOST')):
+                sujet, textecourriel = fait_courriel_entree(entree, 'MB')
                 envoi_courriel(sujet, textecourriel)
-            elif isNTP(request.META.get('HTTP_HOST')):
+            elif isntp(request.META.get('HTTP_HOST')):
                 sujet, textecourriel = fait_courriel_entree(entree, 'NTP2')
                 envoi_courriel(sujet, textecourriel)
             else:
@@ -176,8 +177,8 @@ def entree_new(request):
             return redirect('blogdetail', entree.id)
     else:
         form = EntreeForm()
-#    return render(request, "entree_edit.html", {'form': form, 'tags':tag_list, 'groupes':group_list,})
-    return render(request, "entree_edit.html", {'form': form, 'tags':tag_list, })
+        #  return render(request, "entree_edit.html", {'form': form, 'tags':tag_list, 'groupes':group_list,})
+    return render(request, "entree_edit.html", {'form': form, 'tags': tag_list})
 
 
 @login_required(login_url=settings.LOGIN_URI)
@@ -187,19 +188,20 @@ def tag_new(request):
         form = TagForm(request.POST)
         if form.is_valid():
             tag = form.save(commit=False)
-            tag.slug=slugify(tag.mot_en)
+            tag.slug = slugify(tag.mot_en)
             tag.save()
             return redirect('entree_new')
     else:
         form = TagForm()
-    return render(request, "tag_edit.html", {'form': form, 'tags': tag_list })
+    return render(request, "tag_edit.html", {'form': form, 'tags': tag_list})
+
 
 @login_required(login_url=settings.LOGIN_URI)
 def view_tag(request, slug):
     tag = get_object_or_404(Tag, slug=slug)
     return render_to_response('view_tag.html', {
         'tag': tag,
-        'entrees': Entree.objects.filter(tag=tag)   #[:10]
+        'entrees': Entree.objects.filter(tag=tag)  # [:10]
     })
 
 
