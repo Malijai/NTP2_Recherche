@@ -4,9 +4,11 @@ from django.contrib.auth.models import User
 from django.db import models
 
 
-DEFAULT_UID=1       #met tous les utilisateurs par defauta 1 (maliadmin)
+DEFAULT_UID = 1       #met tous les utilisateurs par defauta 1 (maliadmin)
 #######################
 ## listes de valeurs typequestion_id=13 (PROVINCE)
+
+
 class Province(models.Model):
     reponse_en = models.CharField(max_length=200,)
     reponse_fr = models.CharField(max_length=200,)
@@ -15,14 +17,13 @@ class Province(models.Model):
         return '%s' % self.reponse_en
 
 
-
 class Personne(models.Model):
     code = models.CharField(max_length=200,)
     hospcode = models.CharField(max_length=250)
     selecthosp = models.CharField(max_length=250)
     date_indexh = models.DateTimeField(blank=True, null=True)
     province = models.ForeignKey(Province, on_delete=models.DO_NOTHING)
-    completed = models.CharField(max_length=200,blank=True, null=True)
+    completed = models.CharField(max_length=200, blank=True, null=True)
     assistant = models.ForeignKey(User, default=DEFAULT_UID, on_delete=models.DO_NOTHING)
     pid_sed = models.TextField(blank=True, null=True)
     pid_nam = models.TextField(blank=True, null=True)
@@ -31,16 +32,15 @@ class Personne(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-       ordering = ['province','code']
+        ordering = ['province', 'code']
 
     def __str__(self):
         return '%s' % self.code
 
 
-
 class Victime(models.Model):
-    ## listes de valeurs typequestion_id=14 (VICTIME)
-    #Restee a part a cause de la logique du tri des items
+    #  listes de valeurs typequestion_id=14 (VICTIME)
+    #   Restee a part a cause de la logique du tri des items
     reponse_valeur = models.CharField(max_length=200)
     reponse_en = models.CharField(max_length=200, )
     reponse_fr = models.CharField(max_length=200, )
@@ -52,14 +52,16 @@ class Victime(models.Model):
         return '%s' % self.reponse_en
 
 
-#listes valeurs dependantes des provinces
+#   listes valeurs dependantes des provinces
 DEFAULT_PID = 1
+
+
 class Etablissement(models.Model):
-    ## listes de valeurs typequestion_id=9 (ETABLISSEMENT)
+    #   listes de valeurs typequestion_id=9 (ETABLISSEMENT)
     reponse_valeur = models.CharField(max_length=200)
     reponse_en = models.CharField(max_length=200, )
     reponse_fr = models.CharField(max_length=200, )
-    province = models.ForeignKey(Province,default=DEFAULT_PID, on_delete=models.DO_NOTHING)
+    province = models.ForeignKey(Province, default=DEFAULT_PID, on_delete=models.DO_NOTHING)
 
     class Meta:
         ordering = ['reponse_en']
@@ -69,11 +71,11 @@ class Etablissement(models.Model):
 
 
 class Municipalite(models.Model):
-    ## listes de valeurs typequestion_id=15 (MUNICIPALITE)
+    #   listes de valeurs typequestion_id=15 (MUNICIPALITE)
     reponse_valeur = models.CharField(max_length=200)
     reponse_en = models.CharField(max_length=200, )
     reponse_fr = models.CharField(max_length=200, )
-    province = models.ForeignKey(Province,default=DEFAULT_PID, on_delete=models.DO_NOTHING)
+    province = models.ForeignKey(Province, default=DEFAULT_PID, on_delete=models.DO_NOTHING)
 
     class Meta:
         ordering = ['reponse_en']
@@ -91,7 +93,7 @@ class Typequestion(models.Model):
         return '%s' % self.nom
 
 
-#listes valeurs non dependantes des provinces SANS province
+#   listes valeurs non dependantes des provinces SANS province
 class Listevaleur(models.Model):
     reponse_valeur = models.CharField(max_length=200)
     reponse_en = models.CharField(max_length=200, )
@@ -116,14 +118,15 @@ class Questionnaire(models.Model):
 
 #######################
 ## questions utilisees pour tous les questionnaires
-
 DEFAULT_PARENT_ID = 1
+
+
 class Questionntp2(models.Model):
     questionno = models.IntegerField()
     questionen = models.CharField(max_length=255,)
     questionnaire = models.ForeignKey(Questionnaire, on_delete=models.DO_NOTHING)
     typequestion = models.ForeignKey(Typequestion, on_delete=models.DO_NOTHING)
-    parent= models.ForeignKey("self", default=DEFAULT_PARENT_ID, on_delete=models.DO_NOTHING)
+    parent = models.ForeignKey("self", default=DEFAULT_PARENT_ID, on_delete=models.DO_NOTHING)
     relation = models.CharField(blank=True, null=True, max_length=45,)
     cible = models.CharField(blank=True, null=True, max_length=45,)
     varname = models.CharField(blank=True, null=True, max_length=45,)
@@ -151,11 +154,10 @@ class Reponsentp2(models.Model):
     varname = models.CharField(blank=True, null=True, max_length=45,)
 
     class Meta:
-       ordering = ['reponse_valeur']
+        ordering = ['reponse_valeur']
 
     def __str__(self):
         return '%s' % self.reponse_en
-
 
 
 #######################
@@ -169,7 +171,7 @@ class Resultatntp2(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        unique_together = (('personne', 'question','assistant'),)
+        unique_together = (('personne', 'question', 'assistant'),)
 
     def __str__(self):
         return '%s' % self.reponsetexte
@@ -179,10 +181,12 @@ class Resultatntp2(models.Model):
 ## Enregistrement des reponses des donnees REPETITIVES
 ## Garder le questionnaire_id pour pouvoir effacer une fiche au complet
 DEFAULT_DATE = '0000-00-00'
+
+
 class Resultatrepetntp2(models.Model):
     personne = models.ForeignKey(Personne, on_delete=models.DO_NOTHING)
     assistant = models.ForeignKey(User, on_delete=models.DO_NOTHING)
-    questionnaire =  models.ForeignKey(Questionnaire,db_index=True, on_delete=models.DO_NOTHING)
+    questionnaire = models.ForeignKey(Questionnaire, db_index=True, on_delete=models.DO_NOTHING)
     fiche = models.IntegerField(db_index=True)
     question = models.ForeignKey(Questionntp2, db_index=True, on_delete=models.DO_NOTHING)
     reponsetexte = models.TextField(blank=True, null=True)
@@ -190,7 +194,7 @@ class Resultatrepetntp2(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        unique_together = (('personne', 'assistant', 'questionnaire', 'question', 'fiche'))
+        unique_together = ('personne', 'assistant', 'questionnaire', 'question', 'fiche')
 
         ordering = ['personne', 'assistant', 'questionnaire', 'question', 'fiche']
 
@@ -199,6 +203,4 @@ class Resultatrepetntp2(models.Model):
 
 
 ############################################
-
-
 

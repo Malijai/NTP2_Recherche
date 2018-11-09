@@ -13,7 +13,6 @@ from dataentry.encrypter import Encrypter
 from dataentry.dataentry_constants import LISTE_PROVINCE
 
 
-
 @login_required(login_url=settings.LOGIN_URI)
 def SelectPersonne(request):
     #Pour selectionner personne (en fonction de la province), questionnaire
@@ -21,7 +20,7 @@ def SelectPersonne(request):
     if province == 10:
         personnes = Personne.objects.all()
     else:
-        personnes = Personne.objects.filter(province__id=province).filter(~Q(completed = 1))
+        personnes = Personne.objects.filter(province__id=province).filter(~Q(completed=1))
 
     if request.method == 'POST':
         if request.POST.get('questionnaireid') == '' or request.POST.get('personneid') == '':
@@ -36,7 +35,7 @@ def SelectPersonne(request):
                 )
 
         if 'Choisir1' in request.POST:
-            #pour le NON repetitif
+            #   pour le NON repetitif
             return redirect(
                             saventp2,
                             request.POST.get('questionnaireid'),
@@ -78,7 +77,7 @@ def SelectPersonne(request):
                     {
                         'personnes': personnes,
                         'questionnaires': Questionnaire.objects.all(),
-                        'message':'welcome'
+                        'message': 'welcome'
                     }
                 )
 
@@ -105,16 +104,16 @@ def creerdossierntp2(request):
                     reponseaquestion = encode_donnee(reponseaquestion)
                 reponses[question.varname] = reponseaquestion
         prov = LISTE_PROVINCE[request.user.profile.province]
-        pref= request.user.profile.province * 10000
+        pref = request.user.profile.province * 10000
         dernier = Personne.objects.all().order_by('-id').first()
-        reponses['personne_code'] = "{}_{}".format(prov,pref + dernier.id + 1,)
+        reponses['personne_code'] = "{}_{}".format(prov, pref + dernier.id + 1,)
         Personne.objects.create(
-                                code = reponses['personne_code'],
+                                code=reponses['personne_code'],
                                 hospcode=reponses['hospcode'],
                                 selecthosp=reponses['SelectHosp'],
-                                province_id = request.user.profile.province,
-                                date_indexh = reponses['RDIH'],
-                                assistant_id = request.user.id
+                                province_id=request.user.profile.province,
+                                date_indexh=reponses['RDIH'],
+                                assistant_id=request.user.id
                                 )
         textefin=  "{}  has been created".format(reponses['personne_code'])
         messages.add_message(request, messages.ERROR, textefin)
@@ -129,11 +128,11 @@ def creerdossierntp2(request):
 
 @login_required(login_url=settings.LOGIN_URI)
 def saventp2(request, qid, pid):
-    #genere le questionnaire demande NON repetitif
+    #   genere le questionnaire demande NON repetitif
     ascendancesF, ascendancesM, questionstoutes = genere_questions(qid)
     nomcode = Personne.objects.get(id=pid).code
     hospcode = Personne.objects.get(id=pid).hospcode
-    questionnaire = Questionnaire.objects.get(id=qid).nom_en
+
     if request.method == 'POST':
         for question in questionstoutes:
             if question.typequestion.nom == 'DATE' or question.typequestion.nom == 'CODEDATE' or \
@@ -177,16 +176,16 @@ def saventp2(request, qid, pid):
                       'ascendancesF': ascendancesF,
                       'code': nomcode,
                       'hospcode' : hospcode,
-                      'questionnaire': questionnaire
                   }
                 )
 
 
 @login_required(login_url=settings.LOGIN_URI)
-def saverepetntp2(request, qid, pid):#(request, qid, pid, province):
+def saverepetntp2(request, qid, pid):
     ascendancesF, ascendancesM, questionstoutes = genere_questions(qid)
     nomcode = Personne.objects.get(id=pid).code
     hospcode = Personne.objects.get(id=pid).hospcode
+    questionnaire = Questionnaire.objects.get(id=qid).nom_en
 
     if request.method == 'POST':
         actions = request.POST.keys()
@@ -213,7 +212,7 @@ def saverepetntp2(request, qid, pid):#(request, qid, pid, province):
                                 questionnaire_id=qid,
                                 question_id=1,
                                 fiche=ordre,
-                                reponsetexte= 10000
+                                reponsetexte=10000
                             )
                     messages.add_message(request, messages.WARNING, '1 Card added ')
 
@@ -273,6 +272,7 @@ def saverepetntp2(request, qid, pid):#(request, qid, pid, province):
                           'compte': compte,
                           'code': nomcode,
                           'hospcode': hospcode,
+                          'questionnaire': questionnaire,
                   }
                     )
 
@@ -312,6 +312,6 @@ def encode_donnee(message):
     PK_path = settings.PUBLIC_KEY_PATH
     PK_name = settings.PUBLIC_KEY_NTP2
     e = Encrypter()
-    #public_key = e.read_key(PK_path + 'Manitoba_public.pem')
+    #   public_key = e.read_key(PK_path + 'Manitoba_public.pem')
     public_key = e.read_key(PK_path + PK_name)
     return e.encrypt(message,public_key)

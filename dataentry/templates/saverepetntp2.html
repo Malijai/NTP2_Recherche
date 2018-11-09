@@ -3,10 +3,9 @@
 {% load static %}
 {% load formulairesrepet %}
 
-
 {% block content %}
 <h2>{{Questtitre}}</h2>
-<h2> {{ code }}-{{hospcode}} -  With {{ compte }} hospitalizations</h2>
+<h2> {{ code }}-{{hospcode}} -  With {{ compte }} {{ questionnaire }} Hospitalization </h2>
     {% csrf_token %}
     <input name="pid" type="hidden" value="{{ pid }}" />
     <input name="qid" type="hidden" value="{{ qid }}" />

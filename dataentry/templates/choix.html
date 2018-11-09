@@ -79,9 +79,9 @@
             <p>Select one case and one questionnaire. You will be able to add as many card as there are events.
                <br>These questionnaires are made to code:
                <ul>
-                  <li>the sociodemographic informations which can change over time (past and future)</li>
-                  <li>all the hospitalizations from verdict date to date of data entry except the Index one (past and future)</li>
-                  <li>minimal informations from all Review Board Hearings from verdict date to date of data entry (past and future)</li>
+                  <li><b>Repetitive SHORT</b> For all the hospitalizations from verdict date to index one</li>
+                  <li><b>Repetitive SHORT</b> For hospitalizations after index one with <b>duration < 6 days</b></li>
+                  <li><b>Repetitive LONG</b> For hospitalizations AFTER index one whith duration >= 6 days</li>
                </ul></p>
             <table>
                 <tr><td></td><td></td></tr>
@@ -94,7 +94,7 @@
                 <tr><td>Questionnaire</td><td><select name="questionnaireid" >
                     <option value="">Select a questionnaire</option>
                     {% for questionnaire in questionnaires %}
-                         {% if questionnaire.id == 2000 %}
+                         {% if questionnaire.id == 2000 or questionnaire.id == 3000 %}
                             <option value="{{questionnaire.id}}">{{ questionnaire.nom_en}}</option>
                         {% endif %}
                     {% endfor %}
