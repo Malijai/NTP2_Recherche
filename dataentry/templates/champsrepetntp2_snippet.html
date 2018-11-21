@@ -7,7 +7,7 @@
         {% fait_textechar questid type persid=pid parent=parent relation=relation cible=cible uid=user.id genre=repetition ordre=ordre %}</td>
     {% elif type == "DATE" or type == "CODEDATE" or type == "DATEH" %}
         {% fait_date questid type persid=pid parent=parent relation=relation cible=cible uid=user.id ordre=ordre %}</td>
-    {% elif type == "DICHO" or type == "DICHOU" or type == "DICHON" %}
+    {% elif type == "DICHO" or type == "DICHOU" %}
         {% fait_dichou questid type persid=pid parent=parent relation=relation cible=cible uid=user.id ordre=ordre %}</td>
     {% elif  type == "BOOLEAN" or type == "HCR20"  or type ==  "POSOLOGIE" or type == "PROVINCE"  or type == "PAYS" or type == "LANGUE" or type == "VIOLATION" %}
          {% fait_table questid type persid=pid parent=parent relation=relation cible=cible uid=user.id ordre=ordre %}</td>

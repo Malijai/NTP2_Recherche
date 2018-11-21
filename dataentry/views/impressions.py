@@ -100,7 +100,7 @@ def myLaterPages(canvas, doc):
 
 
 @login_required(login_url=settings.LOGIN_URI)
-def some_pdf(request,pk):
+def some_pdf(request, pk):
     fichier = 'QID_' + str(pk) + '_' + NOM_FICHIER_PDF
 #    doc = SimpleDocTemplate("/tmp/{}".format(NOM_FICHIER_PDF))
     doc = SimpleDocTemplate("/tmp/{}".format(fichier))

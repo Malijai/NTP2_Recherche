@@ -1,10 +1,10 @@
-# pour les DICHO (8)
+# pour les DICHO (8)= Yes_No
 CHOIX_ON = {
     1: 'Yes',
     0: 'No'
     }
 
-# pour les autres (dichon 18, dichou 24)
+# pour les autres (dichou 24= Yes_No_Unknown) y a pas de 18
 CHOIX_ONUK = {
     1: 'Yes',
     0: 'No',
@@ -24,3 +24,4 @@ LISTE_PROVINCE = {
      8: 'NB',
      10: 'ALL'
     }
+
