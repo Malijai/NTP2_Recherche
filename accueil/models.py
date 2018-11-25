@@ -53,6 +53,18 @@ class Projet(models.Model):
         return self.user.username
 
 
+class Contrat(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    numeemploye = models.CharField(max_length=256, verbose_name="Numero Employe", null=True, blank=True)
+    numcontrat = models.CharField(max_length=30, verbose_name="Numero Contrat", null=True, blank=True)
+    numbudget = models.CharField(max_length=30, verbose_name="Numero Budget", null=True, blank=True)
+    maxheures = models.CharField(max_length=30, verbose_name="Nb maximum d'heures par periode", null=True, blank=True)
+    signature = models.FileField(upload_to='signatures', verbose_name="Ajoutez votre signature au format jpeg", null=True, blank=True)
+
+    def __str__(self):
+        return '%s' % self.numeemploye
+
+
 @receiver(post_save, sender=User)
 def create_or_update_user_profile(sender, instance, created, **kwargs):
     if created:
@@ -64,7 +76,7 @@ def create_or_update_user_profile(sender, instance, created, **kwargs):
 class AuditEntree(models.Model):
     action = models.CharField(max_length=64)
     ip = models.GenericIPAddressField(null=True)
-    username =  models.CharField(max_length=256, null=True)
+    username = models.CharField(max_length=256, null=True)
     action_time = models.DateTimeField(auto_now=True, null=True)
 
     def __str__(self):
@@ -76,19 +88,20 @@ def user_action_callback(sender, request, username, **kwargs):
     ip = request.META.get('REMOTE_ADDR')
     AuditEntree.objects.create(action=user_action, ip=ip, username=username)
 
+
 @receiver(user_logged_in)
 def user_logged_in_callback(sender, request, user, **kwargs):
-    user_action_callback (sender, request, user.username, user_action='user_logged_in')
+    user_action_callback(sender, request, user.username, user_action='user_logged_in')
 
 
 @receiver(user_logged_out)
 def user_logged_out_callback(sender, request, user, **kwargs):
-    user_action_callback (sender, request, user.username, user_action='user_logged_out')
+    user_action_callback(sender, request, user.username, user_action='user_logged_out')
 
 
 @receiver(user_login_failed)
 def user_login_failed_callback(sender, request, credentials, **kwargs):
-    user_action_callback (sender, request, credentials.get('username', None), user_action='login_failed')
+    user_action_callback(sender, request, credentials.get('username', None), user_action='login_failed')
 
 
 ##Pour les publications
@@ -104,14 +117,12 @@ class Publication(models.Model):
     reference = models.CharField(max_length=250,)
     auteurs = models.CharField(max_length=250,)
     annee = models.CharField(max_length=50,)
-    lien = models.CharField(max_length=250,blank=True, null=True)
+    lien = models.CharField(max_length=250, blank=True, null=True)
     affichage = models.ForeignKey(Affichage, on_delete=models.CASCADE)
     ordre = models.IntegerField()
 
     class Meta:
-       ordering = ['ordre']
+        ordering = ['ordre']
 
     def __str__(self):
         return '%s' % self.titre
-
-

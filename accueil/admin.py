@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
-from .models import Profile, Affichage, Publication, Projet, AuditEntree
+from .models import Profile, Affichage, Publication, Projet, AuditEntree, Contrat
 
 
 class ProfilInline(admin.StackedInline):
@@ -14,8 +14,13 @@ class AutreprofilInline(admin.StackedInline):
     can_delete = False
 
 
+class EmployeInline(admin.StackedInline):
+    model = Contrat
+    can_delete = False
+
+
 class CustomUserAdmin(UserAdmin):
-    inlines = (ProfilInline, AutreprofilInline)
+    inlines = (ProfilInline, AutreprofilInline, EmployeInline)
     list_display = ('username', 'email','first_name', 'last_name', 'is_staff', 'get_province','last_login')
     #list_select_related = ('profile', )
 
