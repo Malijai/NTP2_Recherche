@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.shortcuts import render, redirect
-from accueil.models import Publication, Affichage, Projet
+from accueil.models import Publication, Affichage, Projet, Profile
 from django.db.models import Q
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
@@ -52,4 +52,5 @@ def entreesystemes(request):
                         'GH': GH,
                         'NTP1': NTP1,
                         'NTP2': NTP2,
+                        'Profile': Profile
                       })
