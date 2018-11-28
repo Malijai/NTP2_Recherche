@@ -5,10 +5,7 @@ from dataentry.models import Personne, Resultatntp2, Victime, Typequestion
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 import csv
-from django.template import loader, Context
 from django.http import HttpResponse, StreamingHttpResponse
-from django.apps import apps
-from reportlab.pdfgen import canvas
 from django.core.files.storage import FileSystemStorage
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, PageBreak
 from reportlab.lib.styles import getSampleStyleSheet
@@ -76,7 +73,7 @@ def ffait_csv(request):
 
 
 #Exportation des questions en PDF
-def myFirstPage(canvas, doc):
+def myFirstPage(canvas, _):
     canvas.saveState()
     canvas.setFont('Helvetica',16)
     canvas.drawCentredString(PAGE_WIDTH/2.0, PAGE_HEIGHT-108, TITRE)

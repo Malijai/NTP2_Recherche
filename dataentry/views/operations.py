@@ -132,6 +132,7 @@ def saventp2(request, qid, pid):
     ascendancesF, ascendancesM, questionstoutes = genere_questions(qid)
     nomcode = Personne.objects.get(id=pid).code
     hospcode = Personne.objects.get(id=pid).hospcode
+    questionnaire = Questionnaire.objects.get(id=qid).nom_en
 
     if request.method == 'POST':
         for question in questionstoutes:
@@ -176,6 +177,7 @@ def saventp2(request, qid, pid):
                       'ascendancesF': ascendancesF,
                       'code': nomcode,
                       'hospcode' : hospcode,
+                      'questionnaire': questionnaire,
                   }
                 )
 
