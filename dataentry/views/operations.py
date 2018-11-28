@@ -8,14 +8,14 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib import messages
 from django.db.models import Q
 import datetime
-#import logging
+# import logging
 from dataentry.encrypter import Encrypter
 from dataentry.dataentry_constants import LISTE_PROVINCE
 
 
 @login_required(login_url=settings.LOGIN_URI)
-def SelectPersonne(request):
-    #Pour selectionner personne (en fonction de la province), questionnaire
+def select_personne(request):
+    # Pour selectionner personne (en fonction de la province), questionnaire
     province = request.user.profile.province
     if province == 10:
         personnes = Personne.objects.all()
@@ -28,10 +28,10 @@ def SelectPersonne(request):
             return render(
                 request,
                 'choix.html',
-                    {
-                    'personnes': personnes,
-                    'questionnaires': Questionnaire.objects.all(),
-                    }
+                {
+                'personnes': personnes,
+                'questionnaires': Questionnaire.objects.all(),
+                }
                 )
 
         if 'Choisir1' in request.POST:
@@ -69,7 +69,7 @@ def SelectPersonne(request):
         elif 'Verifier' in request.POST:
             # pour fermer un dossier
             pid = request.POST.get('personneid')
-            return redirect('do_some_texte', pid=pid)
+            return redirect('verifie_csv', pid=pid)
     else:
         return render(
                     request,
@@ -117,7 +117,7 @@ def creerdossierntp2(request):
                                 )
         textefin=  "{}  has been created".format(reponses['personne_code'])
         messages.add_message(request, messages.ERROR, textefin)
-        return redirect('SelectPersonne')
+        return redirect('select_personne')
     else:
         return render(
                     request,
@@ -157,8 +157,7 @@ def saventp2(request, qid, pid):
                 else:
                     if not Resultatntp2.objects.filter(personne_id=pid, question=question, assistant=request.user,
                                                        reponsetexte=reponseaquestion).exists():
-                        Resultatntp2.objects.update_or_create(
-                                 personne_id=pid, question=question, assistant=request.user,
+                        Resultatntp2.objects.update_or_create(personne_id=pid, question=question, assistant=request.user,
                                 # update these fields, or create a new object with these values
                                 defaults={
                                     'reponsetexte': reponseaquestion,

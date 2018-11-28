@@ -11,6 +11,7 @@ from reportlab.lib.pagesizes import letter
 from django.contrib.auth.decorators import login_required
 import datetime
 # A necessite l'installation de reportlab (pip install reportlab)
+from accueil.models import Tempsfacture
 
 
 NOM_FICHIER_PDF = "FeuilleTemps.pdf"
@@ -109,6 +110,10 @@ def fdetemps(request):
                     return render(request, 'fdt.html', {'jours': jours})
 
         doc.drawString(515, y_heures, str(somme_temps))
+
+        Tempsfacture.objects.update_or_create(user=request.user, periode=quinzaine,
+                                              defaults={'heures': somme_temps, }
+                                              )
         doc.save()
         fs = FileSystemStorage("/tmp")
         with fs.open(fichier) as pdf:
