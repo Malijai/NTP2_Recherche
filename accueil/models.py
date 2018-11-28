@@ -58,11 +58,23 @@ class Contrat(models.Model):
     numeemploye = models.CharField(max_length=256, verbose_name="Numero Employe", null=True, blank=True)
     numcontrat = models.CharField(max_length=30, verbose_name="Numero Contrat", null=True, blank=True)
     numbudget = models.CharField(max_length=30, verbose_name="Numero Budget", null=True, blank=True)
-    maxheures = models.CharField(max_length=30, verbose_name="Nb maximum d'heures par periode", null=True, blank=True)
+    maxheures = models.CharField(max_length=30, verbose_name="Nb maximum d'heures par semaine", null=True, blank=True)
     signature = models.FileField(upload_to='signatures', verbose_name="Ajoutez votre signature au format jpeg", null=True, blank=True)
 
     def __str__(self):
         return '%s' % self.numeemploye
+
+
+class Tempsfacture(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    periode = models.IntegerField(verbose_name="Numero de la periode")
+    heures = models.CharField(max_length=30, verbose_name="Nb d'heures facturées dans la période", null=True, blank=True)
+
+    class Meta:
+        ordering = ['user', 'periode']
+
+    def __str__(self):
+        return '%s' % self.user
 
 
 @receiver(post_save, sender=User)
