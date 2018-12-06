@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
 from django.shortcuts import render, redirect
-from dataentry.models import Questionnaire, Personne
+from dataentry.models import Questionnaire, Personne, Province, User
 from dataentry.models import Resultatrepetntp2, Questionntp2, Resultatntp2
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib import messages
 from django.db.models import Q
+from django.db.models import Count
 import datetime
 # import logging
 from dataentry.encrypter import Encrypter
@@ -316,3 +317,16 @@ def encode_donnee(message):
     #   public_key = e.read_key(PK_path + 'Manitoba_public.pem')
     public_key = e.read_key(PK_path + PK_name)
     return e.encrypt(message,public_key)
+
+
+def bilan_par_province(request):
+#    dossiers = Personne.objects.order_by('province', 'assistant').filter(completed=1)
+    nb_province = Province.objects.annotate(num_dossiers=Count('personne', filter=Q(personne__completed=1)))
+    nb_ar = User.objects.annotate(nb_dossiers=Count('personne', filter=Q(personne__completed=1)))
+    return render(request,
+                  'bilan.html',
+                  {
+                      'dossiers': nb_province,
+                      'assistants': nb_ar
+                  }
+                  )

@@ -1,6 +1,6 @@
 from django.conf.urls import url
 from .views import select_personne, saverepetntp2, saventp2, questions_pdf, ffait_csv, decrypt, verifie_csv, \
-    creerdossierntp2, fdetemps
+    creerdossierntp2, fdetemps, bilan_par_province
 from django.contrib.auth import views as auth_views
 
 urlpatterns = [
@@ -15,4 +15,6 @@ urlpatterns = [
     url(r'^csv/$', ffait_csv, name='do_csv'),
     url(r'^new/$', creerdossierntp2, name='creerdossierntp2'),
     url(r'^fdt/$', fdetemps, name='do_fdt'),
+    url(r'^bilan/$', bilan_par_province, name='do_bilan'),
+
 ]

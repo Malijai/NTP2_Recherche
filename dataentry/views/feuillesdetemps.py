@@ -14,7 +14,7 @@ import datetime
 from accueil.models import Tempsfacture
 
 
-NOM_FICHIER_PDF = "FeuilleTemps.pdf"
+NOM_FICHIER_PDF = "FeuilleTemps_"
 PAGE_INFO = "Feuilles de temps - Date d'impression : " + datetime.datetime.now().strftime('%d/%m/%Y')
 DATE = datetime.datetime.now().strftime('%Y %b %d')
 
@@ -73,8 +73,8 @@ def fdetemps(request):
 
         date_debut = debut.strftime("%d-%m-%Y")
         date_fin = fin.strftime("%d-%m-%Y")
-
-        doc = Canvas("/tmp/{}".format(fichier), pagesize=letter)
+        nom_fichier = fichier + request.user.last_name + "_" + str(quinzaine) + ".pdf"
+        doc = Canvas("/tmp/{}".format(nom_fichier), pagesize=letter)
         doc.drawImage(img, x, y, w, h)
         doc.setFont('Helvetica', 10)
         doc.drawString(10, 10, PAGE_INFO)
@@ -116,9 +116,9 @@ def fdetemps(request):
                                               )
         doc.save()
         fs = FileSystemStorage("/tmp")
-        with fs.open(fichier) as pdf:
+        with fs.open(nom_fichier) as pdf:
             response = HttpResponse(pdf, content_type='application/pdf')
-            response['Content-Disposition'] = 'attachment; filename="{}"'.format(fichier)
+            response['Content-Disposition'] = 'attachment; filename="{}"'.format(nom_fichier)
         return response
     else:
         return render(request, 'fdt.html', {'jours': jours})
