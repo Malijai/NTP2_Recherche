@@ -1,17 +1,18 @@
 # -*- coding: utf-8 -*-
-from django.shortcuts import render, redirect
-from dataentry.models import Questionnaire, Personne, Province, User
-from dataentry.models import Resultatrepetntp2, Questionntp2, Resultatntp2
-from django.conf import settings
-from django.contrib.auth.decorators import login_required
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.contrib import messages
-from django.db.models import Q
-from django.db.models import Count
 import datetime
 # import logging
+
+from django.conf import settings
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.db.models import Q, Count
+from django.shortcuts import render, redirect
+
 from dataentry.encrypter import Encrypter
 from dataentry.dataentry_constants import LISTE_PROVINCE
+from dataentry.models import Personne, Province, User
+from dataentry.models import Questionnaire, Resultatrepetntp2, Questionntp2, Resultatntp2
 
 
 @login_required(login_url=settings.LOGIN_URI)
@@ -275,8 +276,8 @@ def saverepetntp2(request, qid, pid):
                           'code': nomcode,
                           'hospcode': hospcode,
                           'questionnaire': questionnaire,
-                  }
-                    )
+                      }
+                  )
 
 
 def fait_pagination(pid, qid, request):
@@ -323,10 +324,11 @@ def bilan_par_province(request):
 #    dossiers = Personne.objects.order_by('province', 'assistant').filter(completed=1)
     nb_province = Province.objects.annotate(num_dossiers=Count('personne', filter=Q(personne__completed=1)))
     nb_ar = User.objects.annotate(nb_dossiers=Count('personne', filter=Q(personne__completed=1)))
-    return render(request,
-                  'bilan.html',
-                  {
-                      'dossiers': nb_province,
-                      'assistants': nb_ar
-                  }
-                  )
+    return render(
+        request,
+        'bilan.html',
+         {
+            'dossiers': nb_province,
+            'assistants': nb_ar
+         }
+    )
