@@ -106,7 +106,7 @@ def fdetemps(request):
                 newdate = debut + datetime.timedelta(days=ecart)
                 doc.drawString(x, y_dates, newdate.strftime("%d"))
                 if temps_semaine > float(request.user.contrat.maxheures):
-                    messages.add_message(request, messages.ERROR, "Nombre maximum d'heures autorisé : " + request.user.contrat.maxheures)
+                    messages.add_message(request, messages.ERROR, "Nombre maximum d'heures autorisées par semaine : " + request.user.contrat.maxheures)
                     return render(request, 'fdt.html', {'jours': jours})
 
         doc.drawString(515, y_heures, str(somme_temps))
