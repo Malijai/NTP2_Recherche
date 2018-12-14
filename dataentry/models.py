@@ -163,8 +163,8 @@ class Reponsentp2(models.Model):
 #######################
 ## Enregistrement des reponses des donnees NON repetitives
 class Resultatntp2(models.Model):
-    personne = models.ForeignKey(Personne, on_delete=models.DO_NOTHING)
-    question = models.ForeignKey(Questionntp2, on_delete=models.DO_NOTHING)
+    personne = models.ForeignKey(Personne, on_delete=models.CASCADE)
+    question = models.ForeignKey(Questionntp2, on_delete=models.CASCADE)
     assistant = models.ForeignKey(User, on_delete=models.DO_NOTHING)
     reponsetexte = models.TextField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -184,11 +184,11 @@ DEFAULT_DATE = '0000-00-00'
 
 
 class Resultatrepetntp2(models.Model):
-    personne = models.ForeignKey(Personne, on_delete=models.DO_NOTHING)
+    personne = models.ForeignKey(Personne, on_delete=models.CASCADE)
     assistant = models.ForeignKey(User, on_delete=models.DO_NOTHING)
     questionnaire = models.ForeignKey(Questionnaire, db_index=True, on_delete=models.DO_NOTHING)
     fiche = models.IntegerField(db_index=True)
-    question = models.ForeignKey(Questionntp2, db_index=True, on_delete=models.DO_NOTHING)
+    question = models.ForeignKey(Questionntp2, db_index=True, on_delete=models.CASCADE)
     reponsetexte = models.TextField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

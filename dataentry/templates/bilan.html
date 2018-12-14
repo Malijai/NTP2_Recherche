@@ -42,7 +42,7 @@
     <ul>
     {% for ar in assistants %}
         {% if ar.profile.province == dossier.id and ar.nb_dossiers > 0 %}
-            <li>{{ ar.last_name }} --- {{ ar.nb_dossiers }} </li>
+            <li>{{ ar.last_name|capfirst  }} - {{ ar.first_name|slice:"0:1"|capfirst }}--- {{ ar.nb_dossiers }} </li>
         {% endif %}
     {% endfor %}
     </ul>

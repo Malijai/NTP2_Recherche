@@ -55,10 +55,14 @@ def select_personne(request):
         elif 'Fermer' in request.POST:
             # pour fermer un dossier
             pid = request.POST.get('personneid')
-            personne = Personne.objects.get(pk=pid)
-            personne.completed = 1
-            personne.save()
-            messages.add_message(request, messages.WARNING, personne.code + ' has been closed')
+            personne2 = Personne.objects.get(pk=pid)
+            if Personne.objects.filter(pk=pid, assistant=request.user).exists():
+                personne = Personne.objects.get(pk=pid, assistant=request.user)
+                personne.completed = 1
+                personne.save()
+                messages.add_message(request, messages.WARNING, personne.code + ' has been closed')
+            else:
+                messages.add_message(request, messages.ERROR, personne2.code + ' You are not allowed to close this file as you didn''t create it')
             return render(
                     request,
                     'choix.html',
@@ -119,7 +123,7 @@ def creerdossierntp2(request):
                                 )
         textefin=  "{}  has been created".format(reponses['personne_code'])
         messages.add_message(request, messages.ERROR, textefin)
-        return redirect('select_personne')
+        return redirect(select_personne)
     else:
         return render(
                     request,
