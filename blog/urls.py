@@ -1,8 +1,8 @@
 from django.conf.urls import url
 from django.contrib.auth.decorators import login_required
-
 from . import views
 from .views import index, BlogDetail, listing, get_recherchetexte
+
 
 urlpatterns = [
 #    url(r'^$', BlogIndex.as_view(), name='blogindex'),
