@@ -82,10 +82,12 @@ def fdetemps(request):
         doc.setFont('Helvetica', 12)
         doc.drawString(70, 750, 'No contrat : ' + request.user.contrat.numcontrat)
         doc.drawString(290, 750, 'No budget : ' + request.user.contrat.numbudget)
-        doc.drawString(70, 636, request.user.first_name.capitalize() + " " + request.user.last_name.capitalize())
+
         if request.user.contrat.signature:
             signature = ImageReader(request.user.contrat.signature)
             doc.drawImage(signature, 110, (y_sign - 10), 110, 50, mask='auto')
+
+        doc.drawString(70, 636, request.user.first_name.capitalize() + " " + request.user.last_name.capitalize())
 
         doc.drawString(450, 645, 'PAIE : ' + str(quinzaine))
         doc.drawString(420, y_sign, date_debut)
