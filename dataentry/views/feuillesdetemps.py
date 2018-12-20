@@ -73,7 +73,8 @@ def fdetemps(request):
 
         date_debut = debut.strftime("%d-%m-%Y")
         date_fin = fin.strftime("%d-%m-%Y")
-        nom_fichier = fichier + request.user.last_name + "_" + str(quinzaine) + ".pdf"
+        initiales = request.user.last_name.capitalize()[:1] + "_" + request.user.first_name.capitalize()[:1]
+        nom_fichier = fichier + str(initiales) + "_" + str(quinzaine) + ".pdf"
         doc = Canvas("/tmp/{}".format(nom_fichier), pagesize=letter)
         doc.drawImage(img, x, y, w, h)
         doc.setFont('Helvetica', 10)
