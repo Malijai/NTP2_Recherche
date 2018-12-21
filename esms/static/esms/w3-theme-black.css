@@ -31,6 +31,7 @@
     box-shadow: 0 0 2px 1px rgb(148, 102, 56);
 }
 
+
 .w3-row {
     display: flex;
      padding: 5px;
@@ -40,3 +41,4 @@
     flex:1;
 }
 
+.w3-table-all td textarea {width: 500px; height: 50px}

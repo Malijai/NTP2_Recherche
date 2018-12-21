@@ -1,0 +1,63 @@
+{% load i18n %}
+{% load static %}
+<html>
+<title>ESMS Codification</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{% static '/esms/w3.css' %}">
+    <link rel="stylesheet" href="{% static '/esms/w3-theme-black.css' %}">
+<body>
+
+<header class="w3-row w3-theme" id="myHeader">
+    <h4>ESMS Ressource list</h4>
+</header>
+
+<div id="container">
+    {% if messages %}
+        {% for msg in messages %}
+            <div class="alert alert-{{msg.level_tag}}" role="alert">
+            {{msg.message}}
+            </div>
+        {% endfor %}
+    {% endif %}
+</div>
+<div class="w3-col  w3-light-grey">
+<a class="w3-button" href="{% url 'ressource_new' %}">Nouvelle ressource</a>
+    </div>
+
+<div class="w3-container w3-padding-8">
+    <table><tr><th>Nom</th><th>Codes</th><th>Coder</th><th>Modifier</th></tr>
+        {% for ressource in page.object_list %}
+            <tr><td>{{ressource.nom }}</td>
+            <td><ul>
+            {% for esms in ressource.esms_set.all %}
+            <li>ESMS : {{esms.choix_final}} {{esms.nombre}} {{esms.clientele}} ;</li>
+            {% endfor %}
+            </ul></td>
+            <td><a href="{% url 'Faitinstitution' ressource.id '' '' %}">Coder</a></td>
+            <td><a href="{% url 'ressource_edit' ressource.id %}">Mettre a jour les infos de la ressource</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+<div class="w3-col  w3-light-grey">
+<a class="w3-button" href="{% url 'ressource_new' %}">Nouvelle ressource</a>
+    </div>
+    <footer class="w3-container w3-theme-d4 footerw3">
+        <div class="footergauche">
+            <div class="pagination">
+            Browse by name:
+           {% for p in page.paginator.pages %}
+                {% ifequal p page %}
+                    <span class="selected">{{ page }}</span>
+                {% else %}
+                    <a href="?page={{ p.number }}">{{ p }}</a>
+                {% endifequal %}
+           {% endfor %}
+
+           </div>
+            <br />
+        </div>
+    </footer>
+</body>
+</html>

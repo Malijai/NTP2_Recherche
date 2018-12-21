@@ -1,0 +1,40 @@
+{% load i18n %}
+{% load static %}
+<html>
+<title>RESSOURCE</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{% static '/esms/w3.css' %}">
+    <link rel="stylesheet" href="{% static '/esms/w3-theme-black.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css">
+<body>
+
+<header class="w3-row w3-theme" id="myHeader">
+    <h4>Ressource details</h4>
+</header>
+
+<div class="w3-container w3-padding-8">
+
+    <h2>{{ object.nom }}</h2>
+    <p>{{ object.ville }}</p>
+    <p>{{ object.codepostal }}</p>
+    <p>{{ object.objectif }}</p>
+    <p>{{ object.region }}</p>
+    <p>{{ object.lieutravail }}</p>
+    <p>{{ object.heuresouverture }}</p>
+    <p>{{ object.profilpatient }}</p>
+    <p>{{ object.forensicpatient }}</p>
+    <p>{{ object.forensicpatientnombre }}</p>
+    <p>{{ object.multipleproblematique }}</p>
+    <p>{{ object.multipleproblematiquenombre }}</p>
+    <p>{{ object.approche }}</p>
+    <p>{{ object.reference }}</p>
+    <p>{{ object.delais }}</p>
+    <p>{{ object.listeattenteyn }}</p>
+    <p>{{ object.listeattenteduree }}</p>
+
+</div>
+
+    </body>
+</html>
+
