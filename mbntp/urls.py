@@ -32,7 +32,7 @@ urlpatterns = [
     url(r'^blog/', include('blog.urls')),
     url(r'^depot/', include('depot.urls')),
     url(r'^dataentry/', include('dataentry.urls')),
-#     url(r'^esms/', include('esms.urls')),
+    url(r'^esms/', include('esms.urls')),
     url(r'^goingh/', include('gh.urls')),
     url(r'^viol/', include('violation.urls')),
     url(r'^', include('accueil.urls')),
