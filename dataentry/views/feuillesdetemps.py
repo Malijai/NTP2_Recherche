@@ -10,6 +10,7 @@ from reportlab.lib.utils import ImageReader
 from reportlab.lib.pagesizes import letter
 from django.contrib.auth.decorators import login_required
 import datetime
+import unicodedata
 # A necessite l'installation de reportlab (pip install reportlab)
 from accueil.models import Tempsfacture
 
@@ -73,8 +74,10 @@ def fdetemps(request):
 
         date_debut = debut.strftime("%d-%m-%Y")
         date_fin = fin.strftime("%d-%m-%Y")
-        initiales = request.user.last_name.capitalize()[:1] + "_" + request.user.first_name.capitalize()[:1]
-        nom_fichier = fichier + str(initiales) + "_" + str(quinzaine) + ".pdf"
+        data = request.user.last_name
+        normal = unicodedata.normalize('NFD', data).encode('ascii','ignore').decode()
+
+        nom_fichier = "{}{}_{}.pdf".format(fichier, normal, quinzaine)
         doc = Canvas("/tmp/{}".format(nom_fichier), pagesize=letter)
         doc.drawImage(img, x, y, w, h)
         doc.setFont('Helvetica', 10)

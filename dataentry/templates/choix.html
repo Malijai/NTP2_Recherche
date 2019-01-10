@@ -3,7 +3,7 @@
 
 <html>
     <head>
-        <title>NTP 2 Community -  Data entry</title>
+        <title>NTP 2 Community - Data entry</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="{% static 'accueil/w3.css' %}">
@@ -75,12 +75,13 @@
        <div class="tabbertab">
            <form method="post" action="">
            {% csrf_token %}
-           <h3>Repetitives</h3><b>For all repetitives questionnaires</b>
-            <p>Select one case and one questionnaire. You will be able to add as many card as there are events.
-               <br>These questionnaires are made to code:
+           <h3>Repetitives</h3><b>For other hospitalizations</b>
+            <p>Select one case and one type of hospitalization. You will be able to add as many card as there are hospitalizations.
+               <b>All hospitalizations from verdict to 2017-12-31 should be coded even after an absolute release from the RB</b>
+               <br>These questionnaires are made to code:</p>
                <ul>
                   <li><b>Repetitive SHORT</b> For all the hospitalizations from verdict date to index one</li>
-                  <li><b>Repetitive SHORT</b> For hospitalizations after index one with <b>duration < 6 days</b></li>
+                  <li><b>Repetitive SHORT</b> For hospitalizations after index one with <b>duration < 6 days (from Index hospitalization to 2017-12-31)</b></li>
                   <li><b>Repetitive LONG</b> For hospitalizations AFTER index one whith duration >= 6 days (from Index hospitalization to 2017-12-31)</li>
                </ul>
             <table>
