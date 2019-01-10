@@ -9,6 +9,7 @@ from django.views import generic
 from django.db import IntegrityError, transaction
 from django.contrib import messages
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger, InvalidPage
+from django.utils import translation
 
 from esms.paginationalpha import NamePaginator
 
@@ -16,13 +17,14 @@ from esms.paginationalpha import NamePaginator
 @login_required(login_url=settings.LOGIN_URI)
 def Faitinstitution(request, pk, choix='', histoire=''):
     # 'b': {'name': 'Génériques aigus', 'choices': ['c', 'd']},
+    langue = translation.get_language()
 
-    #   if langue == 'FR':
-    CHOIX = CHOIXFR
-    EXPLICATIONS = EXPLICATIONSFR
-    # else:
-    #    CHOIX = CHOIXEN
-    #    EXPLICATIONS = EXPLICATIONSEN
+    if langue == 'fr':
+        CHOIX = CHOIXFR
+        EXPLICATIONS = EXPLICATIONSFR
+    else:
+        CHOIX = CHOIXEN
+        EXPLICATIONS = EXPLICATIONSEN
     ressource = Ressource.objects.get(pk=pk)
     liste = ('z', 'o', 'x', 'qq', 'rr', 'ss')
     if not choix:
@@ -37,7 +39,8 @@ def Faitinstitution(request, pk, choix='', histoire=''):
                  'dernier': '',
                  'dernier2': '',
                  'entrees': entrees,
-                 'ressource': ressource
+                 'ressource': ressource,
+                 'langue': langue
                  }
             )
     else:
@@ -160,33 +163,15 @@ class RessourceDetail(generic.DetailView):
 def rlisting(request):
     ressource_list = Ressource.objects.all()
 
-
-    #paginator = Paginator(ressource_list, 15)
-
     paginator = NamePaginator(ressource_list, on="nom", per_page=5)
-
     try:
         page = int(request.GET.get('page', '1'))
     except ValueError:
         page = 1
-
     try:
         page = paginator.page(page)
     except (InvalidPage):
         page = paginator.page(paginator.num_pages)
-
-        #return render_to_response('list.html', {"page": page})
-
-
-    # page = request.GET.get('page')
-    # try:
-    #     ressources = paginator.page(page)
-    # except PageNotAnInteger:
-    #     #   If page is not an integer, deliver first page.
-    #     ressources = paginator.page(1)
-    # except EmptyPage:
-    #     #   If page is out of range (e.g. 9999), deliver last page of results.
-    #     ressources = paginator.page(paginator.num_pages)
 
     return render(request, 'rlist.html', {'page': page})
 

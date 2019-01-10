@@ -1,15 +1,33 @@
 {% load i18n %}
 {% load static %}
 <html>
-<title>ESMS Codification</title>
+<title>{% trans "Codification ESMS" %}</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="{% static '/esms/w3.css' %}">
     <link rel="stylesheet" href="{% static '/esms/w3-theme-black.css' %}">
 <body>
 
-<header class="w3-row w3-theme" id="myHeader">
-    <h4>ESMS Ressource list</h4>
+    <header class="w3-row w3-theme" id="myHeader">
+         <div class="w3-threequarter w3-padding">
+            <h4>{% trans "Liste des ressources et codification" %}</h4>
+         </div>
+
+         <div class="w3-quarter w3-center">
+         <form action="{% url 'set_language' %}" method="post">
+         {% csrf_token %}
+          <input name="next" type="hidden" value="{{ index }}" />
+          {% get_current_language as LANGUAGE_CODE %}
+          {% get_available_languages as LANGUAGES %}
+          {% get_language_info_list for LANGUAGES as languages %}
+          {% for language in languages %}
+              {% if language.code != LANGUAGE_CODE %}
+                <input type="submit" class="w3-button w3-theme-l2" name="language" value="{{ language.code }}" />
+              {% endif %}
+          {% endfor %}
+          </form>
+         </div>
+
 </header>
 
 <div id="container">
@@ -21,32 +39,13 @@
         {% endfor %}
     {% endif %}
 </div>
-<div class="w3-col  w3-light-grey">
-<a class="w3-button" href="{% url 'ressource_new' %}">Nouvelle ressource</a>
-    </div>
 
-<div class="w3-container w3-padding-8">
-    <table><tr><th>Nom</th><th>Codes</th><th>Coder</th><th>Modifier</th></tr>
-        {% for ressource in page.object_list %}
-            <tr><td>{{ressource.nom }}</td>
-            <td><ul>
-            {% for esms in ressource.esms_set.all %}
-            <li>ESMS : {{esms.choix_final}} {{esms.nombre}} {{esms.clientele}} ;</li>
-            {% endfor %}
-            </ul></td>
-            <td><a href="{% url 'Faitinstitution' ressource.id '' '' %}">Coder</a></td>
-            <td><a href="{% url 'ressource_edit' ressource.id %}">Mettre a jour les infos de la ressource</a></td>
-        </tr>
-        {% endfor %}
-    </table>
+
+<div class="w3-col w3-theme-l2">
+<a class="w3-button" href="{% url 'ressource_new' %}">{% trans "Nouvelle ressource" %}</a>
 </div>
-<div class="w3-col  w3-light-grey">
-<a class="w3-button" href="{% url 'ressource_new' %}">Nouvelle ressource</a>
-    </div>
-    <footer class="w3-container w3-theme-d4 footerw3">
-        <div class="footergauche">
-            <div class="pagination">
-            Browse by name:
+    <div class="w3-theme-d3 w3-center">
+        <div class="pagination">
            {% for p in page.paginator.pages %}
                 {% ifequal p page %}
                     <span class="selected">{{ page }}</span>
@@ -54,10 +53,38 @@
                     <a href="?page={{ p.number }}">{{ p }}</a>
                 {% endifequal %}
            {% endfor %}
-
-           </div>
-            <br />
         </div>
-    </footer>
+    </div>
+<div class="w3-container w3-padding-8">
+    <table><tr><th>{% trans "Nom de la ressource" %}</th><th>Codes</th><th>{% trans "Coder" %}</th><th>{% trans "Modifier" %}</th></tr>
+        {% for ressource in page.object_list %}
+            <tr><td>{{ressource.nom }}</td>
+            <td><ul>
+            {% for esms in ressource.esms_set.all %}
+            <li>ESMS : {{esms.choix_final}} {{esms.nombre}} {{esms.clientele}} ;</li>
+            {% endfor %}
+            </ul></td>
+            <td><a href="{% url 'Faitinstitution' ressource.id '' '' %}">{% trans "Ajouter un code" %}</a></td>
+            <td><a href="{% url 'ressource_edit' ressource.id %}">{% trans "Mettre a jour les infos de la ressource" %}</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+<footer>
+    <div class="w3-col w3-theme-l2">
+        <a class="w3-button" href="{% url 'ressource_new' %}">{% trans "Nouvelle ressource" %}</a>
+    </div>
+    <div class="w3-theme-d3 w3-center">
+        <div class="pagination">
+           {% for p in page.paginator.pages %}
+                {% ifequal p page %}
+                    <span class="selected">{{ page }}</span>
+                {% else %}
+                    <a href="?page={{ p.number }}">{{ p }}</a>
+                {% endifequal %}
+           {% endfor %}
+        </div>
+    </div>
+</footer>
 </body>
 </html>

@@ -34,7 +34,13 @@
     <p>{{ object.listeattenteduree }}</p>
 
 </div>
+<footer>
+    <div class="w3-col w3-theme-l2">
+         <a class="w3-button" href="{% url 'listeressources' %}">{% trans "Retour a la liste" %}</a>
+         <a class="w3-button w3-theme-d2" href="{% url 'ressource_edit' object.id %}">{% trans "Faire des modifications" %}</a>
 
+    </div>
+</footer>
     </body>
 </html>
 
