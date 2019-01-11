@@ -1,14 +1,12 @@
-# -*- coding: utf-8 -*-
-
 import yaml
 
 CHOIXFR = {}
 CHOIXEN = {}
 
-with open('esms/arbreen.yml') as entree:
+with open('esms/arbreen.yml', encoding='utf8') as entree:
     CHOIXEN = yaml.load(entree)
 
-with open('esms/arbrefr.yml') as entree:
+with open('esms/arbrefr.yml', encoding='utf8') as entree:
     CHOIXFR = yaml.load(entree)
 
 CHOIX = (
