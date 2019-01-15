@@ -1,0 +1,67 @@
+{% load formulairesesms %}
+{% load i18n %}
+{% load static %}
+<html>
+<title>RESSOURCE</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{% static '/esms/w3.css' %}">
+    <link rel="stylesheet" href="{% static '/esms/w3-theme-black.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css">
+<body>
+
+<header class="w3-row w3-theme" id="myHeader">
+    <h4>Ressource details</h4>
+</header>
+
+<div class="w3-container w3-padding-8">
+
+    <h2>{% verbose_name_tag object 'nom' %}: {{ object.nom }}</h2>
+    <p>{% verbose_name_tag object 'ville' %}: {{ object.ville }}</p>
+    <p>{% verbose_name_tag object 'codepostal' %}: {{ object.codepostal }}</p>
+    <p>{% verbose_name_tag object 'web' %}: {{ object.web }}</p>
+    <p>{% verbose_name_tag object 'objectif' %}: {{ object.objectif }}</p>
+    <p>{% verbose_name_tag object 'region' %}: {{ object.region }}</p>
+    <p>{% verbose_name_tag object 'lieutravail' %}: {{ object.lieutravail }}</p>
+    <p>{% verbose_name_tag object 'financement' %}: {{ object.financement }}</p>
+    <p>{% verbose_name_tag object 'heuresouverture' %}: {{ object.heuresouverture }}</p>
+    <p>{% verbose_name_tag object 'profilpatient' %}: {{ object.profilpatient }}</p>
+    <p>{% verbose_name_tag object 'exclusion' %}: {{ object.exclusion }}</p>
+    <p>{% verbose_name_tag object 'forensicpatient' %}: {{ object.forensicpatient }}</p>
+    <p>{% verbose_name_tag object 'forensicpatientnombre' %}: {{ object.forensicpatientnombre }}</p>
+    <p>{% verbose_name_tag object 'multipleproblematique' %}: {{ object.multipleproblematique }}</p>
+    <p>{% verbose_name_tag object 'multipleproblematiquenombre' %}: {{ object.multipleproblematiquenombre }}</p>
+    <p>{% verbose_name_tag object 'approche' %}: {{ object.approche }}</p>
+    <p>{% verbose_name_tag object 'reference' %}: {{ object.reference }}</p>
+    <p>{% verbose_name_tag object 'delais' %}: {{ object.delais }}</p>
+    <p>{% verbose_name_tag object 'durees' %}: {{ object.durees }}</p>
+    <p>{% verbose_name_tag object 'listeattenteyn' %}: {{ object.listeattenteyn }}</p>
+    <p>{% verbose_name_tag object 'listeattenteduree' %}: {{ object.listeattenteduree }}</p>
+    <p>{% verbose_name_tag object 'commentaire' %}: {{ object.commentaire }}</p>
+    <h2>Equipe</h2>
+    <table>
+        <tr></tr><th>Profession</th><th>Nombre</th><th>Temps</th><th>Tache</th></tr>
+
+
+
+{% for professionnel in object.equipe_set.all %}
+        <tr>
+    <td>{{ professionnel.profession }}</td>
+    <td>{{ professionnel.nombre }}</td>
+    <td>{{ professionnel.duree }}</td>
+    <td>{{ professionnel.tache }}</td>
+            </tr>
+{% endfor %}
+ </table>
+    <br />
+</div>
+<footer>
+    <div class="w3-col w3-theme-l2">
+         <a class="w3-button" href="{% url 'listeressources' %}">{% trans "Retour a la liste" %}</a>
+         <a class="w3-button w3-theme-d2" href="{% url 'ressource_edit' object.id %}">{% trans "Faire des modifications" %}</a>
+
+    </div>
+</footer>
+    </body>
+</html>
+
