@@ -1,6 +1,7 @@
 {% load i18n %}
 {% load static %}
 <html>
+<head>
 <title>RESSOURCE</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -9,34 +10,39 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css">
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script src="{% static '/esms/jquery.formset.js' %}"></script>
+</head>
 <body>
 
 <header class="w3-row w3-theme" id="myHeader">
     <h4>Ressource EDIT</h4>
 </header>
+<div id="container">
+    {% if messages %}
+        {% for msg in messages %}
+            <div class="alert alert-{{msg.level_tag}}" role="alert">
+            {{msg.message}}
+            </div>
+        {% endfor %}
+    {% endif %}
+</div>
 
 <div class="w3-container w3-padding-8">
-
     <h2 class="w3-amber">{{ entete }}</h2>
     <form method="POST" class="Entree-form" id="FF">
         {% csrf_token %}
         <table class="w3-table-all">
             {{ form.as_table }}
 
-
         </table>
-        <h3 class="w3-amber">Détails sur les différents types d'employés et bénévoles qui travaillent dans la ressource</h3>
+        <h3 class="w3-amber">{% trans "Détails sur les différents types d'employés et bénévoles qui travaillent dans la ressource" %}</h3>
             {{ prof_formset.management_form }}
-
         <table class="w3-table-all" id="zz">
-
             <tr class="w3-dark-grey">
-                <th>Profession</th>
-                <th>Nombre equivalent temps plein</th>
-                <th>Tâches, fonctions</th>
-                <th>Temps de travail</th>
+                <th>{% trans "Profession" %}</th>
+                <th>{% trans "Nombre équivalent temps plein" %}</th>
+                <th>{% trans "Tâches, fonctions" %}</th>
+                <th>{% trans "Temps de travail" %}</th>
             </tr>
-
         {% for prof in prof_formset %}
         <tr>
             <td>{{ prof.profession }}</td>
@@ -52,9 +58,15 @@
 
 <!-- Include formset plugin - including jQuery dependency -->
 
+{% get_current_language as language %}
 <script>
     $('#zz tr').formset({
+{% if language == "en" %}
+        addText: 'Add a row',
+        deleteText: 'Delete row'
+{% else %}
         addText: 'Ajouter une ligne',
         deleteText: 'Suprimer la ligne'
+{% endif %}
     });
 </script>

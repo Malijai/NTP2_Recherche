@@ -6,6 +6,6 @@ urlpatterns = [
     url(r'^code/(?P<pk>[-\w]+)/(?P<choix>[\w]*)/(?P<histoire>[\w]*)/$', Faitinstitution, name='Faitinstitution'),
     url(r'ressource/new/$', ressource_new, name='ressource_new'),
     url(r'ressource/(?P<pk>[-\w]+)/edit/$', ressource_edit, name='ressource_edit'),
-    url(r'^(?P<pk>[-\w]+)/$', RessourceDetail.as_view(), name='ressourcedetail'),
+    url(r'ressource/(?P<pk>[-\w]+)/$', RessourceDetail.as_view(), name='ressource_detail'),
     url(r'^$', rlisting, name='listeressources'),
 ]

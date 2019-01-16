@@ -11,6 +11,7 @@ from django.contrib import messages
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger, InvalidPage
 from django.utils import translation
 
+
 from esms.paginationalpha import NamePaginator
 
 
@@ -31,7 +32,7 @@ def Faitinstitution(request, pk, choix='', histoire=''):
         entrees = [(c, CHOIX[c]['name'], EXPLICATIONS[c]) for c in liste]
         return render(
             request,
-            'essaiesms.html',
+            'classification_esms.html',
                 {'choisi': '',
                  'choixs': '',
                  'choixprecedent': '',
@@ -76,7 +77,7 @@ def Faitinstitution(request, pk, choix='', histoire=''):
 
         return render(
                     request,
-                    'essaiesms.html',
+                    'classification_esms.html',
                     {'choisi': choisi,
                      'choixs': choixs,
                      'choixprecedent': choixprecedent,
@@ -132,7 +133,7 @@ def ressource_new(request):
                     'entete': entete
                 }
                 return render(request, "ressource_edit.html", context)
-            return redirect('ressourcedetail', entree.id)
+            return redirect('ressource_detail', entree.id)
         else:
             ress_form = RessourceForm()
             prof_formset = RessourceFormSet()
@@ -155,7 +156,7 @@ def ressource_new(request):
 
 
 class RessourceDetail(generic.DetailView):
-    template_name = 'ressourcedetail.html'
+    template_name = 'ressource_detail.html'
     model = Ressource
 
 
@@ -173,7 +174,7 @@ def rlisting(request):
     except (InvalidPage):
         page = paginator.page(paginator.num_pages)
 
-    return render(request, 'rlist.html', {'page': page})
+    return render(request, 'ressources_list.html', {'page': page})
 
 
 @login_required(login_url=settings.LOGIN_URI)
@@ -183,43 +184,45 @@ def ressource_edit(request, pk):
     if request.method == "POST":
         form = RessourceForm(request.POST, instance=ressource)
         prof_instances = RessourceFormSet(request.POST or None, instance=ressource)
-        if form.is_valid() and prof_instances.is_valid():
+        if form.is_valid():
             entree = form.save(commit=False)
             entree.author = request.user
             entree.save()
             # Now save the data for each form in the formset
-            new_prof = []
+            if prof_instances.is_valid():
+                new_prof = []
+                for prof_form in prof_instances:
+                    profession = prof_form.cleaned_data.get('profession')
+                    nombre = prof_form.cleaned_data.get('nombre')
+                    tache = prof_form.cleaned_data.get('tache')
+                    duree = prof_form.cleaned_data.get('duree')
 
-            for prof_form in prof_instances:
-                profession = prof_form.cleaned_data.get('profession')
-                nombre = prof_form.cleaned_data.get('nombre')
-                tache = prof_form.cleaned_data.get('tache')
-                duree = prof_form.cleaned_data.get('duree')
+                    if profession:
+                        new_prof.append(Equipe(ressource=entree, profession=profession, nombre=nombre, tache=tache, duree=duree))
+                try:
+                    with transaction.atomic():
+                        # Replace the old with the new
+                        Equipe.objects.filter(ressource=entree).delete()
+                        Equipe.objects.bulk_create(new_prof)
 
-                if profession:
-                    new_prof.append(Equipe(ressource=entree, profession=profession, nombre=nombre, tache=tache, duree=duree))
-            try:
-                with transaction.atomic():
-                    # Replace the old with the new
-                    Equipe.objects.filter(ressource=entree).delete()
-                    Equipe.objects.bulk_create(new_prof)
+                        # And notify our users that it worked
+                        messages.success(request, 'You have updated the resource infos.')
 
-                    # And notify our users that it worked
-                    messages.success(request, 'You have updated the resource infos.')
-
-            except IntegrityError:  # If the transaction failed
-                messages.error(request, 'There was an error saving the resource infos.')
-                ress_form = RessourceForm()
-                prof_formset = RessourceFormSet()
-                context = {
-                    'form': ress_form,
-                    'prof_formset': prof_formset,
-                }
-                return render(request, "ressource_edit.html", context)
-            return redirect('ressourcedetail', entree.id)
+                except IntegrityError:  # If the transaction failed
+                    messages.error(request, 'There was an error saving the resource infos.')
+                    ress_form = RessourceForm()
+                    prof_formset = RessourceFormSet()
+                    context = {
+                        'form': ress_form,
+                        'prof_formset': prof_formset,
+                    }
+                    return render(request, "ressource_edit.html", context)
+            return redirect('ressource_detail', pk)
         else:
             ress_form = RessourceForm(instance=ressource)
             prof_formset = RessourceFormSet(instance=ressource)
+            messages.error(request, 'Erreur')
+
             context = {
                 'form': ress_form,
                 'prof_formset': prof_formset,

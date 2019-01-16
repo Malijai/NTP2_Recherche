@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
 from django.db import models
 from esms.esms_constants import CHOIX
+from django.urls import reverse
 
 
 class Professionnels(models.Model):
@@ -28,9 +29,9 @@ class Ressource(models.Model):
     heuresouverture = models.TextField(verbose_name=_("Heures et jours d'ouverture "), null=True, blank=True)
     profilpatient = models.TextField(verbose_name=_("Profil général des patients pris en charge, limites d'âge, genre etc "), null=True, blank=True)
     exclusion = models.TextField(verbose_name=_("Critères d'exclusion "), null=True, blank=True)
-    forensicpatient = models.BooleanField(verbose_name=_("Acceptez-vous les cas de patients psycholegaux? "))
+    forensicpatient = models.BooleanField(verbose_name=_("Acceptez-vous les cas de patients psycholégaux? "))
     forensicpatientnombre = models.TextField(verbose_name=_("Si oui combien et dans quelles conditions "), null=True, blank=True)
-    multipleproblematique = models.BooleanField(verbose_name=_("Acceptez-vous les cas de patients avec des problematiques multiples? "))
+    multipleproblematique = models.BooleanField(verbose_name=_("Acceptez-vous les cas de patients avec des problématiques multiples? "))
     multipleproblematiquenombre = models.TextField(verbose_name=_("Si oui combien et dans quelles conditions "), null=True, blank=True)
     approche = models.TextField(verbose_name=_("Type de thérapie ou approche "), null=True, blank=True)
     reference = models.TextField(verbose_name=_("Origine des patients (source des références) "), null=True, blank=True)
@@ -38,7 +39,7 @@ class Ressource(models.Model):
     durees = models.TextField(verbose_name=_("Quelles sont les durées moyennes des prises en charge "), null=True, blank=True)
     listeattenteyn = models.BooleanField(verbose_name=_("Cliquer s'il y a une liste d'attente "))
     listeattenteduree = models.TextField(verbose_name=_("Si liste d'attente, durée moyenne de l'attente "), null=True, blank=True)
-    commentaire = models.TextField(verbose_name=_("Autres informations pertiantes "), null=True, blank=True)
+    commentaire = models.TextField(verbose_name=_("Autres informations pertinantes "), null=True, blank=True)
     author = models.ForeignKey(User, blank=True, null=True, on_delete=models.DO_NOTHING)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -53,9 +54,9 @@ class Ressource(models.Model):
 class Equipe(models.Model):
     profession = models.ForeignKey(Professionnels, on_delete=models.DO_NOTHING, verbose_name=_("Professionnel"))
     ressource = models.ForeignKey(Ressource, on_delete=models.DO_NOTHING)
-    nombre = models.CharField(max_length=20, verbose_name=_("Nombre equivalent temps plein"), blank=True, null=True)
+    nombre = models.CharField(max_length=20, verbose_name=_("Nombre d'équivalent temps plein"), blank=True, null=True)
     duree = models.CharField(max_length=250, verbose_name=_("Temps de travail"), blank=True, null=True)
-    tache = models.TextField(verbose_name=_("Tache"),blank=True, null=True)
+    tache = models.TextField(verbose_name=_("Tâche"),blank=True, null=True)
 
     class Meta:
         ordering = ['ressource', 'nombre']
@@ -68,7 +69,7 @@ class Esms(models.Model):
     ressource = models.ForeignKey(Ressource, on_delete=models.CASCADE, verbose_name=_("Ressource"))
     code = models.CharField(choices=CHOIX, max_length=20, verbose_name=_("Code ESMS"))
     nombre = models.IntegerField(default=0, verbose_name=_("Nombre de places"))
-    clientele = models.CharField(max_length=250, verbose_name=_("Cliente cible pour cette branche"), blank=True, null=True)
+    clientele = models.CharField(max_length=250, verbose_name=_("Clientèle cible pour cette branche"), blank=True, null=True)
     autreinfo = models.TextField(verbose_name=_("Autres informations"),blank=True, null=True)
 
     class Meta:

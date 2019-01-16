@@ -25,10 +25,10 @@
   name: Non-Mobiles
   choices: ['8', '9', '0']
 '8':
-  name: Tres Intensifs
+  name: Très Intensifs
   choices: []
 '9':
-  name: Moderement Intensifs
+  name: Modérément Intensifs
   choices: []
 z:
   name: Institutionnalisés
@@ -76,7 +76,7 @@ n:
   name: Non Hospitaliers
   choices: [j, k]
 o:
-  name: Jour &<br />Activites Structurées
+  name: Jour &<br />Activités Structurées
   choices: [p, q]
 p:
   name: Aigus
@@ -112,9 +112,9 @@ qq:
   name: Entraide &<br />NonProfessionnalisés
   choices: []
 rr:
-  name: Soutien &<br />Ecoute Téléphonique
+  name: Soutien &<br />Écoute Téléphonique
   choices: []
 ss:
-  name: Soutien ou Répit&<br />pour Familles ou Proches
+  name: Soutien ou Répit<br />pour Familles ou Proches
   choices: []
 
