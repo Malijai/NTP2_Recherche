@@ -56,21 +56,25 @@ def fdetemps(request):
 
         mois, jour, an = date1.split('/')
         maintenant = datetime.date(int(an), int(mois), int(jour))
-        semaine = maintenant.strftime("%U")
-        if int(semaine) % 2 > 0:
-            d = str(an) + "-W" + semaine
-            debut = datetime.datetime.strptime(d + '-0', "%Y-W%W-%w")
-        else:
-            semcorr = int(semaine) - 1
-            d = str(an) + "-W" + str(semcorr)
-            debut = datetime.datetime.strptime(d + '-0', "%Y-W%W-%w")
-        fin = debut + datetime.timedelta(days=13)
-        quinzaine = (float(maintenant.strftime("%U")) + 4) / 2
+        semaine = maintenant.strftime("%U")# Week number of the year (Sunday as the first day of the week) as a zero padded decimal number. All days in a new year preceding the first Sunday are considered to be in week 0.
 
-        if int(maintenant.strftime("%U")) % 2 > 0:
+        if int(semaine) > 0:
+            # les periodes de 2019 commencent les semaines paires
+            if int(semaine) % 2 > 0:            # si num semaine impair
+                d = str(an) + "-U" + semaine
+                debut = datetime.datetime.strptime(d + '-0', "%Y-U%U-%w")
+            else:
+                semcorr = int(semaine) - 1
+                d = str(an) + "-U" + str(semcorr)
+                debut = datetime.datetime.strptime(d + '-0', "%Y-U%U-%w")
+        fin = debut + datetime.timedelta(days=13)
+        semaine_debut = debut.strftime("%U")
+        quinzaine = (int(semaine_debut) + 4) / 2
+
+        if int(semaine_debut) % 2 > 0: # si num semaine impair (devrait toujours etre ca)
             quinzaine = int(quinzaine + 1)
-        if quinzaine > 26:
-            quinzaine = int(quinzaine - 26)
+        else:
+            quinzaine = int(quinzaine)
 
         date_debut = debut.strftime("%d-%m-%Y")
         date_fin = fin.strftime("%d-%m-%Y")
