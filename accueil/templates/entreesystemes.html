@@ -30,6 +30,9 @@
         <h3><a href="{% url 'dossierfolder' 1 %}" class="btn-default">{% trans "Accès au dépot de fichiers" %}</a></h3>
         <h3><a href="{% url 'SelectPersonne' %}" class="btn-default" >{% trans "Accès au système d'entrée des données NTP2" %}</a></h3>
    </div>
+   <div class="w3-container w3-padding w3-theme-l3">
+        <h3><a href="{% url 'listeressources' %}" class="btn-default" >{% trans "Accès au système de classification des ressources" %}</a></h3>
+   </div>
    {% endif %}
 
    {% if user.profile.province == Profile.QC %}
