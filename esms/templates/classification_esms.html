@@ -1,92 +1,71 @@
+{% extends 'ressource_base.html' %}
 {% load i18n %}
-{% load static %}
-<html>
-<head>
-<title>ESMS Codification</title>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="{% static '/esms/w3.css' %}">
-    <link rel="stylesheet" href="{% static '/esms/w3-theme-black.css' %}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css">
-</head>
-<body>
 
-<header class="w3-row w3-theme" id="myHeader">
+{% block titre %}
     <h4>ESMS Codification</h4>
-</header>
+{% endblock titre %}
 
-<div id="container">
-    {% if messages %}
-        {% for msg in messages %}
-            <div class="alert alert-{{msg.level_tag}}" role="alert">
-            {{msg.message}}
+{% block maincontent %}
+    <div class="w3-container w3-padding-8">
+        {% for a in entrees %}
+            <div class="w3-row">
+                <!--pour les codes d entree-->
+                <div class="w3-col s3 w3-dark-grey" style="padding-left:5px;">
+                    <h3 class="w3-center w3-hover-theme"><a href="{% url 'Faitinstitution' ressource.id a.0 choixprecedent %}" class="w3-button">{{a.1|safe}}</a></h3>
+                </div>
+                <!--pour les explications de chaque code d entree-->
+                <div class="w3-col s6 w3-border w3-border-theme w3-light-grey" style="padding-left:5px;" >
+                    {{ a.2|safe }}
+                </div>
             </div>
         {% endfor %}
-    {% endif %}
-</div>
 
-<div class="w3-container w3-padding-8">
-    {% for a in entrees %}
         <div class="w3-row">
-            <!--pour les codes d entree-->
-            <div class="w3-col s3 w3-dark-grey" style="padding-left:5px;">
-                <h3 class="w3-center w3-hover-theme"><a href="{% url 'Faitinstitution' ressource.id a.0 choixprecedent %}" class="w3-button">{{a.1|safe}}</a></h3>
+            {% for item in  historiques %}
+            <!--pour les items deja choisis sauf le dernier-->
+            <div class="w3-col s2 w3-light-grey" style="padding-left:5px;">
+                <h5 class="w3-center"><i class="fa fa-arrow-right"></i> {{item|safe}}</h5>
             </div>
-            <!--pour les explications de chaque code d entree-->
-            <div class="w3-col s6 w3-border w3-border-theme w3-light-grey" style="padding-left:5px;" >
-                {{ a.2|safe }}
+            {% endfor %}
+            <div class="w3-col s2 w3-light-grey" style="padding-left:5px;">
+            <!--pour le dernier item choisi-->
+            {% if dernier %}<!--dernier possible-->
+                 <h5 class="w3-center"><span class="w3-xlarge"><i class="fa fa-arrow-right"></i></span> {{dernier|safe}}</h5>
+            {% elif choisi %}<!--dernier intermediaire choisi-->
+                <h5 class="w3-center"><span class="w3-xlarge"><i class="fa fa-arrow-right"></i></span> {{choisi|safe}}</h5>
+            {% endif %}
             </div>
         </div>
-    {% endfor %}
 
-    <div class="w3-row">
-        {% for item in  historiques %}
-        <!--pour les items deja choisis sauf le dernier-->
-        <div class="w3-col s2 w3-light-grey" style="padding-left:5px;">
-            <h5 class="w3-center"><i class="fa fa-arrow-right"></i> {{item|safe}}</h5>
-        </div>
-        {% endfor %}
-        <div class="w3-col s2 w3-light-grey" style="padding-left:5px;">
-        <!--pour le dernier item choisi-->
-        {% if dernier %}<!--dernier possible-->
-             <h5 class="w3-center"><span class="w3-xlarge"><i class="fa fa-arrow-right"></i></span> {{dernier|safe}}</h5>
-        {% elif choisi %}<!--dernier intermediaire choisi-->
-            <h5 class="w3-center"><span class="w3-xlarge"><i class="fa fa-arrow-right"></i></span> {{choisi|safe}}</h5>
+        {% if dernier %}
+        <form method="post" action="">
+        {% csrf_token %}
+            <div class="w3-row">
+                <div class="w3-col s6 w3-theme-l2 w3-center">
+                    <h4>{% trans "CODE FINAL: " %} {{dernier2}}</h4>
+                </div>
+                <div class="w3-col s1"></div>
+                <div class="w3-col s3">
+                    {{ esms_form.as_p }}
+                    <input name="code" type="hidden" value="{{ code }}" />
+                    <button type="submit" class="placeboutons" name="Coder">{% trans "Ajouter le code à la ressource" %}{{ ressource }}</button></p>
+                </div>
+            </div>
+        </form>
         {% endif %}
-        </div>
+
+        <!--fait les liens pour les choix possibles-->
+        {% for c in choixs %}
+            <div class="w3-row">
+                <div class="w3-col s3 w3-dark-grey" style="padding-left:5px;">
+                    <h3 class="w3-center w3-hover-theme"><a href="{% url 'Faitinstitution' ressource.id c.0 choixprecedent %}" class="w3-button">{{c.1|safe}}</a></h3>
+                </div>
+                <!--pour les explications de chaque code possible-->
+                <div class="{% cycle 'w3-col s6 w3-border w3-border-theme w3-light-grey' 'w3-col s6 w3-border w3-border-themew3-dark-grey' %}" style="padding-left:5px;" >
+                    {{ c.2|safe }}
+                </div>
+            </div>
+        {% endfor %}
     </div>
-
-    {% if dernier %}
-    <form method="post" action="">
-    {% csrf_token %}
-        <div class="w3-row">
-            <div class="w3-col s6 w3-theme-l2 w3-center">
-                <h4>CODE FINAL: {{dernier2}}</h4>
-            </div>
-            <div class="w3-col s1"></div>
-            <div class="w3-col s3">
-                {{ esms_form.as_p }}
-                <input name="code" type="hidden" value="{{ code }}" />
-                <button type="submit" class="placeboutons" name="Coder">Add the code to the ressource {{ ressource }}</button></p>
-            </div>
-        </div>
-    </form>
-    {% endif %}
-
-    <!--fait les liens pour les choix possibles-->
-    {% for c in choixs %}
-        <div class="w3-row">
-            <div class="w3-col s3 w3-dark-grey" style="padding-left:5px;">
-                <h3 class="w3-center w3-hover-theme"><a href="{% url 'Faitinstitution' ressource.id c.0 choixprecedent %}" class="w3-button">{{c.1|safe}}</a></h3>
-            </div>
-            <!--pour les explications de chaque code possible-->
-            <div class="{% cycle 'w3-col s6 w3-border w3-border-theme w3-light-grey' 'w3-col s6 w3-border w3-border-themew3-dark-grey' %}" style="padding-left:5px;" >
-                {{ c.2|safe }}
-            </div>
-        </div>
-    {% endfor %}
-
-</div>
-</body>
-</html>
+{% endblock maincontent %}
 
