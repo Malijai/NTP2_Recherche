@@ -17,9 +17,9 @@ class QuestionAdmin(admin.ModelAdmin):
 
 class PersonneAdmin(admin.ModelAdmin):
 
-    list_display = ('code', 'hospcode', 'province', 'assistant')
+    list_display = ('code', 'hospcode', 'province', 'assistant','completed')
 
-    list_filter = ['selecthosp', 'province', 'assistant']
+    list_filter = ['selecthosp', 'province', 'assistant', 'completed']
 
     def save_model(self, request, obj, form, change):
         obj.save()
