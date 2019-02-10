@@ -1,5 +1,6 @@
 {% load i18n %}
 {% load static %}
+{% load formulairesrepet %}
 
 <html>
     <head>
@@ -37,26 +38,30 @@
     {% endfor %}
 {% endif %}
 
-<ul>
 
+    {{requete}}
+<ul>
 {% for dossier in dossiers %}
     <li>{{ dossier.reponse_en }} Number of completed files {{ dossier.num_dossiers }} </li>
     <ul>
-    {% for ar in assistants %}
-
+    {% for ar in indexh %}
         {% if ar.profile.province == dossier.id and ar.nb_dossiers > 0 %}
             <li>{{ ar.last_name|capfirst  }} - {{ ar.first_name|slice:"0:1"|capfirst }}- Completed files: {{ ar.nb_dossiers }} </li>
-        <ul>
-            {% for repet in repets %}
-                {% if ar.id == repet.assistant %}
-                    {% if repet.questionnaire == 2000 %}
-                     <li>Repetitive LONG - {{ repet.nb_h}}</li>
-                    {% else %}
-                     <li>Repetitive SHORT - {{ repet.nb_h}}</li>
-                    {% endif %}
+            <ul>
+            {% for assistant in assistants %}
+                {% if assistant == ar.id %}
+                    {% for questionnaire in questionnaires %}
+                        {% for k, v in repet_par_ass.items %}
+                            {% if k.0 == assistant and k.1 == questionnaire and questionnaire == 2000 %}
+                                    <li>Repetitives LONG: {{v}}</li>
+                            {% elif k.0 == assistant and k.1 == questionnaire and questionnaire == 3000 %}
+                                    <li>Repetitives SHORT: {{v}}</li>
+                                {% endif %}
+                         {% endfor %}
+                    {% endfor %}
                 {% endif %}
             {% endfor %}
-        </ul>
+            </ul>
         {% endif %}
 
     {% endfor %}

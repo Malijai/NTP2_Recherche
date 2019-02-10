@@ -325,10 +325,23 @@ def encode_donnee(message):
 
 
 def bilan_par_province(request):
-#    dossiers = Personne.objects.order_by('province', 'assistant').filter(completed=1)
-    nb_province = Province.objects.annotate(num_dossiers=Count('personne', filter=Q(personne__completed=1)))
-    nb_ar = User.objects.annotate(nb_dossiers=Count('personne', filter=Q(personne__completed=1)))
-    nb_repet = Resultatrepetntp2.objects.values('questionnaire','assistant').order_by().filter(Q(personne__completed=1)).annotate(nb_h=Count('fiche', distinct=True))
+    nb_dossiers_par_p = Province.objects.annotate(num_dossiers=Count('personne', filter=Q(personne__completed=1)))
+    nb_dossiers_par_ar = User.objects.annotate(nb_dossiers=Count('personne', filter=Q(personne__completed=1)))
+    nb_repet = Resultatrepetntp2.objects.values('personne','questionnaire','assistant').order_by().filter(Q(personne__completed=1)).annotate(nb_h=Count('fiche', distinct=True))
+    assistants = set([])
+    questionnaires = set([])
+    repet_par_ass = {}
+    for nbh in nb_repet:
+        assistant = nbh['assistant']
+        questionnaire = nbh['questionnaire']
+        if not assistant in assistants:
+            assistants.add(assistant)
+        if not questionnaire in questionnaires:
+            questionnaires.add(questionnaire)
+        pers_prec = repet_par_ass.get((assistant, questionnaire), 0)
+        nb = pers_prec + nbh['nb_h']
+        repet_par_ass[assistant, questionnaire] = nb
+
 #    nb_repet2 = Questionnaire.objects.annotate(nb_h2=Count('resultatrepetntp2__fiche', distinct=True, filter=Q(id=2000) | Q(id=3000)))
 #    requete = str(nb_repet.query)
 # select questionnaire_id, count(distinct fiche)
@@ -338,9 +351,12 @@ def bilan_par_province(request):
         request,
         'bilan.html',
          {
-            'dossiers': nb_province,
-            'assistants': nb_ar,
-            'repets': nb_repet
+            'dossiers': nb_dossiers_par_p,
+            'indexh': nb_dossiers_par_ar,
+            'assistants': assistants,
+            'questionnaires': questionnaires,
+            'repet_par_ass': repet_par_ass
+             #            'requete': requete
          }
     )
 
