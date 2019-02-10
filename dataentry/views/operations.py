@@ -328,9 +328,9 @@ def bilan_par_province(request):
 #    dossiers = Personne.objects.order_by('province', 'assistant').filter(completed=1)
     nb_province = Province.objects.annotate(num_dossiers=Count('personne', filter=Q(personne__completed=1)))
     nb_ar = User.objects.annotate(nb_dossiers=Count('personne', filter=Q(personne__completed=1)))
-    nb_repet = Resultatrepetntp2.objects.values('questionnaire','assistant').order_by().annotate(nb_h=Count('fiche', distinct=True))
-#     nb_repet2 = Questionnaire.objects.annotate(nb_h2=Count('resultatrepetntp2__fiche', distinct=True, filter=Q(id=2000) | Q(id=3000)))
-#     requete = str(nb_repet.query)
+    nb_repet = Resultatrepetntp2.objects.values('questionnaire','assistant').order_by().filter(Q(personne__completed=1)).annotate(nb_h=Count('fiche', distinct=True))
+#    nb_repet2 = Questionnaire.objects.annotate(nb_h2=Count('resultatrepetntp2__fiche', distinct=True, filter=Q(id=2000) | Q(id=3000)))
+#    requete = str(nb_repet.query)
 # select questionnaire_id, count(distinct fiche)
 # from dataentry_resultatrepetntp2
 # group by questionnaire_id, assistant_id, personne_id
@@ -340,7 +340,7 @@ def bilan_par_province(request):
          {
             'dossiers': nb_province,
             'assistants': nb_ar,
-            'repets': nb_repet,
+            'repets': nb_repet
          }
     )
 
