@@ -50,9 +50,9 @@
             {% for repet in repets %}
                 {% if ar.id == repet.assistant %}
                     {% if repet.questionnaire == 2000 %}
-                     <li>+ {{ repet.assistant }} Nombre Repetitive LONG {{ repet.nb_h}}</li>
+                     <li>Repetitive LONG - {{ repet.nb_h}}</li>
                     {% else %}
-                     <li>+ {{ repet.assistant }} Nombre Repetitive SHORT {{ repet.nb_h}}</li>
+                     <li>Repetitive SHORT - {{ repet.nb_h}}</li>
                     {% endif %}
                 {% endif %}
             {% endfor %}
