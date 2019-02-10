@@ -36,14 +36,32 @@
         </div>
     {% endfor %}
 {% endif %}
+
+
+
+
 <ul>
+
 {% for dossier in dossiers %}
     <li>{{ dossier.reponse_en }} Number of completed files {{ dossier.num_dossiers }} </li>
     <ul>
     {% for ar in assistants %}
+
         {% if ar.profile.province == dossier.id and ar.nb_dossiers > 0 %}
-            <li>{{ ar.last_name|capfirst  }} - {{ ar.first_name|slice:"0:1"|capfirst }}--- {{ ar.nb_dossiers }} </li>
+            <li>{{ ar.last_name|capfirst  }} - {{ ar.first_name|slice:"0:1"|capfirst }}- Completed files: {{ ar.nb_dossiers }} </li>
+        <ul>
+            {% for repet in repets %}
+                {% if ar.id == repet.assistant %}
+                    {% if repet.questionnaire == 2000 %}
+                     <li>+ {{ repet.assistant }} Nombre Repetitive LONG {{ repet.nb_h}}</li>
+                    {% else %}
+                     <li>+ {{ repet.assistant }} Nombre Repetitive SHORT {{ repet.nb_h}}</li>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+        </ul>
         {% endif %}
+
     {% endfor %}
     </ul>
 {% endfor %}

@@ -77,12 +77,13 @@
            {% csrf_token %}
            <h3>Repetitives</h3><b>For other hospitalizations</b>
             <p>Select one case and one type of hospitalization. You will be able to add as many card as there are hospitalizations.<br />
-               <b>Code all hospitalization in the 5 years preceeding the index hospitalization (if the verdict occured before the 5 year period) or from the Verdict,
-                   to 2017-12-31 even after an absolute release from the RB</b></p>
+               <b>Code all hospitalization with <b>admission date</b> in the 5 years preceeding the index hospitalization (if the verdict occured before the 5 year period) or from the Verdict,
+                   to 2017-12-31 even after an absolute release from the RB</b>.<br />
+                If the individual has not been released at the time of the dataentry, code only admission details</p>
                <ul>
                   <li><b>Repetitive SHORT</b> For all the hospitalizations from verdict date to index one or <b>5 years preceeding the index hospitalization (if the verdict occured before the 5 year period)</b></li>
-                  <li><b>Repetitive SHORT</b> For hospitalizations after index one with <b>duration < 6 days (from Index hospitalization to 2017-12-31)</b></li>
-                  <li><b>Repetitive LONG</b> For hospitalizations AFTER index one whith duration >= 6 days (from Index hospitalization to 2017-12-31)</li>
+                  <li><b>Repetitive SHORT</b> For hospitalizations after index one with <b>duration < 15 days (from Index hospitalization to 2017-12-31)</b></li>
+                  <li><b>Repetitive LONG</b> For hospitalizations AFTER index one whith duration >= 15 days (from Index hospitalization to 2017-12-31)</li>
                </ul>
             <table>
                 <tr><td></td><td></td></tr>

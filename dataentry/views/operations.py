@@ -328,11 +328,83 @@ def bilan_par_province(request):
 #    dossiers = Personne.objects.order_by('province', 'assistant').filter(completed=1)
     nb_province = Province.objects.annotate(num_dossiers=Count('personne', filter=Q(personne__completed=1)))
     nb_ar = User.objects.annotate(nb_dossiers=Count('personne', filter=Q(personne__completed=1)))
+    nb_repet = Resultatrepetntp2.objects.values('questionnaire','assistant').order_by().annotate(nb_h=Count('fiche', distinct=True))
+#     nb_repet2 = Questionnaire.objects.annotate(nb_h2=Count('resultatrepetntp2__fiche', distinct=True, filter=Q(id=2000) | Q(id=3000)))
+#     requete = str(nb_repet.query)
+# select questionnaire_id, count(distinct fiche)
+# from dataentry_resultatrepetntp2
+# group by questionnaire_id, assistant_id, personne_id
     return render(
         request,
         'bilan.html',
          {
             'dossiers': nb_province,
-            'assistants': nb_ar
+            'assistants': nb_ar,
+            'repets': nb_repet,
          }
     )
+
+@login_required(login_url=settings.LOGIN_URI)
+def deletentp2(request, qid, pid):
+    #   genere le questionnaire demande NON repetitif
+    ascendancesF, ascendancesM, questionstoutes = genere_questions(qid)
+    nomcode = Personne.objects.get(id=pid).code
+    hospcode = Personne.objects.get(id=pid).hospcode
+    questionnaire = Questionnaire.objects.get(id=qid).nom_en
+
+    if request.method == 'POST':
+        for question in questionstoutes:
+            if question.typequestion.nom == 'DATE' or question.typequestion.nom == 'CODEDATE' or \
+                            question.typequestion.nom == 'DATEH':
+                an = request.POST.get('q{}_year'.format(question.id))
+                if an != "":
+                    mois = request.POST.get('q{}_month'.format(question.id))
+                    jour = request.POST.get('q{}_day'.format(question.id))
+                    reponseaquestion = "{}-{}-{}".format(an, mois, jour)
+                else:
+                    reponseaquestion = ''
+            else:
+                reponseaquestion = request.POST.get('q' + str(question.id))
+            if reponseaquestion:
+                if question.typequestion.nom == 'CODEDATE' or question.typequestion.nom == 'CODESTRING':
+                    reponseaquestion = encode_donnee(reponseaquestion)
+                    personne = Personne.objects.get(pk=pid)
+                    personne.__dict__[question.varname] = reponseaquestion
+                    personne.assistant = request.user
+                    personne.save()
+                else:
+                    if not Resultatntp2.objects.filter(personne_id=pid, question=question, assistant=request.user,
+                                                       reponsetexte=reponseaquestion).exists():
+                        Resultatntp2.objects.update_or_create(personne_id=pid, question=question, assistant=request.user,
+                                # update these fields, or create a new object with these values
+                                defaults={
+                                    'reponsetexte': reponseaquestion,
+                                }
+                            )
+        now = datetime.datetime.now().strftime('%H:%M:%S')
+        messages.add_message(request, messages.WARNING, 'Data saved at ' + now)
+
+    return render(request,
+                  'saventp2.html',
+                  {
+                      'qid': qid,
+                      'pid': pid,
+                      'questions': questionstoutes,
+                      'ascendancesM': ascendancesM,
+                      'ascendancesF': ascendancesF,
+                      'code': nomcode,
+                      'hospcode' : hospcode,
+                      'questionnaire': questionnaire,
+                  }
+                )
+
+def genere_questions_deletion(qid):
+    questionstoutes = Questionntp2.objects.filter(questionnaire__id=qid)
+    enfants = questionstoutes.select_related('typequestion', 'parent').filter(questionntp2__parent__id__gt=1)
+    ascendancesM = {rquestion.id for rquestion in questionstoutes.select_related('typequestion').filter(pk__in=enfants)}
+    ascendancesF = set()  # liste sans doublons
+    for rquestion in questionstoutes:
+        for fille in questionstoutes.select_related('typequestion').filter(parent__id=rquestion.id):
+            # #va chercher si a des filles (question_ fille)
+            ascendancesF.add(fille.id)
+    return ascendancesF, ascendancesM, questionstoutes
