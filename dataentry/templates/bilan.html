@@ -34,31 +34,33 @@
         </div>
     {% endfor %}
 {% endif %}
-<div class="w3-row">
-    <div class="w3-quarter">
-    </div>
-
-    <div class="w3-half w3-center">
-        <table class="w3-table-all">
-            <tr>
-                <td>Province</td><td>RA</td><td>Nb Completed files</td><td>Nb Repetitives Long / Short</td>
-            </tr>
-            {% for dossier in dossiers %}
+   <div class="tabber">
+    {% for dossier in dossiers %}
+        {% if forloop.counter > 1 %}
+            </table></div>
+        {% endif %}
+       <div class="tabbertab"><h3>{{ dossier.reponse_en }}- {{ dossier.num_dossiers }}</h3><b>{{ dossier.reponse_en }} - Completed files: {{ dossier.num_dossiers }}</b>
+           <div class="w3-row">
+               <div class="w3-quarter">
+               </div>
+               <div class="w3-half w3-center">
+           <table class="w3-table-all">
+               <tr><td></td><td></td><td></td></tr>
                 <tr class="w3-theme-d1">
-                    <td><b>{{ dossier.reponse_en }}</b></td><td></td><td><b>{{ dossier.num_dossiers }}</b></td><td></td>
+                    <td>RA</td><td>Completed files:</td><td>Repetitives Long / Short</td>
                 </tr>
                 {% for ar in indexh %}
                     {% if ar.profile.province == dossier.id and ar.nb_dossiers > 0 %}
                     <tr>
-                        <td></td><td>{{ ar.last_name|capfirst  }} - {{ ar.first_name|slice:"0:1"|capfirst }}</td><td>{{ ar.nb_dossiers }}</td><td></td><tr>
+                        <td>{{ ar.last_name|capfirst  }} - {{ ar.first_name|slice:"0:1"|capfirst }}</td><td>{{ ar.nb_dossiers }}</td><td></td><tr>
                         {% for assistant in assistants %}
                             {% if assistant == ar.id %}
                                 {% for questionnaire in questionnaires %}
                                     {% for k, v in repet_par_ass.items %}
                                         {% if k.0 == assistant and k.1 == questionnaire and questionnaire == 2000 %}
-                                            <tr><td></td><td></td><td></td><td>+ LONG: {{v}}</td></tr>
+                                            <tr><td></td><td></td><td>+ LONG: {{v}}</td></tr>
                                         {% elif k.0 == assistant and k.1 == questionnaire and questionnaire == 3000 %}
-                                            <tr><td></td><td></td><td></td><td>- SHORT: {{v}}</td></tr>
+                                            <tr><td></td><td></td><td>- SHORT: {{v}}</td></tr>
                                         {% endif %}
                                      {% endfor %}
                                 {% endfor %}
@@ -67,12 +69,15 @@
                     <tr>
                     {% endif %}
                 {% endfor %}
-            {% endfor %}
+
         </table>
     </div>
-    <div class="w3-quarter">
+     <div class="w3-quarter">
     </div>
+    </div>
+{% endfor %}
 </div>
+
 <footer class="w3-container w3-theme-d5 footerw3">
     <h5><a class="w3-text-white" href="mailto:malijai.caulet.ippm@ssss.gouv.qc.ca?subject=NTP2 troubles">For any question or problem click here</a></h5>
 </footer>
