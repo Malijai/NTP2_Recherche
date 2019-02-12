@@ -44,14 +44,14 @@
                <div class="w3-quarter">
                </div>
                <div class="w3-half w3-center">
-           <table class="w3-table-all">
+           <table class="w3-table w3-border">
                <tr><td></td><td></td><td></td></tr>
                 <tr class="w3-theme-d1">
                     <td>RA</td><td>Completed files:</td><td>Repetitives Long / Short</td>
                 </tr>
                 {% for ar in indexh %}
                     {% if ar.profile.province == dossier.id and ar.nb_dossiers > 0 %}
-                    <tr>
+                    <tr class="w3-theme-l4">
                         <td>{{ ar.last_name|capfirst  }} - {{ ar.first_name|slice:"0:1"|capfirst }}</td><td>{{ ar.nb_dossiers }}</td><td></td><tr>
                         {% for assistant in assistants %}
                             {% if assistant == ar.id %}
