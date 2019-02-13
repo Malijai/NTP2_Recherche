@@ -93,7 +93,7 @@ class Question(models.Model):
     questionfr = models.CharField(max_length=255,)
     questionnaire = models.ForeignKey(Questionnaire, on_delete=models.DO_NOTHING)
     typequestion = models.ForeignKey(Typequestion, on_delete=models.DO_NOTHING)
-    parent= models.ForeignKey("self",default=1,  on_delete=models.DO_NOTHING)
+    parent= models.ForeignKey("self",default=1, on_delete=models.DO_NOTHING)
     relation = models.CharField(blank=True, null=True, max_length=45,)
     cible = models.CharField(blank=True, null=True, max_length=45,)
     varname = models.CharField(blank=True, null=True, max_length=45,)
@@ -151,8 +151,8 @@ class Personne(models.Model):
     date_consentement = models.CharField(max_length=200,blank=True, null=True)
     PartN = models.TextField()                                              #encrypte
     PartP = models.CharField(max_length=200,)
-    VerdictDate = models.TextField(blank=True, null=True)                   #encrypte
-    LibeDate = models.TextField(blank=True, null=True)                      #encrypte
+    VerdictDate = models.TextField(blank=True, null=True)
+    LibeDate = models.TextField(blank=True, null=True)
     DDN = models.TextField(blank=True, null=True)                           #encrypte
     Consent = models.IntegerField()
     ConsentAudio = models.IntegerField()

@@ -1,5 +1,5 @@
 from django.conf.urls import url
-from .views import SelectDossier, savegh, saveghrepet, saveinstrugh, creerdossier, listedossiers, gh_csv
+from .views import SelectDossier, savegh, saveghrepet, saveinstrugh, creerdossier, listedossiers, gh_csv, ghquestions_pdf
 from django.contrib.auth import views as auth_views
 
 urlpatterns = [
@@ -10,5 +10,5 @@ urlpatterns = [
     url(r'^new/$', creerdossier, name='creerdossier'),
     url(r'^liste/(?P<province>[-\w]+)/$', listedossiers, name='listedossiers'),
     url(r'^txt/(?P<pid>[-\w]+)', gh_csv, name='gh_csv'),
-
+    url(r'^pdf/(?P<pk>[-\w]+)/(?P<intid>[-\w]+)/$', ghquestions_pdf, name='dogh_questions_pdf'),
 ]
