@@ -128,17 +128,22 @@
        <div class="tabbertab">
         <h3>To print variable list and dictionnary</h3>
 <table>
-                    <tr><td><b>Baseline</b></td><td></td></tr>
+                <tr class="w3-theme-d1"><td><b>Baseline</b></td><td></td></tr>
                 <tr><td>Infos from clinical file (baseline only)</td><td><a href="{% url 'dogh_questions_pdf' 200 1 %}" class= 'button'><b> >> Clinical file Do pdf</b></a></td></tr>
                 <tr><td>Socio demo, Relationship, Work Finances, Family friends</td><td><a href="{% url 'dogh_questions_pdf' 10 1 %}" class= 'button'><b> >> Interview Guide 1 Do pdf</b></a></td></tr>
                 <tr><td>Antisocial, Alcohol, Drugs, Treatments' Stress, Leisure, Goals</td><td><a href="{% url 'dogh_questions_pdf' 1500 1 %}" class= 'button'><b> >> Interview Guide 2 Do pdf</b></a></td></tr>
                 <tr><td>Baseline VRAG, SCID Alcohol/Drug, SCID APD; All interviews HCR-20-V3, START</td><td><a href="{% url 'dogh_questions_pdf' 100 2 %}" class= 'button'><b> >> Instruments FU Do pdf</b></a></td></tr>
                 <tr><td>All interviews RAS, CSI, General Impression</td><td><a href="{% url 'dogh_questions_pdf' 101 1 %}" class= 'button'><b> >> Scales Do pdf</b></a></td></tr>
-                <tr><td><b>Followup</b></td><td></td></tr>
+                <tr class="w3-theme-d1"><td><b>Followup</b></td><td></td></tr>
                 <tr><td>Socio demo, Relationship, Work Finances, Family friends</td><td><a href="{% url 'dogh_questions_pdf' 10 2 %}" class= 'button'><b> >> Interview Guide 1 FU Do pdf</b></a></td></tr>
                 <tr><td>Antisocial, Alcohol, Drugs, Treatments' Stress, Leisure, Goals</td><td><a href="{% url 'dogh_questions_pdf' 15 2 %}" class= 'button'><b> >> Interview Guide 2 FU Do pdf</b></a></td></tr>
                 <tr><td>HCR-20-V3, START</td><td><a href="{% url 'dogh_questions_pdf' 100 2 %}" class= 'button'><b> >> Instruments FU Do pdf</b></a></td></tr>
                 <tr><td>RAS, CSI, General Impression; Followup only: SOS</td><td><a href="{% url 'dogh_questions_pdf' 101 2 %}" class= 'button'><b> >> Scales FU Do pdf</b></a></td></tr>
+                <tr><td>Work TLFB</td><td><a href="{% url 'dogh_questions_pdf' 4 2 %}" class= 'button'><b> >> Work (one card for each job) Do pdf</b></a></td></tr>
+                <tr><td>Housing TLFB</td><td><a href="{% url 'dogh_questions_pdf' 3 2 %}" class= 'button'><b> >> Housing (one card for each address) Do pdf</b></a></td></tr>
+                <tr class="w3-theme-d1"><td><b>Family</b></td><td></td></tr>
+                <tr><td>Family interview Baseline</td><td><a href="{% url 'dogh_questions_pdf' 600 1 %}" class= 'button'><b> >> Work (one card for each job) Do pdf</b></a></td></tr>
+                <tr><td>Family Interview Follow Up</td><td><a href="{% url 'dogh_questions_pdf' 600 2 %}" class= 'button'><b> >> Housing (one card for each address) Do pdf</b></a></td></tr>
                </table>
    </div>
    </div>
