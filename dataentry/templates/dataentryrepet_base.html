@@ -9,7 +9,14 @@
         <script type="text/javascript" src="/static/tabber.js"></script>
         <link rel="stylesheet" type="text/css" href="/static/sondageM.css" />
 
-
+<script type="text/javascript">
+$(document).keypress(
+  function(event){
+    if (event.which == '13') {
+      event.preventDefault();
+    }
+});
+</script>
 
 
 <script type="text/javascript" >
