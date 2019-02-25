@@ -49,8 +49,8 @@ def gh_csv_tous(request, qid, intid):
         debut.append(question.varname)
     csv_data.append(debut)
 
-    # personnes = Personne.objects.all()
-    personnes = Personne.objects.filter(Q(id__lte=75))
+    personnes = Personne.objects.all()
+    # personnes = Personne.objects.filter(Q(id__lte=75))
     assistants = User.objects.all()
     for personne in personnes:
         for assistant in assistants:
