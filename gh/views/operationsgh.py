@@ -442,7 +442,7 @@ def encode_donnee(message):
 
 
 
-def cherchefin(questionfin,pid,intid,assistant,province):
+def cherchefin(questionfin, pid, intid, assistant, province):
     if Resultat.objects.filter(personne_id=pid, question_id=questionfin.id, interview_id=intid, assistant_id=assistant, province_id=province).exists():
         sectionterminee = Resultat.objects.get(personne_id=pid, question_id=questionfin.id, interview_id=intid,
                             assistant_id=assistant)
@@ -553,4 +553,6 @@ def fait_reponsegh(reponsetexte, question, province):
     return resultat
 
 
-
+@login_required(login_url=settings.LOGIN_URI)
+def exportstatsgh(request):
+    return render(request, 'choixghstats.html')
