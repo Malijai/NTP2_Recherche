@@ -49,11 +49,7 @@ def gh_csv_tous(request, qid, intid):
     csv_data.append(debut)
 
     # personnes = Personne.objects.all()
-    nbp = Personne.objects.all().count()
-    # personnes = Personne.objects.filter(Q(id__lte=75))
     usersghs = Projet.objects.filter(projet=Projet.GH)
-    assistants = User.objects.all()
-    completed = False
     for assistant in usersghs:
         for entrevue in entrevues:
             personnes = [p['personne'] for p in \
@@ -74,7 +70,7 @@ def gh_csv_tous(request, qid, intid):
                         except Resultat.DoesNotExist:
                             donnee = None
                         if donnee:
-                            ligne.append(donnee.reponse_texte)
+                            ligne.append(donnee.reponse_texte.encode('utf-8'))
                         else:
                             ligne.append('')
                     csv_data.append(ligne)
@@ -83,6 +79,7 @@ def gh_csv_tous(request, qid, intid):
         writer = csv.writer(f, delimiter='\t', quoting=csv.QUOTE_MINIMAL)
         for row in csv_data:
             writer.writerow(row)
+
     return render(request,'donnee.html',{'filename': filename})
 
 
