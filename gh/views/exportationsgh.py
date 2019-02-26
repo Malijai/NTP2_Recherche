@@ -83,7 +83,7 @@ def gh_csv_tous(request, qid, intid):
         writer = csv.writer(f, delimiter='\t', quoting=csv.QUOTE_MINIMAL)
         for row in csv_data:
             writer.writerow(row)
-    return render(request,'donnee.html',{filename: filename})
+    return render(request,'donnee.html',{'filename': filename})
 
 
 def fait_entete_spss(request, qid, intid):
