@@ -108,18 +108,14 @@ def fait_ras(liste, stats):
     sortie = ''
     if stats == 'stata':
         nb = len(liste)
-        i = 0
-        for user in enumerate(liste, 1):
-            i += 1
-            sortie += '{} "{}"  '. format(user[0], user[1])
+        for i, user in enumerate(liste, 1):
+            sortie += '{} "{}"  '. format(user['id'], user['username'])
             if i == nb:
                 sortie += "\n"
     else:
         nb = len(liste)
-        i = 0
-        for user in enumerate(liste, 1):
-            i += 1
-            sortie += '{}        "{}"'. format(user[0], user[1])
+        for i, user in enumerate(liste, 1):
+            sortie += '{}        "{}"'. format(user['id'], user['username'])
             if i == nb:
                 sortie += "/\n."
             else:
