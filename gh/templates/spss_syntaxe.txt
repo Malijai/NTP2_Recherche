@@ -2,7 +2,7 @@
   * Structure du fichier de donnees./ Data structure
   * Note: change the following line according to the place od data files.
   GET DATA
-  /TYPE=TXT /FILE='/home/PATH/Data_MB_QID200_090_RAW'
+  /TYPE=TXT /FILE='/home/PATH/Datas_00_xx_date.csv'
   /DELCASE=LINE  /DELIMITERS="\t" /ARRANGEMENT=DELIMITED
   /FIRSTCASE=2
   /IMPORTCASE=ALL
@@ -23,9 +23,9 @@ Questionnaire   "Questionnaire part"
 {% for question in questions %}{{question.varname}}       "{{question.questionen}}"
 {% endfor %}.
 * Multiple choice labels - Libelle des choix multiples.
-VALUE LABELS
 {% autoescape off %}
 {% spaceless %}
+VALUE LABELS
 AssistantID
 {% fait_ras users 'spss' %}
 {% endspaceless %}
