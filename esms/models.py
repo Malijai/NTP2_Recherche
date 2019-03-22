@@ -34,6 +34,8 @@ class Ressource(models.Model):
     multipleproblematique = models.BooleanField(verbose_name=_("Acceptez-vous les cas de patients avec des problématiques multiples? "))
     multipleproblematiquenombre = models.TextField(verbose_name=_("Si oui combien et dans quelles conditions "), null=True, blank=True)
     approche = models.TextField(verbose_name=_("Type de thérapie ou approche "), null=True, blank=True)
+    autochtones =  models.BooleanField(verbose_name=_("Offrez-vous des services culturellement adaptés aux Autochtones? "))
+    autochtonestexte =  models.TextField(verbose_name=_("Si oui détaillez ces services"), null=True, blank=True)
     reference = models.TextField(verbose_name=_("Origine des patients (source des références) "), null=True, blank=True)
     delais = models.TextField(verbose_name=_("Quels sont les délais moyens de prise en charge (En dehors des temps de liste d'attente) "), null=True, blank=True)
     durees = models.TextField(verbose_name=_("Quelles sont les durées moyennes des prises en charge "), null=True, blank=True)

@@ -3,42 +3,46 @@
 {% load formulairesesms %}
 
 {% block titre %}
-    <h4>Ressource details</h4>
+    <h3>{% trans "Ressource details" %}</h3>
 {% endblock titre %}
 
 {% block maincontent %}
     <div class="w3-container w3-padding-8">
-        <h2>{% verbose_name_tag object 'nom' %}: {{ object.nom }}</h2>
-        <p>{% verbose_name_tag object 'ville' %}: {{ object.ville }}</p>
-        <p>{% verbose_name_tag object 'codepostal' %}: {{ object.codepostal }}</p>
-        <p>{% verbose_name_tag object 'web' %}: {{ object.web }}</p>
-        <p>{% verbose_name_tag object 'objectif' %}: {{ object.objectif }}</p>
-        <p>{% verbose_name_tag object 'region' %}: {{ object.region }}</p>
-        <p>{% verbose_name_tag object 'lieutravail' %}: {{ object.lieutravail }}</p>
-        <p>{% verbose_name_tag object 'financement' %}: {{ object.financement }}</p>
-        <p>{% verbose_name_tag object 'heuresouverture' %}: {{ object.heuresouverture }}</p>
-        <p>{% verbose_name_tag object 'profilpatient' %}: {{ object.profilpatient }}</p>
-        <p>{% verbose_name_tag object 'exclusion' %}: {{ object.exclusion }}</p>
-        <p>{% verbose_name_tag object 'forensicpatient' %}: {{ object.forensicpatient }}</p>
-        <p>{% verbose_name_tag object 'forensicpatientnombre' %}: {{ object.forensicpatientnombre }}</p>
-        <p>{% verbose_name_tag object 'multipleproblematique' %}: {{ object.multipleproblematique }}</p>
-        <p>{% verbose_name_tag object 'multipleproblematiquenombre' %}: {{ object.multipleproblematiquenombre }}</p>
-        <p>{% verbose_name_tag object 'approche' %}: {{ object.approche }}</p>
-        <p>{% verbose_name_tag object 'reference' %}: {{ object.reference }}</p>
-        <p>{% verbose_name_tag object 'delais' %}: {{ object.delais }}</p>
-        <p>{% verbose_name_tag object 'durees' %}: {{ object.durees }}</p>
-        <p>{% verbose_name_tag object 'listeattenteyn' %}: {{ object.listeattenteyn }}</p>
-        <p>{% verbose_name_tag object 'listeattenteduree' %}: {{ object.listeattenteduree }}</p>
-        <p>{% verbose_name_tag object 'commentaire' %}: {{ object.commentaire }}</p>
-        <h2>Equipe</h2>
-        <table>
-            <tr></tr><th>Profession</th><th>Nombre</th><th>Temps</th><th>Tache</th></tr>
+        <table class="w3-table-all"  border="1">
+        <tr><th  width="30%">{% verbose_name_tag object 'nom' %}</th><th>{{ object.nom }}</th></tr>
+        <tr><td>{% verbose_name_tag object 'ville'%}</td><td>{{object.ville }}</td></tr>
+        <tr><td>{% verbose_name_tag object 'codepostal'%}</td><td>{{object.codepostal }}</td></tr>
+        <tr><td>{% verbose_name_tag object 'web'%}</td><td>{{object.web|default:"" }}</td></tr>
+        <tr><td>{% verbose_name_tag object 'objectif'%}</td><td>{{object.objectif|default:"" }}</td></tr>
+        <tr><td>{% verbose_name_tag object 'region'%}</td><td>{{object.region|default:"" }}</td></tr>
+        <tr><td>{% verbose_name_tag object 'lieutravail'%}</td><td>{{object.lieutravail|default:"" }}</td></tr>
+        <tr><td>{% verbose_name_tag object 'financement'%}</td><td>{{object.financement|default:"" }}</td></tr>
+        <tr><td>{% verbose_name_tag object 'heuresouverture'%}</td><td>{{object.heuresouverture|default:"" }}</td></tr>
+        <tr><td>{% verbose_name_tag object 'profilpatient'%}</td><td>{{object.profilpatient|default:"" }}</td></tr>
+        <tr><td>{% verbose_name_tag object 'exclusion'%}</td><td>{{object.exclusion|default:"" }}</td></tr>
+        <tr><td>{% verbose_name_tag object 'forensicpatient'%}</td><td>{{object.forensicpatient|default:"" }}</td></tr>
+        <tr><td>{% verbose_name_tag object 'forensicpatientnombre'%}</td><td>{{object.forensicpatientnombre|default:"" }}</td></tr>
+        <tr><td>{% verbose_name_tag object 'multipleproblematique'%}</td><td>{{object.multipleproblematique|default:"" }}</td></tr>
+        <tr><td>{% verbose_name_tag object 'multipleproblematiquenombre'%}</td><td>{{object.multipleproblematiquenombre|default:"" }}</td></tr>
+        <tr><td>{% verbose_name_tag object 'approche'%}</td><td>{{object.approche|default:"" }}</td></tr>
+        <tr><td>{% verbose_name_tag object 'autochtones'%}</td><td>{{object.autochtones|default:"" }}</td></tr>
+        <tr><td>{% verbose_name_tag object 'autochtonestexte'%}</td><td>{{object.autochtonestexte|default:"" }}</td></tr>
+        <tr><td>{% verbose_name_tag object 'reference'%}</td><td>{{object.reference|default:"" }}</td></tr>
+        <tr><td>{% verbose_name_tag object 'delais'%}</td><td>{{object.delais|default:"" }}</td></tr>
+        <tr><td>{% verbose_name_tag object 'durees'%}</td><td>{{object.durees|default:"" }}</td></tr>
+        <tr><td>{% verbose_name_tag object 'listeattenteyn'%}</td><td>{{object.listeattenteyn|default:"" }}</td></tr>
+        <tr><td>{% verbose_name_tag object 'listeattenteduree'%}</td><td>{{object.listeattenteduree|default:"" }}</td></tr>
+        <tr><td>{% verbose_name_tag object 'commentaire'%}</td><td>{{object.commentaire|default:"" }}</td></tr>
+        </table>
+        <h2>{% trans "Equipe" %}</h2>
+        <table class="w3-table-all">
+            <tr></tr><th>{% trans "Profession" %}</th><th>{% trans "Nombre" %}</th><th>{% trans "Temps" %}</th><th>{% trans "Tache" %}</th></tr>
             {% for professionnel in object.equipe_set.all %}
                 <tr>
                     <td>{{ professionnel.profession }}</td>
                     <td>{{ professionnel.nombre }}</td>
-                    <td>{{ professionnel.duree }}</td>
-                    <td>{{ professionnel.tache }}</td>
+                    <td>{{ professionnel.duree|default:"" }}</td>
+                    <td>{{ professionnel.tache|default:"" }}</td>
                 </tr>
             {% endfor %}
         </table>
@@ -48,7 +52,6 @@
         <div class="w3-col w3-theme-l2">
              <a class="w3-button" href="{% url 'listeressources' %}">{% trans "Retour a la liste" %}</a>
              <a class="w3-button w3-theme-d2" href="{% url 'ressource_edit' object.id %}">{% trans "Faire des modifications" %}</a>
-
         </div>
     </footer>
 {% endblock maincontent %}

@@ -43,3 +43,32 @@
 
 .w3-table-all td textarea {width: 500px; height: 50px}
 
+.pagination {
+  display: inline-block;
+}
+
+.pagination a {
+  color: #fff;
+  float: left;
+  padding: 8px 16px;
+  text-decoration: none;
+  border: 1px solid #ddd;
+}
+
+.pagination a.active {
+    color: #000000;
+    background-color: #f0f0f0;
+    border: 1px solid #000000;
+}
+
+.pagination a:hover:not(.active) {background-color: #ddd;}
+
+.pagination a:first-child {
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+
+.pagination a:last-child {
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
