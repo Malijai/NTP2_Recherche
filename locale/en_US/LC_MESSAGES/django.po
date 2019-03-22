@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-10 17:16-0500\n"
+"POT-Creation-Date: 2019-03-06 14:30-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -90,15 +90,19 @@ msgstr "Go to the file repository"
 msgid "Accès au système d'entrée des données NTP2"
 msgstr "Go to NTP2 data entry system"
 
-#: accueil/templates/entreesystemes.html:42
+#: accueil/templates/entreesystemes.html:34
+msgid "Accès au système de classification des ressources"
+msgstr "Go to the resources classification system"
+
+#: accueil/templates/entreesystemes.html:45
 msgid "Bienvenue sur le site de gestion du projet Going Home"
 msgstr "Welcome on the Going Home data entry part"
 
-#: accueil/templates/entreesystemes.html:43
+#: accueil/templates/entreesystemes.html:46
 msgid "Accès au système d'entrée des données Going Home"
 msgstr "Go to the data entry system for Going Home"
 
-#: accueil/templates/entreesystemes.html:53
+#: accueil/templates/entreesystemes.html:61
 msgid ""
 "\n"
 "        <h5><a href=\"mailto:malijai.caulet.ippm@ssss.gouv.qc.ca?subject=NTP "
@@ -642,174 +646,239 @@ msgstr "Upload"
 msgid "Nouveau sous dossier"
 msgstr "New sub folder"
 
-#: esms/models.py:10 esms/models.py:54
+#: esms/models.py:11 esms/models.py:57
 msgid "Professionnel"
 msgstr "Professionnal"
 
-#: esms/models.py:20
+#: esms/models.py:21
 msgid "Nom de la ressource "
 msgstr "Resource name"
 
-#: esms/models.py:20 esms/models.py:21
+#: esms/models.py:21 esms/models.py:22
 msgid "Obligatoire"
 msgstr "Mandatory"
 
-#: esms/models.py:21
+#: esms/models.py:22
 msgid "Municipalité "
 msgstr "Town"
 
-#: esms/models.py:22
+#: esms/models.py:23
 msgid "Code postal "
 msgstr "Postal Code"
 
-#: esms/models.py:23
+#: esms/models.py:24
 msgid "Adresse du site web "
 msgstr "Web address"
 
-#: esms/models.py:24
+#: esms/models.py:25
 msgid "Objectifs de cette ressource "
 msgstr "Goals for this resource"
 
-#: esms/models.py:25
+#: esms/models.py:26
 msgid "Région(s) déservie(s) "
 msgstr "Area where the services apply"
 
-#: esms/models.py:26
+#: esms/models.py:27
 msgid "Lieux principaux d'exercice (si plusieurs sites) "
 msgstr "Places of offices (if several)"
 
-#: esms/models.py:27
+#: esms/models.py:28
 msgid "Quelles sont les sources de financement "
 msgstr "Funds sources"
 
-#: esms/models.py:27
+#: esms/models.py:28
 msgid "Par exemple RI, RE, RTF, MSSS, fondation etc."
 msgstr "For example, foundation, ministry of health etc"
 
-#: esms/models.py:28
+#: esms/models.py:29
 msgid "Heures et jours d'ouverture "
 msgstr "Opening days and hours"
 
-#: esms/models.py:29
+#: esms/models.py:30
 msgid "Profil général des patients pris en charge, limites d'âge, genre etc "
 msgstr "General description of people who use the services (age, gender etc) "
 
-#: esms/models.py:30
+#: esms/models.py:31
 msgid "Critères d'exclusion "
 msgstr "Exclusion criteria"
 
-#: esms/models.py:31
-msgid "Acceptez-vous les cas de patients psycholegaux? "
+#: esms/models.py:32
+msgid "Acceptez-vous les cas de patients psycholégaux? "
 msgstr "Do you accept forensic people"
 
-#: esms/models.py:32 esms/models.py:34
+#: esms/models.py:33 esms/models.py:35
 msgid "Si oui combien et dans quelles conditions "
 msgstr "If yes, what are the conditions?"
 
-#: esms/models.py:33
-msgid "Acceptez-vous les cas de patients avec des problematiques multiples? "
+#: esms/models.py:34
+msgid "Acceptez-vous les cas de patients avec des problématiques multiples? "
 msgstr "Do you accept people with multiple disorders"
 
-#: esms/models.py:35
+#: esms/models.py:36
 msgid "Type de thérapie ou approche "
 msgstr "Kind ot therapy"
 
-#: esms/models.py:36
+#: esms/models.py:37
+msgid "Offrez-vous des services culturellement adaptés aux Autochtones? "
+msgstr "Do you deliver culturally adapted treatments to first nations people?"
+
+#: esms/models.py:38
+msgid "Si oui détaillez ces services"
+msgstr "If yes give details about these services"
+
+#: esms/models.py:39
 msgid "Origine des patients (source des références) "
 msgstr "References sources"
 
-#: esms/models.py:37
+#: esms/models.py:40
 msgid ""
 "Quels sont les délais moyens de prise en charge (En dehors des temps de "
 "liste d'attente) "
 msgstr "Mean take over delay (except the waiting list) "
 
-#: esms/models.py:38
+#: esms/models.py:41
 msgid "Quelles sont les durées moyennes des prises en charge "
 msgstr "What are the mean duration of followup"
 
-#: esms/models.py:39
+#: esms/models.py:42
 msgid "Cliquer s'il y a une liste d'attente "
 msgstr "Click if there is a waiting list"
 
-#: esms/models.py:40
+#: esms/models.py:43
 msgid "Si liste d'attente, durée moyenne de l'attente "
 msgstr "If waiting list, mean duration of waiting time"
 
-#: esms/models.py:41
-msgid "Autres informations pertiantes "
+#: esms/models.py:44
+msgid "Autres informations pertinantes "
 msgstr "Other interesting informations"
 
-#: esms/models.py:56
-msgid "Nombre equivalent temps plein"
+#: esms/models.py:59
+msgid "Nombre d'équivalent temps plein"
 msgstr "Number of full time equivalent"
 
-#: esms/models.py:57
+#: esms/models.py:60 esms/templates/ressource_edit.html:24
 msgid "Temps de travail"
 msgstr "Work time"
 
-#: esms/models.py:58
-msgid "Tache"
-msgstr "Task"
+#: esms/models.py:61
+msgid "Tâche"
+msgstr "Role"
 
-#: esms/models.py:68
+#: esms/models.py:71
 msgid "Ressource"
 msgstr "Resource"
 
-#: esms/models.py:69
+#: esms/models.py:72
 msgid "Code ESMS"
 msgstr "ESMS code"
 
-#: esms/models.py:70
+#: esms/models.py:73
 msgid "Nombre de places"
 msgstr "Number of places"
 
-#: esms/models.py:71
-msgid "Cliente cible pour cette branche"
+#: esms/models.py:74
+msgid "Clientèle cible pour cette branche"
 msgstr "Target people for this branch"
 
-#: esms/models.py:72
+#: esms/models.py:75
 msgid "Autres informations"
 msgstr "Other informations"
 
-#: esms/templates/ressourcedetail.html:39
-msgid "Retour a la liste"
-msgstr "Back to list"
+#: esms/templates/classification_esms.html:45
+msgid "CODE FINAL: "
+msgstr "FINAL CODE"
 
-#: esms/templates/ressourcedetail.html:40
-msgid "Faire des modifications"
-msgstr "Edit"
+#: esms/templates/classification_esms.html:51
+msgid "Ajouter le code à la ressource"
+msgstr "Add a code to this resource"
 
-#: esms/templates/rlist.html:4
+#: esms/templates/ressource_base.html:5
 msgid "Codification ESMS"
 msgstr "ESMS Codification"
 
-#: esms/templates/rlist.html:13
+#: esms/templates/ressource_detail.html:6
+msgid "Ressource details"
+msgstr "Resource details"
+
+#: esms/templates/ressource_detail.html:37
+msgid "Equipe"
+msgstr "Team"
+
+#: esms/templates/ressource_detail.html:39
+#: esms/templates/ressource_edit.html:21
+msgid "Profession"
+msgstr "Occupation"
+
+#: esms/templates/ressource_detail.html:39
+msgid "Nombre"
+msgstr "Number"
+
+#: esms/templates/ressource_detail.html:39
+msgid "Temps"
+msgstr "Time"
+
+#: esms/templates/ressource_detail.html:39
+msgid "Tache"
+msgstr "Task"
+
+#: esms/templates/ressource_detail.html:53
+msgid "Retour a la liste"
+msgstr "Back to list"
+
+#: esms/templates/ressource_detail.html:54
+msgid "Faire des modifications"
+msgstr "Edit"
+
+#: esms/templates/ressource_edit.html:17
+msgid ""
+"Détails sur les différents types d'employés et bénévoles qui travaillent "
+"dans la ressource"
+msgstr "Details about different kind of employees or volunteer working in"
+" this resource"
+
+#: esms/templates/ressource_edit.html:22
+msgid "Nombre équivalent temps plein"
+msgstr "Number of full time equivalent"
+
+#: esms/templates/ressource_edit.html:23
+msgid "Tâches, fonctions"
+msgstr "Task, role"
+
+#: esms/templates/ressources_list.html:5
 msgid "Liste des ressources et codification"
 msgstr "Resource list and codification"
 
-#: esms/templates/rlist.html:45 esms/templates/rlist.html:75
+#: esms/templates/ressources_list.html:11
+#: esms/templates/ressources_list.html:48
 msgid "Nouvelle ressource"
 msgstr "New resource"
 
-#: esms/templates/rlist.html:59
+#: esms/templates/ressources_list.html:27
 msgid "Nom de la ressource"
 msgstr "Resource name"
 
-#: esms/templates/rlist.html:59
+#: esms/templates/ressources_list.html:28
 msgid "Coder"
 msgstr "Code"
 
-#: esms/templates/rlist.html:59
+#: esms/templates/ressources_list.html:29
 msgid "Modifier"
 msgstr "Change"
 
-#: esms/templates/rlist.html:67
+#: esms/templates/ressources_list.html:30
+msgid "Voir"
+msgstr "See"
+
+#: esms/templates/ressources_list.html:38
 msgid "Ajouter un code"
 msgstr "Add a code"
 
-#: esms/templates/rlist.html:68
-msgid "Mettre a jour les infos de la ressource"
+#: esms/templates/ressources_list.html:39
+msgid "Voir les détails"
+msgstr "See details"
+
+#: esms/templates/ressources_list.html:40
+msgid "Mettre a jour la ressource"
 msgstr "Update informations"
 
 #: indexmb/templates/index6.html:33
