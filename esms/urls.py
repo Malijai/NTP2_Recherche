@@ -3,6 +3,8 @@ from .views import Faitinstitution, ressource_new, RessourceDetail, rlisting, re
 
 
 urlpatterns = [
+    url(r'^code/(?P<pk>[-\w]+)/$', Faitinstitution, name='Faitinstitution'),
+    url(r'^code/(?P<pk>[-\w]+)/(?P<choix>[\w]*)/$', Faitinstitution, name='Faitinstitution'),
     url(r'^code/(?P<pk>[-\w]+)/(?P<choix>[\w]*)/(?P<histoire>[\w]*)/$', Faitinstitution, name='Faitinstitution'),
     url(r'ressource/new/$', ressource_new, name='ressource_new'),
     url(r'ressource/(?P<pk>[-\w]+)/edit/$', ressource_edit, name='ressource_edit'),
