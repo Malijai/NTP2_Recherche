@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-03-06 14:30-0500\n"
+"POT-Creation-Date: 2019-05-07 11:54-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -606,11 +606,11 @@ msgstr ""
 msgid "Selectionner un fichier"
 msgstr "Select a file"
 
-#: depot/forms.py:17 depot/forms.py:25
+#: depot/forms.py:17 depot/forms.py:26
 msgid "Description"
 msgstr "Description"
 
-#: depot/forms.py:24
+#: depot/forms.py:25
 msgid "Nom du sous-dossier"
 msgstr "New sub folder"
 
@@ -756,7 +756,7 @@ msgstr "Other interesting informations"
 msgid "Nombre d'équivalent temps plein"
 msgstr "Number of full time equivalent"
 
-#: esms/models.py:60 esms/templates/ressource_edit.html:24
+#: esms/models.py:60 esms/templates/ressource_edit.html:26
 msgid "Temps de travail"
 msgstr "Work time"
 
@@ -805,7 +805,7 @@ msgid "Equipe"
 msgstr "Team"
 
 #: esms/templates/ressource_detail.html:39
-#: esms/templates/ressource_edit.html:21
+#: esms/templates/ressource_edit.html:23
 msgid "Profession"
 msgstr "Occupation"
 
@@ -833,16 +833,29 @@ msgstr "Edit"
 msgid ""
 "Détails sur les différents types d'employés et bénévoles qui travaillent "
 "dans la ressource"
-msgstr "Details about different kind of employees or volunteer working in"
-" this resource"
+msgstr ""
+"Details about different kind of employees or volunteer working in this "
+"resource"
 
-#: esms/templates/ressource_edit.html:22
+#: esms/templates/ressource_edit.html:24
 msgid "Nombre équivalent temps plein"
 msgstr "Number of full time equivalent"
 
-#: esms/templates/ressource_edit.html:23
+#: esms/templates/ressource_edit.html:25
 msgid "Tâches, fonctions"
 msgstr "Task, role"
+
+#: esms/templates/ressource_edit.html:27
+msgid "Supprimer"
+msgstr "Remove"
+
+#: esms/templates/ressource_edit.html:42
+msgid ""
+"('Save and continue' enregistre et ajoute 3 lignes pour coder des "
+"professions)"
+msgstr ""
+"('Save and continue' save and add 3 lines for professions) "
+
 
 #: esms/templates/ressources_list.html:5
 msgid "Liste des ressources et codification"
@@ -880,6 +893,22 @@ msgstr "See details"
 #: esms/templates/ressources_list.html:40
 msgid "Mettre a jour la ressource"
 msgstr "Update informations"
+
+#: esms/views.py:73
+msgid " a été codée "
+msgstr " has been coded "
+
+#: esms/views.py:118
+msgid "L'équipe est enregistrée."
+msgstr "The team is saved."
+
+#: esms/views.py:121 esms/views.py:173
+msgid "Il y a une erreur dans l'enregistrement de l'equipe."
+msgstr "There is an error when saving the team"
+
+#: esms/views.py:167
+msgid "La ressource et son équipe sont mises à jour."
+msgstr "The resource and it's team have been updated"
 
 #: indexmb/templates/index6.html:33
 msgid "Bienvenue sur le site NTP MB"
