@@ -22,5 +22,7 @@ class EquipeForm(forms.ModelForm):
         model = Equipe
         exclude = ()
 
-RessourceFormSet = inlineformset_factory(Ressource, Equipe, form=RessourceForm, extra=2)
+
+RessourceFormSet = inlineformset_factory(Ressource, Equipe, form=RessourceForm,
+                                         extra=3, can_delete=True)
 
