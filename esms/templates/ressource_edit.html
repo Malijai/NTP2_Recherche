@@ -8,7 +8,7 @@
 {% block maincontent %}
     <div class="w3-container w3-padding-8">
         <h2 class="w3-amber">{{ entete }}</h2>
-        <form method="POST" class="Entree-form">
+        <form method="POST" class="Entree-form" enctype="multipart/form-data">
             {% csrf_token %}
             <table class="w3-table-all">
                 {{ form.as_table }}
@@ -27,6 +27,7 @@
                     <th>{% trans "Supprimer" %}</th>
                 </tr>
             {% for prof in prof_formset %}
+                <tr>
                 <td>{{ prof.id }}</td>
                 <td>{{ prof.profession }}</td>
                 <td>{{ prof.nombre }}</td>
@@ -35,9 +36,28 @@
                 {% if prof_formset.can_delete %}
                     <td>{{ prof.DELETE }}</td>
                 {% endif %}
-            </tr>
-        {% endfor %}
-    </table>
+                </tr>
+            {% endfor %}
+            </table>
+                        <table class="w3-table-all">
+                <tr class="w3-dark-grey">
+                    <th></th>
+                    <th>{% trans "Profession" %}</th>
+                    <th>{% trans "Nombre équivalent temps plein" %}</th>
+                    <th>{% trans "Tâches, fonctions" %}</th>
+                    <th>{% trans "Temps de travail" %}</th>
+                    <th>{% trans "Supprimer" %}</th>
+                </tr>
+            {{ doc_formset.management_form }}
+
+            {% for doc in doc_formset %}
+                <tr>
+                <td>{{ doc.id }}</td>
+                <td>{{ doc.titrecourt }}</td>
+                <td>{{ doc.documentation }}</td>
+                </tr>
+            {% endfor %}
+            </table>
          <button type="submit" class="w3-button w3-amber">Save</button>
             <button type="submit" class="w3-button w3-khaki " name="Savesurplace">Save and continue</button> {% trans "('Save and continue' enregistre et ajoute 3 lignes pour coder des professions)" %}
          </form>

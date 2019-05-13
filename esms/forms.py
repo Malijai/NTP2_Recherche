@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from django import forms
-from .models import Ressource, Equipe, Esms
+from .models import Ressource, Equipe, Esms, Document
 from django.forms import inlineformset_factory
 
 
@@ -23,6 +23,15 @@ class EquipeForm(forms.ModelForm):
         exclude = ()
 
 
+class DocumentForm(forms.ModelForm):
+    class Meta:
+        model = Document
+        exclude = ()
+
+
 RessourceFormSet = inlineformset_factory(Ressource, Equipe, form=RessourceForm,
                                          extra=3, can_delete=True)
+
+DocumentFormSet = inlineformset_factory(Ressource, Document, form=DocumentForm,
+                                         extra=2, can_delete=True)
 

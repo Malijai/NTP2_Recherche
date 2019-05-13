@@ -3,7 +3,7 @@ from django.conf import settings
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from esms.esms_constants import CHOIX_FINAL, EXPLICATIONSFR, EXPLICATIONSEN, CHOIXEN, CHOIXFR
-from .forms import RessourceFormSet, RessourceForm, EsmsForm
+from .forms import RessourceFormSet, RessourceForm, EsmsForm, DocumentFormSet
 from .models import Ressource, Equipe, Esms
 from django.views import generic
 from django.db import IntegrityError, transaction
@@ -97,8 +97,9 @@ def ressource_new(request):
     if request.method == "POST":
         form = RessourceForm(request.POST)
         prof_instances = RessourceFormSet(request.POST)
+        doc_instances = DocumentFormSet(request.POST)
 
-        if form.is_valid() and prof_instances.is_valid():
+        if form.is_valid() and prof_instances.is_valid() and doc_instances.is_valid():
             entree = form.save(commit=False)
             entree.author = request.user
             entree.save()
@@ -121,9 +122,36 @@ def ressource_new(request):
                 messages.error(request, _(u"Il y a une erreur dans l'enregistrement de l'equipe."))
                 ress_form = RessourceForm()
                 prof_formset = RessourceFormSet()
+                doc_formset = DocumentFormSet()
                 context = {
                     'form': ress_form,
                     'prof_formset': prof_formset,
+                    'doc_formset': doc_formset,
+                    'entete': entete
+                }
+                return render(request, "ressource_edit.html", context)
+            new_doc = []
+            for doc_form in doc_instances:
+                titrecourt = doc_form.cleaned_data.get('titrecourt')
+                documentation = doc_form.cleaned_data.get('documentation')
+
+                if documentation:
+                    new_doc.append(Equipe(ressource=entree, titrecourt=titrecourt, documentation=documentation))
+            try:
+                with transaction.atomic():
+                    Equipe.objects.bulk_create(new_doc)
+                    # And notify our users that it worked
+                    messages.success(request, _(u"La documentation est enregistrée."))
+
+            except IntegrityError:  # If the transaction failed
+                messages.error(request, _(u"Il y a une erreur dans l'enregistrement de la documentation."))
+                ress_form = RessourceForm()
+                prof_formset = RessourceFormSet()
+                doc_formset = DocumentFormSet()
+                context = {
+                    'form': ress_form,
+                    'prof_formset': prof_formset,
+                    'doc_formset': doc_formset,
                     'entete': entete
                 }
                 return render(request, "ressource_edit.html", context)
@@ -134,9 +162,11 @@ def ressource_new(request):
         else:
             ress_form = RessourceForm()
             prof_formset = RessourceFormSet()
+            doc_formset = DocumentFormSet()
             context = {
                 'form': ress_form,
                 'prof_formset': prof_formset,
+                'doc_formset': doc_formset,
                 'entete': entete
             }
             return render(request, "ressource_edit.html", context)
@@ -144,9 +174,11 @@ def ressource_new(request):
         #  return render(request, "entree_edit.html", {'form': form, 'tags':tag_list, 'groupes':group_list,})
         ress_form = RessourceForm()
         prof_formset = RessourceFormSet()
+        doc_formset = DocumentFormSet()
         context = {
             'form': ress_form,
             'prof_formset': prof_formset,
+            'doc_formset': doc_formset,
             'entete': entete
         }
         return render(request, "ressource_edit.html", context)

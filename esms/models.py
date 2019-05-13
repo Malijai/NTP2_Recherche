@@ -53,6 +53,15 @@ class Ressource(models.Model):
         return '%s' % self.nom
 
 
+class Document(models.Model):
+    titrecourt = models.CharField(max_length=100, verbose_name=_("Non court et évocateur du document"))
+    documentation = models.FileField(upload_to='DocsReferences', verbose_name=_("Documents pertinants"), help_text=_("ATTENTION PAS D'ACCENT DANS LE NOM DES FICHIERS"))
+    ressource = models.ForeignKey(Ressource, on_delete=models.DO_NOTHING)
+
+    def __str__(self):
+        return '%s' % self.titrecourt
+
+
 class Equipe(models.Model):
     profession = models.ForeignKey(Professionnels, on_delete=models.DO_NOTHING, verbose_name=_("Professionnel"))
     ressource = models.ForeignKey(Ressource, on_delete=models.DO_NOTHING)
