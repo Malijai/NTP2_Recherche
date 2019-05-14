@@ -24,6 +24,7 @@ class Ressource(models.Model):
     web = models.CharField(verbose_name=_("Adresse du site web "), max_length=250, null=True, blank=True)
     objectif = models.TextField(verbose_name=_("Objectifs de cette ressource "), null=True, blank=True)
     region = models.TextField(verbose_name=_("Région(s) déservie(s) "), null=True, blank=True)
+    anciennete = models.CharField(max_length=100, verbose_name=_("Année de la création de laressource ou ancienneté "), null=True, blank=True)
     lieutravail = models.TextField(verbose_name=_("Lieux principaux d'exercice (si plusieurs sites) "), null=True, blank=True)
     financement = models.TextField(verbose_name=_("Quelles sont les sources de financement "), help_text=_("Par exemple RI, RE, RTF, MSSS, fondation etc."), null=True, blank=True)
     heuresouverture = models.TextField(verbose_name=_("Heures et jours d'ouverture "), null=True, blank=True)

@@ -15,6 +15,7 @@
         <tr><td>{% verbose_name_tag object 'web'%}</td><td>{{object.web|default:"" }}</td></tr>
         <tr><td>{% verbose_name_tag object 'objectif'%}</td><td>{{object.objectif|default:"" }}</td></tr>
         <tr><td>{% verbose_name_tag object 'region'%}</td><td>{{object.region|default:"" }}</td></tr>
+        <tr><td>{% verbose_name_tag object 'anciennete'%}</td><td>{{object.anciennete|default:"" }}</td></tr>
         <tr><td>{% verbose_name_tag object 'lieutravail'%}</td><td>{{object.lieutravail|default:"" }}</td></tr>
         <tr><td>{% verbose_name_tag object 'financement'%}</td><td>{{object.financement|default:"" }}</td></tr>
         <tr><td>{% verbose_name_tag object 'heuresouverture'%}</td><td>{{object.heuresouverture|default:"" }}</td></tr>
@@ -46,7 +47,18 @@
                 </tr>
             {% endfor %}
         </table>
-        <br />
+         <h2>{% trans "Documentation" %}</h2>
+        <table class="w3-table-all">
+            <tr></tr><th>{% trans "Document" %}</th><th>{% trans "doc" %}</th></tr>
+            {% for doc in object.document_set.all %}
+                <tr>
+                    <td>{{ doc.titrecourt }}</td>
+                    <td><a href="{{ doc.documentation.url }}"> lien </a></td>
+
+                </tr>
+            {% endfor %}
+        </table>
+       <br />
     </div>
     <footer>
         <div class="w3-col w3-theme-l2">

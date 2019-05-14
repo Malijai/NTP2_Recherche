@@ -194,23 +194,27 @@ def ressource_edit(request, pk):
         if ress_form.is_valid():
             ressource = ress_form.save()
         prof_formset = RessourceFormSet(request.POST, request.FILES, instance=ressource)
-        if prof_formset.is_valid():
+        doc_formset = DocumentFormSet(request.POST, request.FILES, instance=ressource)
+        if prof_formset.is_valid() and doc_formset.is_valid():
             prof_formset.save()
-            messages.success(request, _(u"La ressource et son équipe sont mises à jour."))
+            doc_formset.save()
+            messages.success(request, _(u"La ressource, son équipe et sa documentation sont mises à jour."))
             if 'Savesurplace' in request.POST:
                 return redirect(ressource_edit, ressource.id)
             else:
                 return redirect('ressource_detail', ressource.id)
         else:
-            messages.error(request,  _(u"Il y a une erreur dans l'enregistrement de l'equipe."))
+            messages.error(request,  _(u"Il y a une erreur dans l'enregistrement de l'equipe ou de la documentation."))
             return redirect(ressource_edit, ressource.id)
     else:
         ress_form = RessourceForm(instance=ressource)
         prof_formset = RessourceFormSet(instance=ressource)
+        doc_formset = DocumentFormSet(instance=ressource)
 
     context = {
         'form': ress_form,
         'prof_formset': prof_formset,
+        'doc_formset': doc_formset,
         'entete': entete
     }
     return render(request, "ressource_edit.html", context)
