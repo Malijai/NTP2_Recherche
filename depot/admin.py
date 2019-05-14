@@ -15,6 +15,7 @@ class DepotFichiers(admin.ModelAdmin):
     def save_model(self, request, obj, form, change):
         obj.save()
 
+
 class DepotDossiers(admin.ModelAdmin):
     list_display = ('nomdossier', 'comment')
 
@@ -22,6 +23,7 @@ class DepotDossiers(admin.ModelAdmin):
 
     def save_model(self, request, obj, form, change):
         obj.save()
+
 
 admin.site.register(Document, DepotFichiers)
 admin.site.register(Dossier, DepotDossiers)

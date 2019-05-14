@@ -15,7 +15,8 @@ class DocumentForm(forms.ModelForm):
         fields = ('docfile','comment',)
         labels = {'docfile': _('Selectionner un fichier'),
                   'comment': _('Description'),}
-        help_text = {'docfile': ('max. 10 megabytes'), }
+        help_text = {'docfile': 'max. 10 megabytes', }
+
 
 class DossierForm(forms.ModelForm):
     class Meta:
