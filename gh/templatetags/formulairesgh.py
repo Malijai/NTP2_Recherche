@@ -287,7 +287,7 @@ def gh_liste_tables(listevaleurs,type):
 
 
 def gh_select_date(IDCondition, name):
-    years = {x: x for x in range(1910, 2019)}
+    years = {x: x for x in range(1910, 2020)}
     years[''] = ''
     days = {x: x for x in range(1, 32)}
     days[''] = ''
