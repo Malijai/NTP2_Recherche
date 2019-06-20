@@ -21,14 +21,13 @@ class EmployeInline(admin.StackedInline):
 
 class CustomUserAdmin(UserAdmin):
     inlines = (ProfilInline, AutreprofilInline, EmployeInline)
-    list_display = ('username', 'email','first_name', 'last_name', 'is_staff', 'get_province','last_login')
+    list_display = ('username', 'email','first_name', 'last_name', 'is_active', 'get_province','last_login')
     #list_select_related = ('profile', )
-
+    list_filter = ('profile__province', 'is_active')
 
     def get_province(self, instance):
         return instance.profile.get_province_display()
     get_province.short_description = 'Province'
-
 
     def get_inline_instances(self, request, obj=None):
         if not obj:
