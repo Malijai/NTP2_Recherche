@@ -9,7 +9,7 @@ class EsmsForm(forms.ModelForm):
     class Meta:
         model = Esms
         fields = ('nombre', 'clientele', 'autreinfo')
-
+        exclude = ()
 
 class RessourceForm(forms.ModelForm):
     class Meta:
@@ -29,9 +29,17 @@ class DocumentForm(forms.ModelForm):
         exclude = ()
 
 
+class Esms2Form(forms.ModelForm):
+    class Meta:
+        model = Esms
+        fields = ('code', 'nombre', 'clientele', 'autreinfo')
+        exclude = ()
+
 RessourceFormSet = inlineformset_factory(Ressource, Equipe, form=RessourceForm,
                                          extra=3, can_delete=True)
 
 DocumentFormSet = inlineformset_factory(Ressource, Document, form=DocumentForm,
                                          extra=2, can_delete=True)
 
+EsmsFormSet = inlineformset_factory(Ressource, Esms, form=Esms2Form,
+                                         extra=0, can_delete=True)

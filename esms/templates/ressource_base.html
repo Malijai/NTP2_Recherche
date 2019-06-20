@@ -8,8 +8,18 @@
     <link rel="stylesheet" href="{% static '/esms/w3.css' %}">
     <link rel="stylesheet" href="{% static '/esms/w3-theme-black.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css">
+
+<script>
+function cacheliste() {
+    var cells = document.querySelectorAll('[id$="-code"]');
+    cells.forEach(function(element) {
+       element.disabled = true;
+    });
+}
+</script>
 </head>
-<body>
+
+<body onload="cacheliste()">
 
     <header class="w3-row w3-theme-l1" id="myHeader">
          <div class="w3-threequarter w3-padding">

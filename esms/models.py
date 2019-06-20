@@ -43,6 +43,7 @@ class Ressource(models.Model):
     listeattenteyn = models.BooleanField(verbose_name=_("Cliquer s'il y a une liste d'attente "))
     listeattenteduree = models.TextField(verbose_name=_("Si liste d'attente, durée moyenne de l'attente "), null=True, blank=True)
     commentaire = models.TextField(verbose_name=_("Autres informations pertinantes "), null=True, blank=True)
+    autreservice = models.TextField(verbose_name=_("Services ou activités secondaires "), help_text=_("Par exemple soutien téléphonique, cuisines collectives, cours etc"), null=True, blank=True)
     author = models.ForeignKey(User, blank=True, null=True, on_delete=models.DO_NOTHING)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

@@ -3,7 +3,7 @@ from django.conf import settings
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from esms.esms_constants import CHOIX_FINAL, EXPLICATIONSFR, EXPLICATIONSEN, CHOIXEN, CHOIXFR
-from .forms import RessourceFormSet, RessourceForm, EsmsForm, DocumentFormSet
+from .forms import RessourceFormSet, RessourceForm, EsmsForm, DocumentFormSet, EsmsFormSet
 from .models import Ressource, Equipe, Esms
 from django.views import generic
 from django.db import IntegrityError, transaction
@@ -70,7 +70,8 @@ def faitinstitution(request, pk, choix='', histoire=''):
                     codeder.ressource = ressource
                     codeder.code = request.POST.get('code')
                     codeder.save()
-                    messages.add_message(request, messages.WARNING, ressource.nom + _(u" a été codée ") + dernier2)
+                    textemessage = _(u"{}  a été codée {}").format(ressource.nom,dernier2)
+                    messages.add_message(request, messages.WARNING, textemessage)
 
                     return redirect('listeressources')
 
@@ -195,9 +196,12 @@ def ressource_edit(request, pk):
             ressource = ress_form.save()
         prof_formset = RessourceFormSet(request.POST, request.FILES, instance=ressource)
         doc_formset = DocumentFormSet(request.POST, request.FILES, instance=ressource)
-        if prof_formset.is_valid() and doc_formset.is_valid():
+        esms_formset = EsmsFormSet(request.POST, request.FILES, instance=ressource)
+        if prof_formset.is_valid() and doc_formset.is_valid() and esms_formset.is_valid :
             prof_formset.save()
             doc_formset.save()
+            esms_formset.save()
+
             messages.success(request, _(u"La ressource, son équipe et sa documentation sont mises à jour."))
             if 'Savesurplace' in request.POST:
                 return redirect(ressource_edit, ressource.id)
@@ -210,11 +214,13 @@ def ressource_edit(request, pk):
         ress_form = RessourceForm(instance=ressource)
         prof_formset = RessourceFormSet(instance=ressource)
         doc_formset = DocumentFormSet(instance=ressource)
+        esms_formset = EsmsFormSet(instance=ressource)
 
     context = {
         'form': ress_form,
         'prof_formset': prof_formset,
         'doc_formset': doc_formset,
+        'esms_formset':esms_formset,
         'entete': entete
     }
     return render(request, "ressource_edit.html", context)

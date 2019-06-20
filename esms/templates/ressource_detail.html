@@ -34,6 +34,7 @@
         <tr><td>{% verbose_name_tag object 'listeattenteyn'%}</td><td>{{object.listeattenteyn|default:"" }}</td></tr>
         <tr><td>{% verbose_name_tag object 'listeattenteduree'%}</td><td>{{object.listeattenteduree|default:"" }}</td></tr>
         <tr><td>{% verbose_name_tag object 'commentaire'%}</td><td>{{object.commentaire|default:"" }}</td></tr>
+        <tr><td>{% verbose_name_tag object 'autreservice'%}</td><td>{{object.autreservice|default:"" }}</td></tr>
         </table>
         <h2>{% trans "Equipe" %}</h2>
         <table class="w3-table-all">
@@ -49,16 +50,25 @@
         </table>
          <h2>{% trans "Documentation" %}</h2>
         <table class="w3-table-all">
-            <tr></tr><th>{% trans "Document" %}</th><th>{% trans "doc" %}</th></tr>
+            <tr><th>{% trans "Identification du document" %}</th><th>{% trans "Document" %}</th></tr>
             {% for doc in object.document_set.all %}
                 <tr>
                     <td>{{ doc.titrecourt }}</td>
-                    <td><a href="{{ doc.documentation.url }}"> lien </a></td>
-
+                    <td><a href="{{ doc.documentation.url }}">{% trans "Voir" %}</a></td>
                 </tr>
             {% endfor %}
         </table>
-       <br />
+        <h2>{% trans "ESMS" %}</h2>
+        <table class="w3-table-all">
+        <tr><th>{% trans "Code" %}</th><th>{% trans "Nombre de places" %}</th><th>{% trans "Clientèle" %}</th></tr>
+         {% for esms in object.esms_set.all %}
+             <tr>
+                <td>{{esms.choix_final}}</td><td>{{esms.nombre|default:""}}</td><td>{{esms.clientele|default:""}}</td>
+             </tr>
+         {% endfor %}
+         </table>
+        <br />
+
     </div>
     <footer>
         <div class="w3-col w3-theme-l2">

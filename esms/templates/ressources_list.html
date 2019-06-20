@@ -32,7 +32,7 @@
                 <tr><td>{{ressource.nom }}</td>
                 <td><ul>
                 {% for esms in ressource.esms_set.all %}
-                <li>ESMS : {{esms.choix_final}} {{esms.nombre|default:""}} {{esms.clientele|default:""}} ;</li>
+                <li>ESMS: {{esms.choix_final}}; {{esms.clientele|default:""}}; N: {{esms.nombre|default:""}};</li>
                 {% endfor %}
                 </ul></td>
                 <td><a href="{% url 'Faitinstitution' ressource.id '' '' %}">{% trans "Ajouter un code" %}</a></td>

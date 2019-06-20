@@ -4,10 +4,10 @@ CHOIXFR = {}
 CHOIXEN = {}
 
 with open('esms/arbreen.yml', encoding='utf8') as entree:
-    CHOIXEN = yaml.load(entree)
+    CHOIXEN = yaml.load(entree, Loader=yaml.BaseLoader)
 
 with open('esms/arbrefr.yml', encoding='utf8') as entree:
-    CHOIXFR = yaml.load(entree)
+    CHOIXFR = yaml.load(entree, Loader=yaml.BaseLoader)
 
 CHOIX = (
     ('za', 'Residential services: Branch R1'),
