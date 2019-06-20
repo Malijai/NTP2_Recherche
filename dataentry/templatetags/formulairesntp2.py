@@ -288,11 +288,10 @@ def fait_select_date(idcondition, name, deb, fin):
     #   pour les questions de Personne
 @register.simple_tag
 def creetextechar(qid, sorte, *args, **kwargs):
-
     name = "q" + str(qid)
 
     if sorte == 'STRING' or sorte == 'CODESTRING':
-        question = forms.Textarea(attrs={'rows': 1, 'size': 30, 'id': name, 'name': name})
+        question = forms.TextInput(attrs={'size': 30, 'id': name, 'name': name})
     else:
         question = forms.NumberInput(attrs={'size': 30, 'id': name, 'name': name})
 

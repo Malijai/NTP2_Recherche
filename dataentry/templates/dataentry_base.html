@@ -10,19 +10,47 @@
         <script type="text/javascript" src="/static/tabber.js"></script>
         <link rel="stylesheet" type="text/css" href="/static/sondageM.css" />
 
+<script type="text/javascript" >
+$(function() {
+	$("input[@id^=row-]").blur(function(){
+		var reg = new RegExp("X", "");
+		res = this.id.split(reg);
+		var valeurcible=res[2];
+		var relation=res[1];
+		var enfant=res[0];
+		var valeurcible2;
+		if(valeurcible == "vide"){
+			valeurcible2="";
+		}else{
+			valeurcible2=valeurcible;
+			}
+		if (relation == 'eq'){
+			if($(this).val() == valeurcible2) {
+				$('.child-'+enfant+relation+valeurcible).show();
+			}else{
+				$('.child-'+enfant+relation+valeurcible).hide();
+			}
+		}else{
+			if($(this).val() != valeurcible2){
+				$('.child-'+enfant+relation+valeurcible).show();
+			}else{
+				$('.child-'+enfant+relation+valeurcible).hide();
+			}
+		}
+	});
+});
+</script>
 
 <script type="text/javascript" >
 $(function() {
 	$("input[@id^=row-]").click(function(){
 		var reg = new RegExp("X", "");
 		res = this.id.split(reg);
-		var cond=res[3];
 		var valeurcible=res[2];
 		var relation=res[1];
 		var enfant=res[0];
 		var valeurcible2;
 		var courant=$(this).val();
-
 		if(valeurcible=="vide"){
 			valeurcible2="";
 		}else{
@@ -74,8 +102,8 @@ $("select[@id^=row-]").click(function(){
 	if(valeurcible=="vide"){
 			valeurcibl2="";
 	}
-valeurcible=parseInt(valeurcible, 10);
-courant=parseInt(courant, 10);
+    valeurcible=parseInt(valeurcible, 10);
+    courant=parseInt(courant, 10);
 
 	if (relation=='eq'){
 		if(courant == valeurcible) {
@@ -107,37 +135,6 @@ courant=parseInt(courant, 10);
 </script>
 
 
-<script type="text/javascript" >
-$(function() {
-	$("TextArea[@id^=row-]").blur(function(){
-		var reg = new RegExp("X", "");
-		res = this.id.split(reg);
-		var cond=res[3];
-		var valeurcible=res[2];
-		var relation=res[1];
-		var enfant=res[0];
-		var valeurcible2;
-		if(valeurcible=="vide"){
-			valeurcible2="";
-		}else{
-			valeurcible2= valeurcible;
-			}
-		if (relation=='eq'){
-			if($(this).val() == valeurcible2) {
-				$('.child-'+enfant+relation+valeurcible).show();
-			}else{
-				$('.child-'+enfant+relation+valeurcible).hide();
-			}
-		}else{
-			if($(this).val() != valeurcible2){
-				$('.child-'+enfant+relation+valeurcible).show();
-			}else{
-				$('.child-'+enfant+relation+valeurcible).hide();
-			}
-		}
-	});
-});
-</script>
 <script language="JavaScript" type="text/javascript">
     function sayHello()
         {

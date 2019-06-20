@@ -114,38 +114,6 @@ courant=parseInt(courant, 10);
 });
 </script>
 
-
-<script type="text/javascript" >
-$(function() {
-	$("TextArea[@id^=row-]").blur(function(){
-		var reg = new RegExp("X", "");
-		res = this.id.split(reg);
-		var cond=res[3];
-		var valeurcible=res[2];
-		var relation=res[1];
-		var enfant=res[0];
-		var valeurcible2;
-		if(valeurcible=="vide"){
-			valeurcible2="";
-		}else{
-			valeurcible2= valeurcible;
-			}
-		if (relation=='eq'){
-			if($(this).val() == valeurcible2) {
-				$('.child-'+enfant+relation+valeurcible).show();
-			}else{
-				$('.child-'+enfant+relation+valeurcible).hide();
-			}
-		}else{
-			if($(this).val() != valeurcible2){
-				$('.child-'+enfant+relation+valeurcible).show();
-			}else{
-				$('.child-'+enfant+relation+valeurcible).hide();
-			}
-		}
-	});
-});
-</script>
 <script language="JavaScript" type="text/javascript">
     function sayHello()
         {
