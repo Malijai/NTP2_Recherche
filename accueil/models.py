@@ -28,7 +28,7 @@ class Profile(models.Model):
                            (NB, 'New Brunswick'),
                            (ALL, 'All provinces'),
                         )
-    user = models.OneToOneField (User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     province = models.PositiveSmallIntegerField(choices=PROVINCE_CHOICES, verbose_name="Province", null=True, blank=True)
 
     def __str__(self):
