@@ -8,13 +8,14 @@ from django.forms import inlineformset_factory
 class EsmsForm(forms.ModelForm):
     class Meta:
         model = Esms
-        fields = ('nombre', 'clientele', 'autreinfo')
+        fields = ('nombre', 'clientele', 'autreinfo', 'autresservices')
         exclude = ()
+
 
 class RessourceForm(forms.ModelForm):
     class Meta:
         model = Ressource
-        exclude = ('author',)
+        exclude = ('author','province')
 
 
 class EquipeForm(forms.ModelForm):

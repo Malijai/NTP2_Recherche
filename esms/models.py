@@ -3,20 +3,11 @@ from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
 from django.db import models
 from esms.esms_constants import CHOIX
+from dataentry.models import Province
 from django.urls import reverse
 
 
-class Professionnels(models.Model):
-    # provenance des références pour le programme
-    description = models.CharField(max_length=100, verbose_name=_("Professionnel"))
-
-    class Meta:
-        ordering = ['description']
-
-    def __str__(self):
-        return '%s' % self.description
-
-
+## Détails des ressources décrites et catégorisées
 class Ressource(models.Model):
     nom = models.CharField(verbose_name=_("Nom de la ressource "), help_text=_("Obligatoire"), max_length=200,)
     ville = models.CharField(verbose_name=_("Municipalité "), help_text=_("Obligatoire"), max_length=100,)
@@ -44,6 +35,7 @@ class Ressource(models.Model):
     listeattenteduree = models.TextField(verbose_name=_("Si liste d'attente, durée moyenne de l'attente "), null=True, blank=True)
     commentaire = models.TextField(verbose_name=_("Autres informations pertinantes "), null=True, blank=True)
     autreservice = models.TextField(verbose_name=_("Services ou activités secondaires "), help_text=_("Par exemple soutien téléphonique, cuisines collectives, cours etc"), null=True, blank=True)
+    province = models.ForeignKey(Province, on_delete=models.DO_NOTHING)
     author = models.ForeignKey(User, blank=True, null=True, on_delete=models.DO_NOTHING)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -58,15 +50,25 @@ class Ressource(models.Model):
 class Document(models.Model):
     titrecourt = models.CharField(max_length=100, verbose_name=_("Non court et évocateur du document"))
     documentation = models.FileField(upload_to='DocsReferences', verbose_name=_("Documents pertinants"), help_text=_("ATTENTION PAS D'ACCENT DANS LE NOM DES FICHIERS"))
-    ressource = models.ForeignKey(Ressource, on_delete=models.DO_NOTHING)
+    ressource = models.ForeignKey(Ressource, on_delete=models.CASCADE)
 
     def __str__(self):
         return '%s' % self.titrecourt
 
 
+class Professionnels(models.Model):
+    description = models.CharField(max_length=100, verbose_name=_("Professionnel"))
+
+    class Meta:
+        ordering = ['description']
+
+    def __str__(self):
+        return '%s' % self.description
+
+
 class Equipe(models.Model):
-    profession = models.ForeignKey(Professionnels, on_delete=models.DO_NOTHING, verbose_name=_("Professionnel"))
-    ressource = models.ForeignKey(Ressource, on_delete=models.DO_NOTHING)
+    profession = models.ForeignKey(Professionnels, on_delete=models.CASCADE, verbose_name=_("Professionnel"))
+    ressource = models.ForeignKey(Ressource, on_delete=models.CASCADE)
     nombre = models.CharField(max_length=20, verbose_name=_("Nombre d'équivalent temps plein"), blank=True, null=True)
     duree = models.CharField(max_length=250, verbose_name=_("Temps de travail"), blank=True, null=True)
     tache = models.TextField(verbose_name=_("Tâche"),blank=True, null=True)
@@ -78,12 +80,14 @@ class Equipe(models.Model):
         return '%s %s %s %s' % (self.profession, self.nombre, self.duree, self.tache)
 
 
+# Table permettant d'enregistrer les codes ESMS pour chaque ressource.
 class Esms(models.Model):
     ressource = models.ForeignKey(Ressource, on_delete=models.CASCADE, verbose_name=_("Ressource"))
     code = models.CharField(choices=CHOIX, max_length=20, verbose_name=_("Code ESMS"))
     nombre = models.IntegerField(default=0, verbose_name=_("Nombre de places"))
     clientele = models.CharField(max_length=250, verbose_name=_("Clientèle cible pour cette branche"), blank=True, null=True)
     autreinfo = models.TextField(verbose_name=_("Autres informations"),blank=True, null=True)
+    autresservices = models.TextField(verbose_name=_("Autres services dispensés en plus du service codé"), help_text=_("Par exemple insertion professionnelle en plus de l'hébergement"),blank=True, null=True)
 
     class Meta:
         ordering = ['ressource', 'code']

@@ -41,14 +41,18 @@
         <form method="post" action="">
         {% csrf_token %}
             <div class="w3-row">
-                <div class="w3-col s6 w3-theme-l2 w3-center">
+                <div class="w3-col w3-theme-l2 w3-center">
                     <h4>{% trans "CODE FINAL: " %} {{dernier2}}</h4>
                 </div>
-                <div class="w3-col s1"></div>
-                <div class="w3-col s3">
-                    {{ esms_form.as_p }}
+            </div>
+            <div class="w3-row">
+                <div class="w3-col">
+                    <table class="w3-table-all">
+                    {{ esms_form.as_table }}
+                    </table>
+                    <br />
                     <input name="code" type="hidden" value="{{ code }}" />
-                    <button type="submit" class="placeboutons" name="Coder">{% trans "Ajouter le code à la ressource" %}{{ ressource }}</button></p>
+                    <button type="submit" class="w3-button w3-amber" name="Coder">{% trans "Ajouter le code à la ressource" %}{{ ressource }}</button></p>
                 </div>
             </div>
         </form>

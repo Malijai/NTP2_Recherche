@@ -72,9 +72,7 @@ def faitinstitution(request, pk, choix='', histoire=''):
                     codeder.save()
                     textemessage = _(u"{}  a été codée {}").format(ressource.nom,dernier2)
                     messages.add_message(request, messages.WARNING, textemessage)
-
                     return redirect('listeressources')
-
         return render(
                     request,
                     'classification_esms.html',
@@ -103,6 +101,7 @@ def ressource_new(request):
         if form.is_valid() and prof_instances.is_valid() and doc_instances.is_valid():
             entree = form.save(commit=False)
             entree.author = request.user
+            entree.province_id = request.user.profile.province
             entree.save()
             # Now save the data for each form in the formset
             new_prof = []
@@ -188,7 +187,7 @@ def ressource_new(request):
 @login_required(login_url=settings.LOGIN_URI)
 def ressource_edit(request, pk):
     ressource = Ressource.objects.get(pk=pk)
-    entete = "Mise a jour de la ressource " + ressource.nom
+    entete = _(u"Mise a jour de la ressource ") + ressource.nom
 
     if request.method == 'POST':
         ress_form = RessourceForm(request.POST, instance=ressource)
@@ -233,7 +232,8 @@ class RessourceDetail(generic.DetailView):
 
 @login_required(login_url=settings.LOGIN_URI)
 def rlisting(request):
-    ressource_list = Ressource.objects.all()
+    province = request.user.profile.province
+    ressource_list = Ressource.objects.filter(province__id=province)
     paginator = NamePaginator(ressource_list, on="nom", per_page=5)
     try:
         page = int(request.GET.get('page', '1'))
