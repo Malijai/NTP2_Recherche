@@ -35,6 +35,7 @@ class Ressource(models.Model):
     listeattenteduree = models.TextField(verbose_name=_("Si liste d'attente, durée moyenne de l'attente "), null=True, blank=True)
     commentaire = models.TextField(verbose_name=_("Autres informations pertinantes "), null=True, blank=True)
     autreservice = models.TextField(verbose_name=_("Services ou activités secondaires "), help_text=_("Par exemple soutien téléphonique, cuisines collectives, cours etc"), null=True, blank=True)
+    noncontactable = models.BooleanField(verbose_name=_("Pas de réponse après 5 tentatives "))
     province = models.ForeignKey(Province, on_delete=models.DO_NOTHING)
     author = models.ForeignKey(User, blank=True, null=True, on_delete=models.DO_NOTHING)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -71,7 +72,7 @@ class Equipe(models.Model):
     ressource = models.ForeignKey(Ressource, on_delete=models.CASCADE)
     nombre = models.CharField(max_length=20, verbose_name=_("Nombre d'équivalent temps plein"), blank=True, null=True)
     duree = models.CharField(max_length=250, verbose_name=_("Temps de travail"), blank=True, null=True)
-    tache = models.TextField(verbose_name=_("Tâche"),blank=True, null=True)
+    tache = models.TextField(verbose_name=_("Tâche"), blank=True, null=True)
 
     class Meta:
         ordering = ['ressource', 'nombre']
@@ -87,7 +88,7 @@ class Esms(models.Model):
     nombre = models.IntegerField(default=0, verbose_name=_("Nombre de places"))
     clientele = models.CharField(max_length=250, verbose_name=_("Clientèle cible pour cette branche"), blank=True, null=True)
     autreinfo = models.TextField(verbose_name=_("Autres informations"),blank=True, null=True)
-    autresservices = models.TextField(verbose_name=_("Autres services dispensés en plus du service codé"), help_text=_("Par exemple insertion professionnelle en plus de l'hébergement"),blank=True, null=True)
+    autresservices = models.TextField(verbose_name=_("Autres services dispensés en plus du service codé"), help_text=_("Par exemple insertion professionnelle en plus de l'hébergement"), blank=True, null=True)
 
     class Meta:
         ordering = ['ressource', 'code']

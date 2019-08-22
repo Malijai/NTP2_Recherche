@@ -60,6 +60,7 @@
                     <th>{% trans "Code" %}</th>
                     <th>{% trans "Nombre de places" %}</th>
                     <th>{% trans "Clientèle" %}</th>
+                    <th>{% trans "Autres services" %}</th>
                     <th>{% trans "Supprimer" %}</th>
                 </tr>
                 {% for esms in esms_formset %}
@@ -68,6 +69,7 @@
                         <td>{{esms.code}}</td>
                         <td>{{esms.nombre}}</td>
                         <td>{{esms.clientele|default:""}}</td>
+                        <td>{{esms.autresservices|default:""}}</td>
                         {% if esms_formset.can_delete %}
                             <td>{{ esms.DELETE }}</td>
                         {% endif %}
