@@ -1,14 +1,13 @@
 from __future__ import unicode_literals
 from django.contrib.auth.models import User
-
 from django.db import models
 
 
-DEFAULT_UID = 1       #met tous les utilisateurs par defauta 1 (maliadmin)
+DEFAULT_UID = 1
+# met tous les utilisateurs par defaut a 1 (maliadmin)
+
 #######################
 ## listes de valeurs typequestion_id=13 (PROVINCE)
-
-
 class Province(models.Model):
     reponse_en = models.CharField(max_length=200,)
     reponse_fr = models.CharField(max_length=200,)
@@ -38,21 +37,7 @@ class Personne(models.Model):
         return '%s' % self.code
 
 
-class Victime(models.Model):
-    #  listes de valeurs typequestion_id=14 (VICTIME)
-    #   Restee a part a cause de la logique du tri des items
-    reponse_valeur = models.CharField(max_length=200)
-    reponse_en = models.CharField(max_length=200, )
-    reponse_fr = models.CharField(max_length=200, )
-
-    class Meta:
-        ordering = ['id']
-
-    def __str__(self):
-        return '%s' % self.reponse_en
-
-
-#   listes valeurs dependantes des provinces
+##   listes valeurs dependantes des provinces
 DEFAULT_PID = 1
 
 
@@ -84,6 +69,7 @@ class Municipalite(models.Model):
         return '%s' % self.reponse_en
 
 
+## Definit la forme html des questions ainsi que le type de réponse attendu (texte, bool, date etc)
 class Typequestion(models.Model):
     nom = models.CharField(max_length=200, )
     tatable = models.CharField(max_length=200, blank=True, null=True)
@@ -93,7 +79,7 @@ class Typequestion(models.Model):
         return '%s' % self.nom
 
 
-#   listes valeurs non dependantes des provinces SANS province
+##   listes valeurs non dependantes des provinces SANS province
 class Listevaleur(models.Model):
     reponse_valeur = models.CharField(max_length=200)
     reponse_en = models.CharField(max_length=200, )
@@ -102,6 +88,20 @@ class Listevaleur(models.Model):
 
     class Meta:
         ordering = ['typequestion', 'reponse_valeur']
+
+    def __str__(self):
+        return '%s' % self.reponse_en
+
+
+class Victime(models.Model):
+    #  listes de valeurs typequestion_id=14 (VICTIME)
+    #   Restee a part a cause de la logique du tri des items
+    reponse_valeur = models.CharField(max_length=200)
+    reponse_en = models.CharField(max_length=200, )
+    reponse_fr = models.CharField(max_length=200, )
+
+    class Meta:
+        ordering = ['id']
 
     def __str__(self):
         return '%s' % self.reponse_en
@@ -117,7 +117,10 @@ class Questionnaire(models.Model):
 
 
 #######################
-## questions utilisees pour tous les questionnaires
+## Questions utilisees pour tous les questionnaires
+# Parent_ID permet de lier l'affichage conditionnel d'une question en fonction de la réponse précédente
+# à la question dont l'ID=Parent_id via la relation établie par  le champ relation et la valeur cible prédéfinie
+# (par exemple question 2 s'ouvrira si question 1 (parent_id) a comme réponse 998 (cible) avec relation égale)
 DEFAULT_PARENT_ID = 1
 
 
@@ -144,6 +147,7 @@ class Questionntp2(models.Model):
 
 #######################
 ## listes de valeurs des questions de typequestion_id=4 (CATEGORIAL)
+# Pour les questions qui aparaissent rarement et dont les réponses sont des listes de valeur
 class Reponsentp2(models.Model):
     question = models.ForeignKey(Questionntp2, on_delete=models.DO_NOTHING)
     reponse_no = models.CharField(max_length=200)
@@ -179,7 +183,7 @@ class Resultatntp2(models.Model):
 
 #######################
 ## Enregistrement des reponses des donnees REPETITIVES
-## Garder le questionnaire_id pour pouvoir effacer une fiche au complet
+# Garder le questionnaire_id pour pouvoir effacer une fiche au complet sans faire une requete compliquée
 DEFAULT_DATE = '0000-00-00'
 
 
