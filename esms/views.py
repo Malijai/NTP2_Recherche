@@ -220,7 +220,8 @@ def ressource_edit(request, pk):
         'prof_formset': prof_formset,
         'doc_formset': doc_formset,
         'esms_formset':esms_formset,
-        'entete': entete
+        'entete': entete,
+        'pk': pk
     }
     return render(request, "ressource_edit.html", context)
 
