@@ -8,7 +8,7 @@
 {% block maincontent %}
     <div class="w3-container w3-padding-8">
         <h2 class="w3-amber">{{ entete }}</h2>
-        <form id="ressource_form" method="post" class="Entree-form" enctype="multipart/form-data"action="{% url 'ressource_edit' pk %}">
+        <form method="POST" class="Entree-form" enctype="multipart/form-data">
             {% csrf_token %}
             <table class="w3-table-all">
                 {{ form.as_table }}
