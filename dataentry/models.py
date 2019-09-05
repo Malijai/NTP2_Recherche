@@ -200,8 +200,8 @@ class Resultatrepetntp2(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        constraints = [models.UniqueConstraint(fields=['personne', 'assistant', 'questionnaire', 'question', 'fiche'], name='unique_repet')]
-        # unique_together = ('personne', 'assistant', 'questionnaire', 'question', 'fiche')
+        # constraints = [models.UniqueConstraint(fields=['personne', 'assistant', 'questionnaire', 'question', 'fiche'], name='unique_repet')]
+        unique_together = ('personne', 'assistant', 'questionnaire', 'question', 'fiche')
         ordering = ['personne', 'assistant', 'questionnaire', 'question', 'fiche']
         indexes = [models.Index(fields=['personne', 'assistant', 'questionnaire', 'question', 'fiche'])]
 
