@@ -175,7 +175,9 @@ class Resultatntp2(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        unique_together = (('personne', 'question', 'assistant'),)
+        constraints = [models.UniqueConstraint(fields=['personne', 'assistant', 'question'], name='unique_result')]
+        # unique_together = (('personne', 'assistant', 'question'),)
+        indexes = [models.Index(fields=['personne', 'assistant', 'question'])]
 
     def __str__(self):
         return '%s' % self.reponsetexte
@@ -198,9 +200,11 @@ class Resultatrepetntp2(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        unique_together = ('personne', 'assistant', 'questionnaire', 'question', 'fiche')
-
+        constraints = [models.UniqueConstraint(fields=['personne', 'assistant', 'questionnaire', 'question', 'fiche'], name='unique_repet')]
+        # unique_together = ('personne', 'assistant', 'questionnaire', 'question', 'fiche')
         ordering = ['personne', 'assistant', 'questionnaire', 'question', 'fiche']
+        indexes = [models.Index(fields=['personne', 'assistant', 'questionnaire', 'question', 'fiche'])]
+
 
     def __str__(self):
         return '%s' % self.reponsetexte

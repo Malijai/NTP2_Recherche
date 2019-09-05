@@ -1,17 +1,16 @@
 # -*- coding: utf-8 -*-
 import datetime
 # import logging
-
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Q, Count
 from django.shortcuts import render, redirect
-
 from dataentry.encrypter import Encrypter
 from dataentry.dataentry_constants import LISTE_PROVINCE
-from dataentry.models import Personne, Province, User
+from dataentry.models import Personne, Province
+from accueil.models import Profile, User
 from dataentry.models import Questionnaire, Resultatrepetntp2, Questionntp2, Resultatntp2
 
 
@@ -76,6 +75,18 @@ def select_personne(request):
             # pour fermer un dossier
             pid = request.POST.get('personneid')
             return redirect('verifie_csv', pid=pid)
+        elif 'Exporterdata' in request.POST:
+            questionnaire = request.POST.get('questionnaireid')
+            province= request.POST.get('provinceid')
+            return redirect('do_csv', province=province, questionnaire=questionnaire)
+        elif 'fait_entete_ntp2_spss' in request.POST:
+            questionnaire = request.POST.get('questionnaireid')
+            province= request.POST.get('provinceid')
+            return redirect('fait_entete_ntp2_spss', province=province, questionnaire=questionnaire)
+        elif 'fait_entete_ntp2_stata' in request.POST:
+            questionnaire = request.POST.get('questionnaireid')
+            province= request.POST.get('provinceid')
+            return redirect('fait_entete_ntp2_stata', province=province, questionnaire=questionnaire)
     else:
         return render(
                     request,
@@ -83,6 +94,7 @@ def select_personne(request):
                     {
                         'personnes': personnes,
                         'questionnaires': Questionnaire.objects.all(),
+                        'provinces2': Province.objects.all(),
                         'message': 'welcome'
                     }
                 )
@@ -424,3 +436,4 @@ def genere_questions_deletion(qid):
             # #va chercher si a des filles (question_ fille)
             ascendancesF.add(fille.id)
     return ascendancesF, ascendancesM, questionstoutes
+

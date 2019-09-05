@@ -1,20 +1,21 @@
-from django.conf.urls import url
+from django.urls import path
 from .views import select_personne, saverepetntp2, saventp2, questions_pdf, ffait_csv, decrypt, verifie_csv, \
-    creerdossierntp2, fdetemps, bilan_par_province
-from django.contrib.auth import views as auth_views
+    creerdossierntp2, fdetemps, bilan_par_province, fait_entete_ntp2_spss, fait_entete_ntp2_stata
+from django.contrib.auth.views import LoginView
+
 
 urlpatterns = [
-    url(r'^$', select_personne, name='SelectPersonne'),
-    url(r'^saverepetntp2/(?P<qid>[-\w]+)/(?P<pid>[-\w]+)/$', saverepetntp2, name='saverepetntp2'),
-    url(r'^saventp2/(?P<qid>[-\w]+)/(?P<pid>[-\w]+)/$', saventp2, name='saventp2'),
-    url(r'^decrypt/(?P<pid>[-\w]+)', decrypt, name='decrypt'),
-    url(r'^login/', auth_views.login, name='login',
-        kwargs={'redirect_authenticated_user': True}),
-    url(r'^pdf/(?P<pk>[-\w]+)/$', questions_pdf, name='do_questions_pdf'),
-    url(r'^txt/(?P<pid>[-\w]+)', verifie_csv, name='verifie_csv'),
-    url(r'^csv/$', ffait_csv, name='do_csv'),
-    url(r'^new/$', creerdossierntp2, name='creerdossierntp2'),
-    url(r'^fdt/$', fdetemps, name='do_fdt'),
-    url(r'^bilan/$', bilan_par_province, name='do_bilan'),
-
+    path('', select_personne, name='SelectPersonne'),
+    path('saverepetntp2/<int:qid>/<int:pid>/', saverepetntp2, name='saverepetntp2'),
+    path('saventp2/<int:qid>/<int:pid>/', saventp2, name='saventp2'),
+    path('decrypt/<int:pid>', decrypt, name='decrypt'),
+    path('login/', LoginView.as_view(), name='login', kwargs={'redirect_authenticated_user': True}),
+    path('pdf/<int:pk>/', questions_pdf, name='do_questions_pdf'),
+    path('txt/<int:pid>', verifie_csv, name='verifie_csv'),
+    path('csv/<int:province>/<int:questionnaire>/', ffait_csv, name='do_csv'),
+    path('new/', creerdossierntp2, name='creerdossierntp2'),
+    path('fdt/', fdetemps, name='do_fdt'),
+    path('bilan/', bilan_par_province, name='do_bilan'),
+    path('entetespss/<int:questionnaire>/<int:province>/', fait_entete_ntp2_spss, name='fait_entete_ntp2_spss'),
+    path('entetestata/<int:questionnaire>/<int:province>/', fait_entete_ntp2_stata, name='fait_entete_ntp2_stata'),
 ]

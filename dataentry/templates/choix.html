@@ -148,6 +148,35 @@
              <li>Repetitives SHORT hospitalizations<a href="{% url 'do_questions_pdf' 3000 %}" class= 'button'><b> >> Do pdf</b></a></li>
         </ul>
    </div>
+   {% if user.profile.province == 10 %}
+       <div class="tabbertab">
+        <h3>To export data</h3>
+            <form method="post" action="">
+               {% csrf_token %}
+                   <table>
+                    <tr><td></td><td></td></tr>
+                        <tr><td>Questionnaire</td><td><select name="questionnaireid" >
+                        <option value="">Choose the questionnaire to export</option>
+                        {% for questionnaire in questionnaires %}
+                            {% if questionnaire.id == 4 or questionnaire.id == 10 or questionnaire.id == 11 or questionnaire.id == 20 or questionnaire.id == 21 or questionnaire.id == 1000 or questionnaire.id == 2000 or questionnaire.id == 3000 %}
+                                <option value="{{questionnaire.id}}">{{ questionnaire.nom_en}}</option>
+                            {% endif %}
+                        {% endfor %}
+                   </select></td></tr>
+                       <tr><td>Province</td><td><select name="provinceid" >
+                    <option value="">Select a province</option>
+                    {% for province in provinces2 %}
+                    <option value="{{province.id}}">{{ province.reponse_en}}</option>
+                    {% endfor %}
+                    </select></td></tr>
+                   <tr><td></td><td><button type="submit" class="placeboutons" name="Exporterdata">Export data only</button></td></tr>
+                   <tr><td></td><td><button type="submit" class="placeboutons" name="fait_entete_ntp2_spss">Export SPSS syntax</button></td></tr>
+                   <tr><td></td><td><button type="submit" class="placeboutons" name="fait_entete_ntp2_stata">Export STATA syntax</button></td></tr>
+                </table>
+
+           </form>
+       </div>
+   {% endif %}
    </div>
 
 </div>
