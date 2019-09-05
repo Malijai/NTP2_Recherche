@@ -175,8 +175,8 @@ class Resultatntp2(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        constraints = [models.UniqueConstraint(fields=['personne', 'assistant', 'question'], name='unique_result')]
-        # unique_together = (('personne', 'assistant', 'question'),)
+        # constraints = [models.UniqueConstraint(fields=['personne', 'assistant', 'question'], name='unique_result')]
+        unique_together = (('personne', 'assistant', 'question'),)
         indexes = [models.Index(fields=['personne', 'assistant', 'question'])]
 
     def __str__(self):
