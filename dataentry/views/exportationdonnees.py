@@ -226,14 +226,14 @@ def ffait_csv(request, province, questionnaire):
     province_nom = LISTE_PROVINCE[province]
     response = HttpResponse(content_type='text/csv')
     filename = 'Datas_{}_{}_{}'.format(province_nom, questionnaire, now)
-    response['Content-Disposition'] = 'attachment; filename="somefilename.csv"'
+    # response['Content-Disposition'] = 'attachment; filename="somefilename.csv"'
     questions = Questionntp2.objects.\
                         filter(questionnaire_id=questionnaire).\
                         exclude(Q(typequestion=7) | Q(typequestion=100)).\
                         order_by('questionno').values('id', 'varname')
     personnes = Personne.objects.filter(province_id=province).values('id', 'code')
 
-    toutesleslignes = [[]]
+    toutesleslignes = []
     entete = ['ID', 'code', 'Assistant']
     if questionnaire > 1000:
         entete.append('Card')
@@ -243,7 +243,6 @@ def ffait_csv(request, province, questionnaire):
     usersprovince = [{'id': p.user.id} for p in Profile.objects.filter(province=province)]
     liste = [i for i in usersntp for j in usersprovince if i['id'] == j['id']]
     toutesleslignes.append(entete)
-    del toutesleslignes[0]
     for assistant in liste:
         for personne in personnes:
             decompte = 0
