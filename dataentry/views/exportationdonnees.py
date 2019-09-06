@@ -14,7 +14,6 @@ import csv
 import os
 import datetime
 
-
 DATE = datetime.datetime.now().strftime('%Y %b %d')
 
 # Pour exportation en CSV
@@ -107,7 +106,7 @@ def fait_reponse(reponsetexte, question, province):
 
 
 @login_required(login_url=settings.LOGIN_URI)
-def ffait_csv(request, province, questionnaire):
+def OLD_ffait_csv(request, province, questionnaire):
     # Pour exporter les données par province et questionnaire pour tous les cas
     now = datetime.datetime.now().strftime('%Y_%m_%d')
     province_nom = LISTE_PROVINCE[province]
@@ -210,7 +209,6 @@ def fait_entete_ntp2_stata(request, questionnaire, province):
     return response
 
 
-
 def extraction_requete_ntp2(questionnaire):
     questions = Questionntp2.objects.filter(questionnaire_id=questionnaire). \
                                     exclude(Q(typequestion=7) | Q(typequestion=100)). \
@@ -218,3 +216,69 @@ def extraction_requete_ntp2(questionnaire):
     usersntp2 = [{'id': p.user.id, 'username': p.user.username} for p in Projet.objects.filter(projet=Projet.NTP2)]
 
     return questions,  usersntp2
+
+
+## Necessite d'utiliser le streaming pour exporter les données par province et questionnaire pour tous les cas
+@login_required(login_url=settings.LOGIN_URI)
+def ffait_csv(request, province, questionnaire):
+    # Pour exporter les données par province et questionnaire pour tous les cas
+    now = datetime.datetime.now().strftime('%Y_%m_%d')
+    province_nom = LISTE_PROVINCE[province]
+    response = HttpResponse(content_type='text/csv')
+    filename = 'Datas_{}_{}_{}'.format(province_nom, questionnaire, now)
+    response['Content-Disposition'] = 'attachment; filename="somefilename.csv"'
+    questions = Questionntp2.objects.\
+                        filter(questionnaire_id=questionnaire).\
+                        exclude(Q(typequestion=7) | Q(typequestion=100)).\
+                        order_by('questionno').values('id', 'varname')
+    personnes = Personne.objects.filter(province_id=province).values('id', 'code')
+
+    toutesleslignes = [[]]
+    entete = ['ID', 'code', 'Assistant']
+    if questionnaire > 1000:
+        entete.append('Card')
+    for question in questions:
+       entete.append(question['varname'])
+    usersntp = [{'id': p.user.id} for p in Projet.objects.filter(projet=Projet.NTP2)]
+    usersprovince = [{'id': p.user.id} for p in Profile.objects.filter(province=province)]
+    liste = [i for i in usersntp for j in usersprovince if i['id'] == j['id']]
+    toutesleslignes.append(entete)
+    del toutesleslignes[0]
+    for assistant in liste:
+        for personne in personnes:
+            decompte = 0
+            if questionnaire > 1000:
+                donnees = Resultatrepetntp2.objects.order_by(). \
+                                        filter(personne_id=personne['id'], assistant_id=assistant['id'], questionnaire_id=questionnaire). \
+                                        values_list('fiche', flat=True).distinct()
+                if donnees.count() > 0:
+                    ligne = []
+                    decompte = 0
+                    for card in donnees:
+                            ligne, decompte = fait_csv_repetitive(personne['id'], personne['code'], assistant['id'], questions, card, questionnaire)
+            else:
+                if Resultatntp2.objects.filter(personne_id=personne['id'], assistant_id=assistant['id']).exists():
+                    ligne = [personne['id'], personne['code'],assistant['id']]
+                    for question in questions:
+                        try:
+                            donnee = Resultatntp2.objects.filter(personne_id=personne['id'], question_id=question['id'],
+                                                                 assistant_id=assistant['id']).values('reponsetexte')
+                        except Resultatntp2.DoesNotExist:
+                            donnee = None
+                        if donnee:
+                            ligne.append(donnee[0]['reponsetexte'])
+                            decompte += 1
+                        else:
+                            ligne.append('')
+            if decompte > 3:
+                toutesleslignes.append(ligne)
+    pseudo_buffer = Echo()
+    writer = csv.writer(pseudo_buffer, delimiter='\t', quoting=csv.QUOTE_MINIMAL)
+    response = StreamingHttpResponse((writer.writerow(row) for row in toutesleslignes),
+                                     content_type="text/csv")
+    response['Content-Disposition'] = 'attachment;  filename="' + filename + '.csv"'
+    return response
+
+
+
+
