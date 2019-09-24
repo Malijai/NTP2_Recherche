@@ -11,6 +11,8 @@ DEFAULT_UID = 1
 class Province(models.Model):
     reponse_en = models.CharField(max_length=200,)
     reponse_fr = models.CharField(max_length=200,)
+    estimatedcases = models.IntegerField(blank=True, null=True)
+    reelcases = models.IntegerField(blank=True, null=True)
 
     def __str__(self):
         return '%s' % self.reponse_en
