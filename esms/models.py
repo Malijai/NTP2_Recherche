@@ -13,6 +13,8 @@ class Ressource(models.Model):
     ville = models.CharField(verbose_name=_("Municipalité "), help_text=_("Obligatoire"), max_length=100,)
     codepostal = models.CharField(max_length=10, verbose_name=_("Code postal "), null=True, blank=True)
     web = models.CharField(verbose_name=_("Adresse du site web "), max_length=250, null=True, blank=True)
+    telephone = models.CharField(verbose_name=_("Numéro de tel public "), max_length=20, null=True, blank=True)
+    courriel = models.CharField(verbose_name=_("Courriel public "), max_length=200, null=True, blank=True)
     objectif = models.TextField(verbose_name=_("Objectifs de cette ressource "), null=True, blank=True)
     region = models.TextField(verbose_name=_("Région(s) déservie(s) "), null=True, blank=True)
     anciennete = models.CharField(max_length=100, verbose_name=_("Année de la création de laressource ou ancienneté "), null=True, blank=True)
@@ -36,6 +38,7 @@ class Ressource(models.Model):
     commentaire = models.TextField(verbose_name=_("Autres informations pertinantes "), null=True, blank=True)
     autreservice = models.TextField(verbose_name=_("Services ou activités secondaires "), help_text=_("Par exemple soutien téléphonique, cuisines collectives, cours etc"), null=True, blank=True)
     noncontactable = models.BooleanField(verbose_name=_("Pas de réponse après 5 tentatives "))
+    accepte = models.BooleanField(verbose_name=_("Accepte que certaines données soient rendues publiques sur le site de l'observatoire "))
     province = models.ForeignKey(Province, on_delete=models.DO_NOTHING)
     author = models.ForeignKey(User, blank=True, null=True, on_delete=models.DO_NOTHING)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -71,7 +74,7 @@ class Equipe(models.Model):
     profession = models.ForeignKey(Professionnels, on_delete=models.CASCADE, verbose_name=_("Professionnel"))
     ressource = models.ForeignKey(Ressource, on_delete=models.CASCADE)
     nombre = models.CharField(max_length=20, verbose_name=_("Nombre d'équivalent temps plein"), blank=True, null=True)
-    duree = models.CharField(max_length=250, verbose_name=_("Temps de travail"), blank=True, null=True)
+    duree = models.CharField(max_length=250, verbose_name=_("Temps moyen de travail"), blank=True, null=True)
     tache = models.TextField(verbose_name=_("Tâche"), blank=True, null=True)
 
     class Meta:

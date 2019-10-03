@@ -247,3 +247,4 @@ def rlisting(request):
 
     return render(request, 'ressources_list.html', {'page': page})
 
+

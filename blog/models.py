@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-from django.db.models import permalink
+#from django.db.models import permalink
 from django.contrib.auth.models import User, Group
 from django.utils.translation import ugettext_lazy as _
 from ckeditor.fields import RichTextField
@@ -21,9 +21,9 @@ class Tag(models.Model):
        return '%s' % self.mot_en
 
 
-   @permalink
-   def get_absolute_url(self):
-       return ('view_blog_tag', None, {'slug': self.slug})
+#   @permalink
+#   def get_absolute_url(self):
+#       return ('view_blog_tag', None, {'slug': self.slug})
 
 class Entree(models.Model):
     titre_en = models.CharField(max_length=200)

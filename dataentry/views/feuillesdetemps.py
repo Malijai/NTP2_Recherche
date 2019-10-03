@@ -9,6 +9,7 @@ from django.core.files.storage import FileSystemStorage
 from reportlab.lib.utils import ImageReader
 from reportlab.lib.pagesizes import letter
 from django.contrib.auth.decorators import login_required
+from reportlab.pdfbase import pdfform
 import datetime
 import unicodedata
 # A necessite l'installation de reportlab (pip install reportlab)
@@ -91,16 +92,17 @@ def fdetemps(request):
         doc.drawString(70, 750, 'No contrat : ' + request.user.contrat.numcontrat)
         doc.drawString(290, 750, 'No budget : ' + request.user.contrat.numbudget)
 
-        if request.user.contrat.signature:
-            signature = ImageReader(request.user.contrat.signature)
-            doc.drawImage(signature, 110, (y_sign - 10), 110, 50, mask='auto')
 
         doc.drawString(70, 636, request.user.first_name.capitalize() + " " + request.user.last_name.capitalize())
 
         doc.drawString(450, 645, 'PAIE : ' + str(quinzaine))
         doc.drawString(420, y_sign, date_debut)
         doc.drawString(515, y_sign, date_fin)
-
+        doc.drawString(10, 650, 'First Name:')
+        form = doc.acroForm
+        form.textfield(name='fname', tooltip='First Name',
+                       x=110, y=635, borderStyle='inset',
+                       width=300, forceBorder=True)
         for semaine in semaines:
             temps_semaine = 0
             for jour in range(7):

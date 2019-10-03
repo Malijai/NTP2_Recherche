@@ -158,6 +158,8 @@ def fait_entete_stata(request, qid, intid):
     filename1 = '"enteteSTATA_' + str(qid) + entrevue + '.txt"'
     response['Content-Disposition'] = 'attachment; filename={}'.format(filename1)
     questions, usersgh = extraction_requete(intid, qid)
+    phase = 1 if intid == '1' else 2
+    q = (~Q(typequestion__id=7) & ~Q(typequestion__id=100) & (Q(phase=phase) | Q(phase=3)) & Q(questionnaire__id=qid))
     typepresents = Question.objects.values('typequestion__nom').order_by().filter(q).annotate(tqcount=Count('typequestion__nom'))
 
     t = loader.get_template('stata_syntaxe.txt')
