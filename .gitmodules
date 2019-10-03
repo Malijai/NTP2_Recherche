@@ -2,3 +2,7 @@
 	path = blog
 	url = git@github.com:Malijai/blog.git
 	branch = master
+[submodule "depot"]
+	path = depot
+	url = git@github.com:Malijai/depot.git
+	branch = master
