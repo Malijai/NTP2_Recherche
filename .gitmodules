@@ -6,3 +6,7 @@
 	path = depot
 	url = git@github.com:Malijai/depot.git
 	branch = master
+[submodule "dataentry"]
+	path = dataentry
+	url = git@github.com:Malijai/dataentry.git
+	branch = master
