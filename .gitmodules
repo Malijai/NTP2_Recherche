@@ -10,3 +10,7 @@
 	path = dataentry
 	url = git@github.com:Malijai/dataentry.git
 	branch = master
+[submodule "violation"]
+	path = violation
+	url = git@github.com:Malijai/violation.git
+	branch = master
