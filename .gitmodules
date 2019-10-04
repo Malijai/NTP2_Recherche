@@ -18,3 +18,7 @@
 	path = esms
 	url = git@github.com:Malijai/esms.git
 	branch = master
+[submodule "gh"]
+	path = gh
+	url = git@github.com:Malijai/gh.git
+	branch = master
