@@ -14,28 +14,29 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 from django.conf import settings
-from django.conf.urls import url, include
-from django.conf.urls.static import static
 from django.contrib import admin
-from django.contrib.auth import views as auth_views
+from django.urls import include, path
+from django.conf.urls.static import static
+from django.contrib.auth.views import LoginView
+from django.views.static import serve
+
 
 admin.site.site_header = settings.ADMIN_SITE_HEADER
 
 admin.autodiscover()
 
 urlpatterns = [
-    url(r'^i18n/', include('django.conf.urls.i18n')),
-    url(r'^accounts/', include('django.contrib.auth.urls')),
-    url(r'^admin/', admin.site.urls),
-    url(r'^login/', auth_views.login, name='login',
-        kwargs={'redirect_authenticated_user': True}),
-    url(r'^blog/', include('blog.urls')),
-    url(r'^depot/', include('depot.urls')),
-    url(r'^dataentry/', include('dataentry.urls')),
-    url(r'^esms/', include('esms.urls')),
-    url(r'^goingh/', include('gh.urls')),
-    url(r'^viol/', include('violation.urls')),
-    url(r'^', include('accueil.urls')),
+    path('i18n/', include('django.conf.urls.i18n')),
+    path('accounts/', include('django.contrib.auth.urls')),
+    path('admin/', admin.site.urls),
+    path('login/', LoginView.as_view(), name='login', kwargs={'redirect_authenticated_user': True}),
+    path('blog/', include('blog.urls')),
+    path('depot/', include('depot.urls')),
+    path('dataentry/', include('dataentry.urls')),
+    path('esms/', include('esms.urls')),
+    path('goingh/', include('gh.urls')),
+    path('viol/', include('violation.urls')),
+    path('', include('accueil.urls')),
 
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
