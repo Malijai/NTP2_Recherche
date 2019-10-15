@@ -1,24 +1,24 @@
 [submodule "blog"]
 	path = blog
-	url = git@github.com:Malijai/blog.git
+	url =  https://github.com:Malijai/blog.git
 	branch = master
 [submodule "depot"]
 	path = depot
-	url = git@github.com:Malijai/depot.git
+	url =  https://github.com:Malijai/depot.git
 	branch = master
 [submodule "dataentry"]
 	path = dataentry
-	url = git@github.com:Malijai/dataentry.git
+	url = https://github.com/Malijai/dataentry.git
 	branch = master
 [submodule "violation"]
 	path = violation
-	url = git@github.com:Malijai/violation.git
+	url =  https://github.com:Malijai/violation.git
 	branch = master
 [submodule "esms"]
 	path = esms
-	url = git@github.com:Malijai/esms.git
+	url =  https://github.com:Malijai/esms.git
 	branch = master
 [submodule "gh"]
 	path = gh
-	url = git@github.com:Malijai/gh.git
+	url =  https://github.com:Malijai/gh.git
 	branch = master
