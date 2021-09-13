@@ -18,7 +18,9 @@ from django.contrib import admin
 from django.urls import include, path
 from django.conf.urls.static import static
 from django.contrib.auth.views import LoginView
+from django.contrib.staticfiles.storage import staticfiles_storage
 from django.views.static import serve
+from django.views.generic.base import RedirectView
 
 
 admin.site.site_header = settings.ADMIN_SITE_HEADER
@@ -37,7 +39,8 @@ urlpatterns = [
     path('goingh/', include('gh.urls')),
     path('viol/', include('violation.urls')),
     path('', include('accueil.urls')),
+    path('favicon.ico', RedirectView.as_view(url=staticfiles_storage.url('accueil/img/favicon.ico')))
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
