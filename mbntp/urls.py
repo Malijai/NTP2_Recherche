@@ -22,7 +22,6 @@ from django.contrib.staticfiles.storage import staticfiles_storage
 from django.views.static import serve
 from django.views.generic.base import RedirectView
 
-
 admin.site.site_header = settings.ADMIN_SITE_HEADER
 
 admin.autodiscover()
@@ -39,6 +38,7 @@ urlpatterns = [
     path('goingh/', include('gh.urls')),
     path('viol/', include('violation.urls')),
     path('', include('accueil.urls')),
+    path('grc/', include('NTP1Reprise.urls')),
     path('favicon.ico', RedirectView.as_view(url=staticfiles_storage.url('accueil/img/favicon.ico')))
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

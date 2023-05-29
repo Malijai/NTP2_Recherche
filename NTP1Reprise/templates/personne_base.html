@@ -1,0 +1,43 @@
+{% load i18n %}
+{% load static %}
+
+
+{% block extrahead %}
+{% endblock %}
+<html>
+<head>
+<title>{% trans "Personnes chez soi" %}</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{% static '/grc/w3.css' %}">
+    <link rel="stylesheet" href="{% static '/grc/w3-theme-black.css' %}">
+</head>
+
+<body>
+    <header class="w3-row w3-theme-l1" id="myHeader">
+         <div class="w3-threequarter w3-padding">
+            <h4>{{ entete }}</h4>
+         </div>
+         <div class="w3-quarter w3-center">
+
+    </div>
+        <div class="w3-quarter">
+        <a href="{% url 'logout' %}" class="w3-button w3-theme-action"> Logout</a>
+         </div>
+</header>
+
+    <div id="container">
+        {% if messages %}
+            {% for msg in messages %}
+                <div class="alert alert-{{msg.level_tag}}" role="alert">
+                {{msg.message}}
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    {% block maincontent %}
+    {% endblock %}
+
+</body>
+</html>
