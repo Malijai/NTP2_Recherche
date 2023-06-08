@@ -33,12 +33,18 @@ class NouveauxDelitsForm(forms.ModelForm):
         interdictionON = forms.BooleanField(required=True)
         surcisON = forms.BooleanField(required=True)
         autreON = forms.BooleanField(required=True)
-        fields = ('date_sentence','lieu_sentence','type_tribunal','ordre_delit','codeCCdelit','nombre_chefs','violation',
-                  'verdict','amendeON','detentionON','probationON','interdictionON','surcisON','autreON','autredetails')
+        fields = ('date_sentence','lieu_sentence','type_tribunal','ordre_delit','codeCCdelit', 'descriptiondelit','nombre_chefs',
+                  'violation', 'verdict','amendeON','amende_type','amendecout',
+                  'detentionON','detentionduree', 'unitedetention',
+                  'probationON','probationduree', 'uniteprobation',
+                  'interdictionON','interdictionduree','uniteinterdiction','interdictiondetails',
+                  'surcisON','surcisduree','unitesurcis',
+                  'autreON','autredetails')
         exclude = ('RA', 'created_at', 'updated_at', 'card', 'province', 'personnegrc','nouveaudelit')
         widgets = {
                     'date_sentence' : DatePickerInput(),
                 }
+
 
 # Formulaire pour rentrer les libérations:
 class LiberationForm(forms.ModelForm):

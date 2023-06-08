@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-01-14 10:37-0500\n"
+"POT-Creation-Date: 2023-06-08 16:53-0400\n"
 "PO-Revision-Date: 2019-08-22\n"
 "Last-Translator: Malijai <malijai.caulet.ippm@ssss.gouv.qc.ca>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,37 +16,248 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: accueil/templates/Rech_base.html:16
+#: NTP1Reprise/models.py:87
+msgid "Présence ancien délits"
+msgstr "Old offences in database"
+
+#: NTP1Reprise/models.py:88
+msgid "Présence ancien alias"
+msgstr "Old alias"
+
+#: NTP1Reprise/models.py:89
+msgid "Ancienne date print"
+msgstr "Old print date"
+
+#: NTP1Reprise/models.py:90
+msgid "Présence ancien FPS"
+msgstr "Existence of old FPS"
+
+#: NTP1Reprise/models.py:91
+msgid "Date print. Laisser vide si pas de fichier (jj/mm/aaaa)"
+msgstr "Print date. Keep empty if no file"
+
+#: NTP1Reprise/models.py:92
+msgid "Présence de délits après la date du dernier verdict rentré"
+msgstr "Existence of offences after last recorded offence"
+
+#: NTP1Reprise/models.py:93
+msgid "Présence de FPS en 2022/23. Cocher si oui"
+msgstr "Is there a FPS in 2022/23? Check if Yes "
+
+#: NTP1Reprise/models.py:94
+msgid ""
+"Date du dernier verdict présent dans la fiche. Laisser vide si pas de "
+"fichier (jj/mm/aaaa)"
+msgstr "Lats verdict date which is in the file. Keep empty if no file"
+
+#: NTP1Reprise/models.py:96
+msgid "Si décédé indiquer la date ici (jj/mm/aaaa)"
+msgstr "If dead, date of death"
+
+#: NTP1Reprise/models.py:110
+msgid "Date de la décision (jj/mm/aaaa)"
+msgstr "Decision date"
+
+#: NTP1Reprise/models.py:111
+msgid "Type de tribunal"
+msgstr "Kind of court"
+
+#: NTP1Reprise/models.py:112
+msgid "Lieu du verdict"
+msgstr "Verdict place"
+
+#: NTP1Reprise/models.py:113
+msgid "Ordre"
+msgstr "Order"
+
+#: NTP1Reprise/models.py:114
+#| msgid "Description du document"
+msgid "Description du délit"
+msgstr "Offence description"
+
+#: NTP1Reprise/models.py:115
+msgid "Code CC du delit (si pas CC preciser de quel code il s agit)"
+msgstr "CC of the offenc (If it is another code please specify)"
+
+#: NTP1Reprise/models.py:116
+#| msgid "Nombre de places"
+msgid "Nombre de chefs"
+msgstr "Number of charges"
+
+#: NTP1Reprise/models.py:117
+msgid "Code de violation"
+msgstr "Violation code"
+
+#: NTP1Reprise/models.py:118
+msgid "Verdict"
+msgstr "Verdict"
+
+#: NTP1Reprise/models.py:119
+msgid "Amende? Cocher si oui"
+msgstr ""
+
+#: NTP1Reprise/models.py:120
+msgid "Caractéristiques de l'amende"
+msgstr ""
+
+#: NTP1Reprise/models.py:121
+msgid "Cout total de l'amende"
+msgstr ""
+
+#: NTP1Reprise/models.py:122
+msgid "Détention? Cocher si oui"
+msgstr ""
+
+#: NTP1Reprise/models.py:123
+msgid "Durée de la détention"
+msgstr ""
+
+#: NTP1Reprise/models.py:124 NTP1Reprise/models.py:127
+#: NTP1Reprise/models.py:130 NTP1Reprise/models.py:134
+msgid "Jours, mois, ans etc?"
+msgstr ""
+
+#: NTP1Reprise/models.py:125
+msgid "Probation? Cocher si oui"
+msgstr ""
+
+#: NTP1Reprise/models.py:126
+#, fuzzy
+#| msgid "État de la codification"
+msgid "Durée de la probation"
+msgstr "Codification state"
+
+#: NTP1Reprise/models.py:128
+msgid "Interdiction? Cocher si oui"
+msgstr ""
+
+#: NTP1Reprise/models.py:129
+msgid "Durée de l'interdiction"
+msgstr ""
+
+#: NTP1Reprise/models.py:131
+msgid "Détails à propos de l'interdicttion"
+msgstr ""
+
+#: NTP1Reprise/models.py:132
+msgid "Surcis? Cocher si oui"
+msgstr ""
+
+#: NTP1Reprise/models.py:133
+msgid "Durée du surcis"
+msgstr ""
+
+#: NTP1Reprise/models.py:135
+msgid "Autre? Cocher si oui"
+msgstr ""
+
+#: NTP1Reprise/models.py:136
+#, fuzzy
+#| msgid "Voir les détails"
+msgid "Si autre : détails"
+msgstr "See details"
+
+#: NTP1Reprise/models.py:137
+msgid "Consécutif? Cocher si oui"
+msgstr ""
+
+#: NTP1Reprise/models.py:156
+msgid "Date de la libération (jj/mm/aaaa)"
+msgstr ""
+
+#: NTP1Reprise/models.py:157
+msgid "Libération absolue? Cocher si oui"
+msgstr ""
+
+#: NTP1Reprise/templates/listentp1.html:37
+#, fuzzy
+#| msgid "Mettre a jour la ressource"
+msgid "Mettre a jour la personne"
+msgstr "Update informations"
+
+#: NTP1Reprise/templates/listentp1.html:39
+#, fuzzy
+#| msgid "Créer un sous-dossier"
+msgid "Fermer le dossier"
+msgstr "Create a sub folder"
+
+#: NTP1Reprise/templates/personne_delits.html:5
+msgid "Nouveaux delits et Délits enregistrés dans la BD"
+msgstr ""
+
+#: NTP1Reprise/templates/personne_delits.html:16
+msgid "Recherche de code de violation"
+msgstr ""
+
+#: NTP1Reprise/templates/personne_delits.html:63
+msgid "Enregistrer libération & quit"
+msgstr ""
+
+#: NTP1Reprise/templates/personne_delits.html:64
+msgid "Enregistrer libération & ajouter délit / libération"
+msgstr ""
+
+#: NTP1Reprise/templates/personne_delits.html:70
+msgid "Délits enregistrés dans la BD"
+msgstr ""
+
+#: NTP1Reprise/templates/personne_delits.html:73
+msgid "date sentence"
+msgstr ""
+
+#: NTP1Reprise/templates/personne_delits.html:74
+msgid "ordre"
+msgstr ""
+
+#: NTP1Reprise/templates/personne_delits.html:75
+msgid "codeCCdelit"
+msgstr ""
+
+#: NTP1Reprise/templates/personne_delits.html:85
+msgid "Libérations enregistrées dans la BD"
+msgstr ""
+
+#: NTP1Reprise/templates/personne_delits.html:88
+msgid "date libération"
+msgstr ""
+
+#: NTP1Reprise/templates/personne_edit.html:14
+#, fuzzy
+#| msgid "Mise a jour de la ressource "
+msgid "Mise a jour des donnees du dossier"
+msgstr "Update informations"
+
+#: accueil/templates/Rech_base.html:20
 msgid "Fermer &times;"
 msgstr "Close &times;"
 
-#: accueil/templates/Rech_base.html:17 blog/templates/base.html:21
+#: accueil/templates/Rech_base.html:21 blog/templates/base.html:21
 #: blog/templates/base_r.html:18 depot/templates/base_d.html:18
 #: depot/templates/base_d1.html:18
 msgid "Accueil"
 msgstr "Home"
 
-#: accueil/templates/Rech_base.html:18
+#: accueil/templates/Rech_base.html:22
 msgid "Équipes"
 msgstr "Research Team"
 
-#: accueil/templates/Rech_base.html:19
+#: accueil/templates/Rech_base.html:23
 msgid "Résultats NTP1"
 msgstr "NTP1 Results"
 
-#: accueil/templates/Rech_base.html:20
+#: accueil/templates/Rech_base.html:24
 msgid "Publications NTP1"
 msgstr "NTP1 Publications"
 
-#: accueil/templates/Rech_base.html:21
+#: accueil/templates/Rech_base.html:25
 msgid "Accès privé"
 msgstr "Private access"
 
-#: accueil/templates/Rech_base.html:33
+#: accueil/templates/Rech_base.html:37
 msgid "Les Projets Nationaux des Trajectoires"
 msgstr "The National Trajectory Projects"
 
-#: accueil/templates/Rech_base.html:66
+#: accueil/templates/Rech_base.html:70
 msgid ""
 "\n"
 "        <h5>Projet réalisé en  <img src=\"/static/accueil/django-logo-"
@@ -70,43 +281,43 @@ msgstr ""
 "informations\">Contact</a></h5>\n"
 "   "
 
-#: accueil/templates/entreesystemes.html:19
+#: accueil/templates/entreesystemes.html:21
 msgid "Le Projet National des Trajectoires NTP 2 Community"
 msgstr "The National Trajectory Project NTP 2 Community"
 
-#: accueil/templates/entreesystemes.html:28
+#: accueil/templates/entreesystemes.html:30
 msgid "Bienvenue sur le site de gestion des projets du NTP2 Community"
 msgstr "Welcome on the NTP2 Community web site"
 
-#: accueil/templates/entreesystemes.html:29
+#: accueil/templates/entreesystemes.html:31
 msgid "Accès au blog"
 msgstr "Go to the blog"
 
-#: accueil/templates/entreesystemes.html:30 indexmb/templates/index6.html:35
+#: accueil/templates/entreesystemes.html:32 indexmb/templates/index6.html:35
 msgid "Accès au dépot de fichiers"
 msgstr "Go to the file repository"
 
-#: accueil/templates/entreesystemes.html:31
+#: accueil/templates/entreesystemes.html:33
 msgid "Accès au système d'entrée des données NTP2"
 msgstr "Go to NTP2 data entry system"
 
-#: accueil/templates/entreesystemes.html:34
+#: accueil/templates/entreesystemes.html:36
 msgid "Accès au système de classification des ressources"
 msgstr "Go to the resources classification system"
 
-#: accueil/templates/entreesystemes.html:41
+#: accueil/templates/entreesystemes.html:43
 msgid "Bienvenue sur le site de gestion du projet Going Home"
 msgstr "Welcome on the Going Home data entry part"
 
-#: accueil/templates/entreesystemes.html:42
+#: accueil/templates/entreesystemes.html:44
 msgid "Accès au système d'entrée des données Going Home"
 msgstr "Go to the data entry system for Going Home"
 
-#: accueil/templates/entreesystemes.html:51
+#: accueil/templates/entreesystemes.html:53
 msgid "Exportation des données NTP2"
 msgstr "NTP2 data extraction"
 
-#: accueil/templates/entreesystemes.html:60
+#: accueil/templates/entreesystemes.html:62
 msgid ""
 "\n"
 "        <h5><a href=\"mailto:malijai.caulet.ippm@ssss.gouv.qc.ca?subject=NTP "
@@ -331,7 +542,7 @@ msgstr "Choose keywords (Ctrl + Click)"
 msgid "Entrer un mot clef"
 msgstr "New keyword"
 
-#: blog/models.py:14
+#: blog/models.py:12
 msgid "Ce mot clef existe déjà"
 msgstr "This keyword already exists"
 
@@ -453,11 +664,11 @@ msgstr "Posts with the keyword: "
 msgid "Il n'y a pas de billet "
 msgstr "There is no post "
 
-#: blog/views.py:58
+#: blog/views.py:59
 msgid "Nouveau commentaire dans le blog de NTP Manitoba"
 msgstr "New comment in the NTP Manitoba research blog"
 
-#: blog/views.py:59
+#: blog/views.py:60
 msgid ""
 "\n"
 "        Un nouveau commentaire au billet intitulé : {} vient d'être publié "
@@ -479,11 +690,11 @@ msgstr ""
 "Malijaï Caulet (malijai.caulet.ippm@ssss.gouv.qc.ca)\n"
 "            "
 
-#: blog/views.py:67
+#: blog/views.py:68
 msgid "Nouveau commentaire dans le blog de NTP2 Community"
 msgstr "New comment in the NTP2 Community blog"
 
-#: blog/views.py:68
+#: blog/views.py:69
 msgid ""
 "\n"
 "        Un nouveau commentaire au billet intitulé : {} vient d'être publié "
@@ -505,11 +716,11 @@ msgstr ""
 "Malijaï Caulet (malijai.caulet.ippm@ssss.gouv.qc.ca)\n"
 "            "
 
-#: blog/views.py:76
+#: blog/views.py:77
 msgid "Nouveau commentaire dans le blog de l'observatoire"
 msgstr "New comment in the research blog"
 
-#: blog/views.py:77
+#: blog/views.py:78
 msgid ""
 "\n"
 "    Un nouveau commentaire au billet intitulé : {} vient d'être publié par "
@@ -532,11 +743,11 @@ msgstr ""
 "Malijaï Caulet (malijai.caulet.ippm@ssss.gouv.qc.ca)\n"
 "            "
 
-#: blog/views.py:91
+#: blog/views.py:92
 msgid "Nouveau billet dans le blog de NTP Manitoba"
 msgstr "New post in the NTP Manitoba research blog"
 
-#: blog/views.py:92
+#: blog/views.py:93
 msgid ""
 "\n"
 "    Un nouveau billet intitulé : {} vient d'être publié par {} {}.\n"
@@ -556,11 +767,11 @@ msgstr ""
 "Malijaï Caulet (malijai.caulet.ippm@ssss.gouv.qc.ca)\n"
 "            "
 
-#: blog/views.py:100
+#: blog/views.py:101
 msgid "Nouveau billet dans le blog de NTP2 Community"
 msgstr "New post in the NTP2 Community research blog"
 
-#: blog/views.py:101
+#: blog/views.py:102
 msgid ""
 "\n"
 "    Un nouveau billet intitulé : {} vient d'être publié par {} {}.\n"
@@ -580,11 +791,11 @@ msgstr ""
 "Malijaï Caulet (malijai.caulet.ippm@ssss.gouv.qc.ca)\n"
 "            "
 
-#: blog/views.py:109
+#: blog/views.py:110
 msgid "Nouveau billet dans le blog de l'observatoire"
 msgstr "New post in the research blog"
 
-#: blog/views.py:110
+#: blog/views.py:111
 msgid ""
 "\n"
 "        Un nouveau billet intitulé : {} vient d'être publié par {} {}.\n"
@@ -654,197 +865,196 @@ msgstr "Upload"
 msgid "Nouveau sous dossier"
 msgstr "New sub folder"
 
-#: esms/models.py:18
+#: esms/models.py:19
 msgid "Nom de la ressource "
 msgstr "Resource name"
 
-#: esms/models.py:18 esms/models.py:19
+#: esms/models.py:19 esms/models.py:20
 msgid "Obligatoire"
 msgstr "Mandatory"
 
-#: esms/models.py:19
+#: esms/models.py:20
 msgid "Municipalité "
 msgstr "Town"
 
-#: esms/models.py:20
+#: esms/models.py:21
 msgid "Code postal "
 msgstr "Postal Code"
 
-#: esms/models.py:21
+#: esms/models.py:22
 msgid "Adresse du site web "
 msgstr "Web address"
 
-#: esms/models.py:22
+#: esms/models.py:23
 msgid "Numéro de tel public "
 msgstr "Phone number (public)"
 
-#: esms/models.py:23
+#: esms/models.py:24
 msgid "Courriel public "
 msgstr "Email address (public)"
 
-#: esms/models.py:24
+#: esms/models.py:25
 msgid "Objectifs de cette ressource "
 msgstr "Goals for this resource"
 
-#: esms/models.py:25
+#: esms/models.py:26
 msgid "Région(s) déservie(s) "
 msgstr "Area where the services apply"
 
-#: esms/models.py:26
+#: esms/models.py:27
 msgid "Année de la création de laressource ou ancienneté "
 msgstr "Year of creation of the resource or age"
 
-#: esms/models.py:27
+#: esms/models.py:28
 msgid "Lieux principaux d'exercice (si plusieurs sites) "
 msgstr "Places of offices (if several)"
 
-#: esms/models.py:28
+#: esms/models.py:29
 msgid "Quelles sont les sources de financement "
 msgstr "Funds sources"
 
-#: esms/models.py:28
+#: esms/models.py:29
 msgid "Par exemple RI, RE, RTF, MSSS, fondation etc."
 msgstr "For example, foundation, ministry of health etc"
 
-#: esms/models.py:29
+#: esms/models.py:30
 msgid "Heures et jours d'ouverture "
 msgstr "Opening days and hours"
 
-#: esms/models.py:30
+#: esms/models.py:31
 msgid "Profil général des patients pris en charge, limites d'âge, genre etc "
 msgstr "General description of people who use the services (age, gender etc) "
 
-#: esms/models.py:31
+#: esms/models.py:32
 msgid "Critères d'exclusion "
 msgstr "Exclusion criteria"
 
-#: esms/models.py:32
+#: esms/models.py:33
 msgid "Acceptez-vous les cas de patients psycholégaux? "
 msgstr "Do you accept forensic people"
 
-#: esms/models.py:33 esms/models.py:35
+#: esms/models.py:34 esms/models.py:36
 msgid "Si oui combien et dans quelles conditions "
 msgstr "If yes, what are the conditions?"
 
-#: esms/models.py:34
+#: esms/models.py:35
 msgid "Acceptez-vous les cas de patients avec des problématiques multiples? "
 msgstr "Do you accept people with multiple disorders"
 
-#: esms/models.py:36
+#: esms/models.py:37
 msgid "Type de thérapie ou approche "
 msgstr "Kind ot therapy"
 
-#: esms/models.py:37
+#: esms/models.py:38
 msgid "Offrez-vous des services culturellement adaptés aux Autochtones? "
 msgstr "Do you deliver culturally adapted treatments to first nations people?"
 
-#: esms/models.py:38
+#: esms/models.py:39
 msgid "Si oui détaillez ces services"
 msgstr "If yes give details about these services"
 
-#: esms/models.py:39
+#: esms/models.py:40
 msgid "Origine des patients (source des références) "
 msgstr "References sources"
 
-#: esms/models.py:40
+#: esms/models.py:41
 msgid ""
 "Quels sont les délais moyens de prise en charge (En dehors des temps de "
 "liste d'attente) "
 msgstr "Mean take over delay (except the waiting list) "
 
-#: esms/models.py:41
+#: esms/models.py:42
 msgid "Quelles sont les durées moyennes des prises en charge "
 msgstr "What are the mean duration of followup"
 
-#: esms/models.py:42
+#: esms/models.py:43
 msgid "Cliquer s'il y a une liste d'attente "
 msgstr "Click if there is a waiting list"
 
-#: esms/models.py:43
+#: esms/models.py:44
 msgid "Si liste d'attente, durée moyenne de l'attente "
 msgstr "If waiting list, mean duration of waiting time"
 
-#: esms/models.py:44
+#: esms/models.py:45
 msgid "Autres informations pertinantes "
 msgstr "Other interesting informations"
 
-#: esms/models.py:45
+#: esms/models.py:46
 msgid "Services ou activités secondaires "
 msgstr "Other secondary services"
 
-#: esms/models.py:45
+#: esms/models.py:46
 msgid "Par exemple soutien téléphonique, cuisines collectives, cours etc"
 msgstr "For example: phone support, coking services, courses etc"
 
-#: esms/models.py:46
+#: esms/models.py:47
 msgid "Pas de réponse après 5 tentatives "
 msgstr "No answer after 5 trial"
 
-#: esms/models.py:47
+#: esms/models.py:48
 msgid ""
 "Accepte que certaines données soient rendues publiques sur le site de "
 "l'observatoire "
 msgstr "Agree to have some informations shared on a web site"
 
-#: esms/models.py:52
+#: esms/models.py:53
 msgid "État de la codification"
 msgstr "Codification state"
 
-#: esms/models.py:62
+#: esms/models.py:63
 msgid "Non court et évocateur du document"
 msgstr "Short name for the document"
 
-#: esms/models.py:63
+#: esms/models.py:64
 msgid "Documents pertinants"
 msgstr "Interesting documentation"
 
-#: esms/models.py:63 esms/templates/ressource_edit.html:47
+#: esms/models.py:64 esms/templates/ressource_edit.html:47
 msgid "ATTENTION PAS D'ACCENT DANS LE NOM DES FICHIERS"
 msgstr "NO SPECIAL CHARACTERS IN FILE NAMES"
 
-#: esms/models.py:71 esms/models.py:81
+#: esms/models.py:72 esms/models.py:82
 msgid "Professionnel"
 msgstr "Professionnal"
 
-#: esms/models.py:83
+#: esms/models.py:84
 msgid "Nombre d'équivalent temps plein"
 msgstr "Number of full time equivalent"
 
-#: esms/models.py:84
-#| msgid "Temps de travail"
+#: esms/models.py:85
 msgid "Temps moyen de travail"
 msgstr "Work time (mean)"
 
-#: esms/models.py:85
+#: esms/models.py:86
 msgid "Tâche"
 msgstr "Role"
 
-#: esms/models.py:96
+#: esms/models.py:97
 msgid "Ressource"
 msgstr "Resource"
 
-#: esms/models.py:97
+#: esms/models.py:98
 msgid "Code ESMS"
 msgstr "ESMS code"
 
-#: esms/models.py:98 esms/templates/ressource_detail.html:68
+#: esms/models.py:99 esms/templates/ressource_detail.html:68
 #: esms/templates/ressource_edit.html:61
 msgid "Nombre de places"
 msgstr "Number of places"
 
-#: esms/models.py:99
+#: esms/models.py:100
 msgid "Clientèle cible pour cette branche"
 msgstr "Target people for this branch"
 
-#: esms/models.py:100
+#: esms/models.py:101 esms/templates/ressource_detail.html:69
 msgid "Autres informations"
 msgstr "Other informations"
 
-#: esms/models.py:101
+#: esms/models.py:102
 msgid "Autres services dispensés en plus du service codé"
 msgstr "Other services provided in addition to the coded one"
 
-#: esms/models.py:101
+#: esms/models.py:102
 msgid "Par exemple insertion professionnelle en plus de l'hébergement"
 msgstr "For example, work support added to housing services"
 
@@ -919,10 +1129,6 @@ msgstr "Code"
 #: esms/templates/ressource_edit.html:62
 msgid "Clientèle"
 msgstr "Target population"
-
-#: esms/templates/ressource_detail.html:69
-msgid "-Autres informations"
-msgstr "-Other informations"
 
 #: esms/templates/ressource_detail.html:69
 #: esms/templates/ressource_edit.html:63
@@ -1016,35 +1222,35 @@ msgstr "See details"
 msgid "Mettre a jour la ressource"
 msgstr "Update informations"
 
-#: esms/views.py:75
+#: esms/views.py:80
 msgid "{}  a été codée {}"
 msgstr "{}   has been coded  {}"
 
-#: esms/views.py:121
+#: esms/views.py:126
 msgid "L'équipe est enregistrée."
 msgstr "The team is saved."
 
-#: esms/views.py:124
+#: esms/views.py:129
 msgid "Il y a une erreur dans l'enregistrement de l'equipe."
 msgstr "There is an error when saving the team"
 
-#: esms/views.py:146
+#: esms/views.py:151
 msgid "La documentation est enregistrée."
 msgstr "The documents are saved."
 
-#: esms/views.py:149
+#: esms/views.py:154
 msgid "Il y a une erreur dans l'enregistrement de la documentation."
 msgstr "There is an error when saving the documents"
 
-#: esms/views.py:192
+#: esms/views.py:197
 msgid "Mise a jour de la ressource "
 msgstr "Update informations"
 
-#: esms/views.py:206
+#: esms/views.py:211
 msgid "La ressource, son équipe et sa documentation sont mises à jour."
 msgstr "The resource, it's team  and it's documentation have been updated"
 
-#: esms/views.py:212
+#: esms/views.py:217
 msgid ""
 "Il y a une erreur dans l'enregistrement de l'equipe ou de la documentation."
 msgstr "There is an error when saving the team or the documents"
@@ -1088,3 +1294,6 @@ msgstr "Login to have access to this page"
 #: templates/registration/login.html:39
 msgid "Mot de passe perdu?"
 msgstr "Lost password?"
+
+#~ msgid "-Autres informations"
+#~ msgstr "-Other informations"

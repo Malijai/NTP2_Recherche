@@ -27,12 +27,12 @@ PAGE_HEIGHT = defaultPageSize[1]
 PAGE_WIDTH = defaultPageSize[0]
 styles = getSampleStyleSheet()
 DATE = datetime.datetime.now().strftime('%Y %b %d')
-
+ENTETE = "Mise à jour GRC NTP1"
 
 ## Affiche la liste des dossiers encore ouverts
 @login_required(login_url=settings.LOGIN_URI)
 def liste_personne(request):
-    entete = settings.SITE_HEADER + " : Listing"
+    entete = ENTETE + " : Listing"
     personne_list = Personnegrcntp1.objects.filter(ferme=0)
     paginator = Paginator(personne_list, 100)
     page = request.GET.get('page')
@@ -61,7 +61,7 @@ def personne_ferme(request, pk):
 @login_required(login_url=settings.LOGIN_URI)
 def personne_edit(request, pk):
     personne = Personnegrcntp1.objects.get(pk=pk)
-    entete = settings.SITE_HEADER + " : Mise à jour"
+    entete = ENTETE + " : Mise à jour informations individu"
     date_old_sentence = datetime.date(1900, 1, 1)
     oldfps = personne.oldpresencefps
     if NouveauxDelitsntp1.objects.filter(personnegrc=personne).exists():
@@ -77,7 +77,7 @@ def personne_edit(request, pk):
             newfps = request.POST.get('newpresencefps')
             date_new_sentence = datetime.date(1900, 1, 1)
             if request.POST.get('dateverdictder') != "":
-                jour, mois, an = request.POST.get('dateverdictder').split('/')
+                an, mois, jour = request.POST.get('dateverdictder').split('-')
                 date_new_sentence = datetime.date(int(an), int(mois), int(jour))
             timediff = date_new_sentence - date_old_sentence
 
@@ -87,7 +87,7 @@ def personne_edit(request, pk):
             else:
                 personne.newdelit = 0
                 personne.ferme = 1
-                messages.success(request, "La personne a été mise à jour et le dossier fermé.")
+                messages.success(request, "Pas de nouveaux délits, la personne a été mise à jour et le dossier fermé.")
             personne.save()
             if (date_new_sentence > date_old_sentence) | (oldfps == 0 and newfps == 1):
                 return redirect('personne_delits', personne.id)
@@ -109,9 +109,9 @@ def personne_delits(request, pk):
     personne = Personnegrcntp1.objects.get(pk=pk)
     delits = NouveauxDelitsntp1.objects.filter(personnegrc=personne).order_by('-date_sentence')
     liberations = Liberationntp1.objects.filter(personnegrc=personne).order_by('-date_liberation')
-    entete = settings.SITE_HEADER + " : Délits "
+    entete = ENTETE + " : Délits "
     # Fait la liste des villes de la province correspondante et ajoute les autres
-    ville = Municipalite.objects.filter(Q(province=personne.province) | Q(province=5))
+    ville = Municipalite.objects.filter(Q(province=personne.province) | Q(province=10))
     form = NouveauxDelitsForm(prefix='delit')
     form.fields['lieu_sentence'].queryset = ville
     # form.fields['date_sentence'].widget = DateTimePickerInput(format='%d/%m/%Y')
