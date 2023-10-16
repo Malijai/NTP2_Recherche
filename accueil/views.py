@@ -33,6 +33,9 @@ def entreesystemes(request):
     GH = False
     NTP1 = False
     NTP2 = False
+    GRCNTP2 = False
+    GRCMB = False
+    GRCNTP1 = False
     droits = Projet.objects.filter(user_id=request.user.id)
 
     for droit in droits:
@@ -42,15 +45,27 @@ def entreesystemes(request):
             NTP1 = True
         elif droit.projet == Projet.NTP2:
             NTP2 = True
+        elif droit.projet == Projet.GRCNTP2:
+            GRCNTP2 = True
+        elif droit.projet == Projet.GRCMB:
+            GRCMB = True
+        elif droit.projet == Projet.GRCNTP1:
+            GRCNTP1 = True
         elif droit.projet == Projet.ALL:
             GH = True
             NTP1 = True
             NTP2 = True
+            GRCNTP2 = True
+            GRCMB = True
+            GRCNTP1 = True
 
     return render(request, "entreesystemes.html",
                       {
                         'GH': GH,
                         'NTP1': NTP1,
                         'NTP2': NTP2,
+                        'GRCNTP2': GRCNTP2,
+                        'GRCMB': GRCMB,
+                        'GRCNTP1': GRCNTP1,
                         'Profile': Profile
                       })

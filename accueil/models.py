@@ -35,24 +35,6 @@ class Profile(models.Model):
         return self.user.username
 
 
-class Projet(models.Model):
-    GH = 1
-    NTP1 = 2
-    NTP2 = 3
-    ALL = 10
-    PROJETS_CHOICES = (
-                           (GH, 'Going Home'),
-                           (NTP1, 'National Trajectory Project'),
-                           (NTP2, 'NTP2 Community'),
-                           (ALL, 'All projects'),
-                        )
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    projet = models.PositiveSmallIntegerField(choices=PROJETS_CHOICES, verbose_name="Projets", null=True, blank=True)
-
-    def __str__(self):
-        return self.user.username
-
-
 class Contrat(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     numeemploye = models.CharField(max_length=256, verbose_name="Numero Employe", null=True, blank=True)
@@ -75,6 +57,30 @@ class Tempsfacture(models.Model):
 
     def __str__(self):
         return '%s' % self.user
+
+
+class Projet(models.Model):
+    GH = 1
+    NTP1 = 2
+    NTP2 = 3
+    GRCNTP2 = 4
+    GRCMB = 5
+    GRCNTP1 = 6
+    ALL = 10
+    PROJETS_CHOICES = (
+                           (GH, 'Going Home'),
+                           (NTP1, 'National Trajectory Project'),
+                           (NTP2, 'NTP2 Community'),
+                           (GRCNTP2, 'GRC NTP2 Community'),
+                           (GRCMB, 'GRC MB Replication'),
+                           (GRCNTP1, 'GRC NTP1 Reprise'),
+                           (ALL, 'All projects'),
+                        )
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    projet = models.PositiveSmallIntegerField(choices=PROJETS_CHOICES, verbose_name="Projets", null=True, blank=True)
+
+    def __str__(self):
+        return self.user.username
 
 
 @receiver(post_save, sender=User)
