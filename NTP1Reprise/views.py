@@ -3,10 +3,12 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.shortcuts import render, redirect
 from django.apps import apps
-from .models import NouveauxDelitsntp1, Personnegrcntp1, Municipalite, Liberationntp1
+from .models import NouveauxDelitsntp1, Personnegrcntp1, Municipalite, Liberationntp1, Province
 from django.contrib import messages
 from .forms import PersonneForm, NouveauxDelitsForm, LiberationForm
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.utils import translation
+from django.utils.translation import gettext_lazy as _
 #from bootstrap_datepicker_plus.widgets import DateTimePickerInput
 from django.core.files.storage import FileSystemStorage
 from django.http import HttpResponse, StreamingHttpResponse
@@ -20,20 +22,31 @@ import csv
 
 # from django.db import connection
 
-NOM_FICHIER_PDF = "ChezSoi_AtHome.pdf"
-TITRE = "At Home/Chez Soi RCMP Vairiable list"
-PAGE_INFO = " At Home/Chez Soi RCMP Data protocol - Printed date: " + datetime.datetime.now().strftime('%Y/%m/%d')
+NOM_FICHIER_PDF = "RCMP_Dictionary.pdf"
+TITRE = "RCMP Vairiable list"
+PAGE_INFO = "RCMP Data protocol - Printed date: " + datetime.datetime.now().strftime('%Y/%m/%d')
 PAGE_HEIGHT = defaultPageSize[1]
 PAGE_WIDTH = defaultPageSize[0]
 styles = getSampleStyleSheet()
 DATE = datetime.datetime.now().strftime('%Y %b %d')
-ENTETE = "Mise à jour GRC NTP1"
+ENTETE = "RCMP Data protocol"
+
+
+@login_required(login_url=settings.LOGIN_URI)
+def choix_province(request):
+    entete = ENTETE + " : Choix de la province"
+    provinces = Province.objects.all()
+    if request.method == 'POST':
+        return redirect(liste_personne, request.POST.get('provinceid') )
+    else:
+        return render(request, 'choixprovince.html', {'provinces': provinces, 'entete': entete})
+
 
 ## Affiche la liste des dossiers encore ouverts
 @login_required(login_url=settings.LOGIN_URI)
-def liste_personne(request):
+def liste_personne(request, pi):
     entete = ENTETE + " : Listing"
-    personne_list = Personnegrcntp1.objects.filter(ferme=0)
+    personne_list = Personnegrcntp1.objects.filter(Q(ferme=0) & Q(province=pi))
     paginator = Paginator(personne_list, 100)
     page = request.GET.get('page')
     try:
@@ -53,54 +66,86 @@ def personne_ferme(request, pk):
     personne = Personnegrcntp1.objects.get(pk=pk)
     personne.ferme = 1
     personne.save()
-    messages.success(request, "Fermeture de " + personne.codeGRC)
-    return redirect('liste_personne')
+    messages.success(request, "Fermeture de " + str(personne.codeGRC))
+    return redirect(liste_personne, personne.province_id)
 
 
-## Pour vérifier si de nouveaux délits sont présents dans les fiches
 @login_required(login_url=settings.LOGIN_URI)
 def personne_edit(request, pk):
+    langue = translation.get_language()
     personne = Personnegrcntp1.objects.get(pk=pk)
     entete = ENTETE + " : Mise à jour informations individu"
-    date_old_sentence = datetime.date(1900, 1, 1)
-    oldfps = personne.oldpresencefps
-    if NouveauxDelitsntp1.objects.filter(personnegrc=personne).exists():
-        dernieredate = NouveauxDelitsntp1.objects.filter(personnegrc=personne).order_by('-date_sentence').first()
-        date_old_sentence = dernieredate.date_sentence
-
     if request.method == 'POST':
         form = PersonneForm(request.POST, instance=personne)
         if form.is_valid():
             personne = form.save(commit=False)
             personne.RA = request.user
-            # print(request.POST.get('dateprint2').__class__)
+            #print(request.POST.get('dateprint2').__class__)
             newfps = request.POST.get('newpresencefps')
-            date_new_sentence = datetime.date(1900, 1, 1)
-            if request.POST.get('dateverdictder') != "":
-                an, mois, jour = request.POST.get('dateverdictder').split('-')
-                date_new_sentence = datetime.date(int(an), int(mois), int(jour))
-            timediff = date_new_sentence - date_old_sentence
-
-            if timediff.days > 1:
-                personne.newdelit = 1
-                messages.success(request, "La personne a été mise à jour.")
-            else:
-                personne.newdelit = 0
+            #print("bbb ", str(newfps))
+            if str(newfps) == "None":
                 personne.ferme = 1
-                messages.success(request, "Pas de nouveaux délits, la personne a été mise à jour et le dossier fermé.")
-            personne.save()
-            if (date_new_sentence > date_old_sentence) | (oldfps == 0 and newfps == 1):
-                return redirect('personne_delits', personne.id)
+                personne.save()
+                messages.success(request, _(u"Pas de dossier pour cette personne,le dossier a été fermé."))
+                return redirect(liste_personne, personne.province_id)
             else:
-                return redirect('liste_personne')
-        else:
-            messages.error(request, "Il y a une erreur dans l'enregistrement")
-            return redirect('personne_edit', personne.id)
+                if request.POST.get('dateprint2') != "":
+                    personne.save()
+                    return redirect('personne_delits', personne.id)
+                else:
+                    messages.error(request, _(u"S'il y a un dossier, il doit y avoir une date d'impression ."))
+                    return render(request, "personne_edit.html",
+                                  {'my_form': form, 'entete': entete, 'personne': personne})
     else:
         form = PersonneForm(instance=personne)
- #       form.fields['dateprint2'].widget = DateTimePickerInput(format='%d/%m/%Y')
- #       form.fields['dateverdictder'].widget = DateTimePickerInput(format='%d/%m/%Y')
     return render(request, "personne_edit.html", {'my_form': form, 'entete': entete, 'personne': personne})
+
+
+## Pour vérifier si de nouveaux délits sont présents dans les fiches
+# @login_required(login_url=settings.LOGIN_URI)
+# def personne_edit(request, pk):
+#     langue = translation.get_language()
+#     personne = Personnegrcntp1.objects.get(pk=pk)
+#     entete = ENTETE + " : Mise à jour informations individu"
+#     date_old_sentence = datetime.date(1900, 1, 1)
+#     oldfps = personne.oldpresencefps
+#     if NouveauxDelitsntp1.objects.filter(personnegrc=personne).exists():
+#         dernieredate = NouveauxDelitsntp1.objects.filter(personnegrc=personne).order_by('-date_sentence').first()
+#         date_old_sentence = dernieredate.date_sentence
+#
+#     if request.method == 'POST':
+#         form = PersonneForm(request.POST, instance=personne)
+#         if form.is_valid():
+#             personne = form.save(commit=False)
+#             personne.RA = request.user
+#             # print(request.POST.get('dateprint2').__class__)
+#             newfps = request.POST.get('newpresencefps')
+#             date_new_sentence = datetime.date(1900, 1, 1)
+#             if request.POST.get('dateverdictder') != "":
+#                 an, mois, jour = request.POST.get('dateverdictder').split('-')
+#                 date_new_sentence = datetime.date(int(an), int(mois), int(jour))
+#             timediff = date_new_sentence - date_old_sentence
+#
+#             if timediff.days > 1:
+#                 personne.newdelit = 1
+#                 messages.success(request, _(u"La personne a été mise à jour."))
+#             else:
+#                 personne.newdelit = 0
+#                 personne.ferme = 1
+#                 messages.success(request, _(u"Pas de nouveaux délits, la personne a été mise à jour et le dossier fermé."))
+#             personne.save()
+#             if (date_new_sentence > date_old_sentence) | (oldfps == 0 and newfps == 1):
+#                 return redirect('personne_delits', personne.id)
+#             else:
+#                 return redirect('liste_personne')
+#         else:
+#             messages.error(request, _(u"Il y a une erreur dans l'enregistrement"))
+#             return redirect('personne_edit', personne.id)
+#     else:
+#         form = PersonneForm(instance=personne)
+#  #       form.fields['dateprint2'].widget = DateTimePickerInput(format='%d/%m/%Y')
+#  #       form.fields['dateverdictder'].widget = DateTimePickerInput(format='%d/%m/%Y')
+#     return render(request, "personne_edit.html", {'my_form': form, 'entete': entete, 'personne': personne})
 
 
 ## Permet sur une même page d'enregistrer les délits, les libérations et de voir ce qui est déjà rentré
@@ -114,9 +159,7 @@ def personne_delits(request, pk):
     ville = Municipalite.objects.filter(Q(province=personne.province) | Q(province=10))
     form = NouveauxDelitsForm(prefix='delit')
     form.fields['lieu_sentence'].queryset = ville
-    # form.fields['date_sentence'].widget = DateTimePickerInput(format='%d/%m/%Y')
     libe_form = LiberationForm(prefix='libe')
-    # libe_form.fields['date_liberation'].widget = DateTimePickerInput(format='%d/%m/%Y')
     if request.method == 'POST':
         if 'Savelibe' or 'Savelibequit' in request.POST:
             libe_form = LiberationForm(request.POST, prefix='libe')
@@ -126,11 +169,11 @@ def personne_delits(request, pk):
                 libe.RA = request.user
                 libe.personnegrc = personne
                 libe.save()
-                messages.success(request, "Une liberation de " + personne.codeGRC + " a été ajoutée.")
+                messages.success(request, _(u'Une liberation de {} a été ajoutée.').format(personne.codeGRC))
                 if 'Savelibequit' in request.POST:
-                    return redirect('liste_personne')
+                    return redirect('liste_personne', personne.province_id)
                 elif 'Savelibe':
-                    return redirect('personne_delits', personne.id)
+                    return redirect(personne_delits, personne.id)
         if not libe_form.is_valid():
             if 'Savequit' or 'Savedelit' in request.POST:
                 form = NouveauxDelitsForm(request.POST, prefix='delit')
@@ -142,15 +185,15 @@ def personne_delits(request, pk):
                     delit.province = personne.province
                     delit.nouveaudelit = 1
                     delit.save()
-                    messages.success(request, "Les delits du # " + personne.codeGRC + " ont été mis à jour.")
+                    messages.success(request, _(u'Les delits du #  {} ont été mis à jour.').format(personne.codeGRC))
                     if 'Savequit' in request.POST:
-                        return redirect('liste_personne')
+                        return redirect(liste_personne, personne.province_id)
                     else:
-                        return redirect('personne_delits', personne.id)
+                        return redirect(personne_delits, personne.id)
         if not libe_form.is_valid():
-            messages.error(request, "Il y a une erreur dans l'enregistrement de la liberation")
+            messages.error(request, _(u"Il y a une erreur dans l'enregistrement de la liberation"))
         if not form.is_valid():
-            messages.error(request, "Il y a une erreur dans l'enregistrement du delit")
+            messages.error(request, _(u"Il y a une erreur dans l'enregistrement du delit"))
     return render(request, "personne_delits.html", {'personne': personne,
                                                     'delits': delits,
                                                     'liberations': liberations,
@@ -169,7 +212,7 @@ def myFirstPage(patron, _):
     patron.setStrokeColorRGB(0, 0, 0)
     patron.setLineWidth(0.5)
     patron.line(0, 65, PAGE_WIDTH - 0, 65)
-    patron.drawString(inch, 0.70 * inch, "At Home/Chez Soi / %s" % PAGE_INFO)
+    patron.drawString(inch, 0.70 * inch, "RCMP data / %s" % PAGE_INFO)
     patron.restoreState()
 
 
@@ -184,7 +227,7 @@ def myLaterPages(patron, doc):
 
 
 @login_required(login_url=settings.LOGIN_URI)
-def do_chezsoi_pdf(request):
+def do_dico_pdf(request):
     fichier = NOM_FICHIER_PDF
     doc = SimpleDocTemplate("/tmp/{}".format(fichier))
     cs = NouveauxDelitsntp1()
@@ -195,7 +238,7 @@ def do_chezsoi_pdf(request):
     Story.append(Spacer(1, 0.5 * inch))
     bullettes = styles['Code']
 
-    Story.append(Paragraph("Variable Name &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Question text/Value list",
+    Story.append(Paragraph("Variable Name &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Data format &nbsp;&nbsp;&nbsp;Question text/Value list",
                            styles["Normal"]))
     for field in all_fields:
         if field.name != 'id' and field.name != 'nouveaudelit' \
@@ -223,16 +266,17 @@ def do_chezsoi_pdf(request):
                     Story.append(p)
             elif typef == "ForeignKey":
                 tableL = NouveauxDelitsntp1._meta.get_field(field.name).remote_field.model.__name__
-                if tableL != 'Personnegrc' and tableL != 'Province' and tableL != 'User':
-                    Tableliee = apps.get_model('grc', tableL)
+                if tableL != 'Personnegrcntp1' and tableL != 'Province' and tableL != 'User':
+                    Tableliee = apps.get_model('NTP1Reprise', tableL)
                     liste = Tableliee.objects.all().order_by('reponse_valeur')
                     espace = '&nbsp;' * 10 + '&#x00B7;'
                     for val in liste:
                         if tableL == 'Municipalite':
-                            bogustext = '{}&nbsp;{}&nbsp;{}&nbsp;&nbsp;{}&nbsp;&nbsp;'.format(espace,
-                                                                                              val.province.reponse_en,
-                                                                                              val.reponse_valeur,
-                                                                                              val.reponse_en, )
+                            bogustext = ""
+                            #"'{}&nbsp;{}&nbsp;{}&nbsp;&nbsp;{}&nbsp;&nbsp;'.format(espace,
+                                                                                              # val.province.reponse_en,
+                                                                                              # val.reponse_valeur,
+                                                                                              # val.reponse_en, )
                         else:
                             bogustext = '{}&nbsp;{}&nbsp;&nbsp;{}'.format(espace, val.reponse_valeur, val.reponse_en)
                         p = Paragraph(bogustext, bullettes)
@@ -241,14 +285,13 @@ def do_chezsoi_pdf(request):
     Story.append(Paragraph("RCMP Individual data", styles["Heading1"]))
 
     Story.append(Spacer(1, 0.5 * inch))
-    Story.append(Paragraph("Data were entered in two phases. In the first phase we have noticed that there "
-                           "were a lot of missing data so we have asked for RCMP file later and have entered "
-                           "the new data in the database. The dateprint1, oldpresencefps, delit refers to the "
-                           "presence of data in the first phase, the other fields refers to the second phase.",
+    Story.append(Paragraph("I have used an ancient system which was used to update data. So the dateprint1, "
+                            " oldpresencefps, delit refers to the "
+                           "presence of previously saved data, the other fields refers to the updated variables.",
                            styles["Normal"]))
     Story.append(Spacer(1, 0.2 * inch))
 
-    Story.append(Paragraph("Variable Name &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Question text/Value list",
+    Story.append(Paragraph("Variable Name &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Data format &nbsp;&nbsp;&nbsp;Question text/Value list",
                            styles["Normal"]))
     perso = Personnegrcntp1()
     all_fieldsp = perso._meta.get_fields()
@@ -293,7 +336,7 @@ def do_chezsoi_pdf(request):
     Story.append(PageBreak())
     Story.append(Paragraph("RCMP Release informations", styles["Heading1"]))
     Story.append(Spacer(1, 0.5 * inch))
-    Story.append(Paragraph("Variable Name &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Question text/Value list",
+    Story.append(Paragraph("Variable Name &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Data format &nbsp;&nbsp;&nbsp;Question text/Value list",
                            styles["Normal"]))
     liber = Liberationntp1()
     all_fieldliber = liber._meta.get_fields()

@@ -8,11 +8,10 @@ from .widgets import DatePickerInput, TimePickerInput, DateTimePickerInput
 class PersonneForm(forms.ModelForm):
     class Meta:
         model = Personnegrcntp1
-        fields = ('dateprint2', 'dateverdictder', 'newpresencefps','datedeces')
-        exclude = ('codeGRC', 'province', 'delit', 'dateprint1', 'oldpresencefps', 'assistant', 'newdelit')
+        fields = ('dateprint2', 'newpresencefps','datedeces')
+        exclude = ('codeGRC', 'province', 'delit', 'assistant', 'newdelit')
         widgets = {
                     'dateprint2' : DatePickerInput(),
-                    'dateverdictder': DatePickerInput(),
                     'datedeces': DatePickerInput(),
         }
 
@@ -20,7 +19,7 @@ class FermeForm(forms.ModelForm):
     class Meta:
         model = Personnegrcntp1
         fields = ('ferme',)
-        exclude = ('codeGRC', 'province', 'delit', 'dateprint1', 'oldpresencefps', 'assistant', 'newdelit','dateprint2', 'dateverdictder', 'newpresencefps')
+        exclude = ('codeGRC', 'province', 'delit', 'assistant', 'newdelit','dateprint2', 'newpresencefps')
 
 
 # Formulaire pour rentrer les nouveaux délits si nécessaire:

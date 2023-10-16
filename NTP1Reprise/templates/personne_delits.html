@@ -1,4 +1,5 @@
 {% extends 'personne_base.html' %}
+{% load i18n %}
 
 {% block maincontent %}
 <div class="w3-container">
@@ -18,39 +19,50 @@
         <tr><td>{{ form.date_sentence.label_tag }} {{ form.date_sentence }}</td>
             <td>{{ form.ordre_delit.label_tag }} {{ form.ordre_delit }}</td></tr>
         <tr><td>{{ form.lieu_sentence.label_tag }} {{ form.lieu_sentence }}</td>
-            <td>{{ form.type_tribunal.label_tag }} {{ form.type_tribunal }}</td></tr>
+            <td>{{ form.type_tribunal.label_tag }}
+                {% include "langue_snippet.html" with language=LANGUAGE_CODE table="Tribunal" nom_champ="delit-type_tribunal" %}</td></tr>
         <tr><td>{{ form.codeCCdelit.label_tag }} {{ form.codeCCdelit }}</td>
             <td>{{ form.descriptiondelit.label_tag }} {{ form.descriptiondelit }}</td></tr>
         <tr><td>{{ form.nombre_chefs.label_tag }} {{ form.nombre_chefs }}</td>
             <td>{{ form.violation.label_tag }} {{ form.violation }}</td></tr>
-        <tr><td colspan="2">{{ form.verdict.label_tag }} {{ form.verdict }}</td></tr>
-            <tr><td colspan="2" class="w3-theme-l2"></td></tr>
+        <tr><td colspan="2">{{ form.verdict.label_tag }}
+            {% include "langue_snippet.html" with language=LANGUAGE_CODE table="Verdict" nom_champ="delit-verdict" %}</td></tr>
+    <tr><td colspan="2" class="w3-theme-l2"></td></tr>
         <tr><td colspan="2">{{ form.amendeON.label_tag }} {{ form.amendeON }}</td></tr>
-        <tr><td>{{ form.amende_type.label_tag }} {{ form.amende_type }}</td>
+        <tr><td>{{ form.amende_type.label_tag }}
+            {% include "langue_snippet.html" with language=LANGUAGE_CODE table="Type" nom_champ="delit-amende_type" %}</td>
             <td>{{ form.amendecout.label_tag }} {{ form.amendecout }}</td></tr>
-                    <tr><td colspan="2" class="w3-theme-l2"></td></tr>
+    <tr><td colspan="2" class="w3-theme-l2"></td></tr>
         <tr><td colspan="2">{{ form.detentionON.label_tag }} {{ form.detentionON }}</td></tr>
         <tr><td>{{ form.detentionduree.label_tag }} {{ form.detentionduree }}</td>
-            <td>{{ form.unitedetention.label_tag }} {{ form.unitedetention }}</td></tr>
-                    <tr><td colspan="2" class="w3-theme-l2"></td></tr>
+            <td>{{ form.unitedetention.label_tag }}
+                {% include "langue_snippet.html" with language=LANGUAGE_CODE table="Duree" nom_champ="delit-unitedetention" %}
+                </td></tr>
+    <tr><td colspan="2" class="w3-theme-l2"></td></tr>
         <tr><td colspan="2">{{ form.probationON.label_tag }} {{ form.probationON }}</td></tr>
         <tr><td>{{ form.probationduree.label_tag }} {{ form.probationduree }}</td>
-            <td>{{ form.uniteprobation.label_tag }} {{ form.uniteprobation }}</td></tr>
-                    <tr><td colspan="2" class="w3-theme-l2"></td></tr>
+            <td>{{ form.uniteprobation.label_tag }}
+            {% include "langue_snippet.html" with language=LANGUAGE_CODE table="Duree" nom_champ="delit-uniteprobation" %}
+        </td></tr>
+    <tr><td colspan="2" class="w3-theme-l2"></td></tr>
         <tr><td colspan="2">{{ form.interdictionON.label_tag }} {{ form.interdictionON }}</td></tr>
         <tr><td>{{ form.interdictionduree.label_tag }} {{ form.interdictionduree }}</td>
-            <td>{{ form.uniteinterdiction.label_tag }} {{ form.uniteinterdiction }}</td></tr>
+            <td>{{ form.uniteinterdiction.label_tag }}
+            {% include "langue_snippet.html" with language=LANGUAGE_CODE table="Duree" nom_champ="delit-uniteinterdiction" %}
+        </td></tr>
         <tr><td colspan="2">{{ form.interdictiondetails.label_tag }} {{ form.interdictiondetails }}</td></tr>
-                    <tr><td colspan="2" class="w3-theme-l2"></td></tr>
+    <tr><td colspan="2" class="w3-theme-l2"></td></tr>
         <tr><td colspan="2">{{ form.surcisON.label_tag }} {{ form.surcisON }}</td></tr>
         <tr><td>{{ form.surcisduree.label_tag }} {{ form.surcisduree }}</td>
-            <td>{{ form.unitesurcis.label_tag }} {{ form.unitesurcis }}</td></tr>
-                    <tr><td colspan="2" class="w3-theme-l2"></td></tr>
+            <td>{{ form.unitesurcis.label_tag }}
+            {% include "langue_snippet.html" with language=LANGUAGE_CODE table="Duree" nom_champ="delit-unitesurcis" %}
+            </td></tr>
+    <tr><td colspan="2" class="w3-theme-l2"></td></tr>
         <tr><td colspan="2">{{ form.autreON.label_tag }} {{ form.autreON }}</td></tr>
         <tr><td colspan="2">{{ form.autredetails.label_tag }} {{ form.autredetails }}</td></tr>
                     <tr><td colspan="2" class="w3-theme-l2"></td></tr>
-        <tr><td><button type="submit" class="w3-button w3-amber" name="Savequit">Save and quit</button></td>
-            <td><button type="submit" class="w3-button w3-orange" name="Savedelit">Save et ajouter un autre delit / libération</button></td>
+        <tr><td><button type="submit" class="w3-button w3-amber" name="Savequit">{% trans "Enregistrer & quit" %}</button></td>
+            <td><button type="submit" class="w3-button w3-orange" name="Savedelit">{% trans "Enregistrer & ajouter délit / libération" %}</button></td>
         </tr>
         </table>
         </form>
