@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <title>urls.py</title>
+  <link rel="stylesheet" href="../pycco.css">
+</head>
+<body>
+<div id='container'>
+  <div id="background"></div>
+  <div class='section'>
+    <div class='docs'><h1>urls.py</h1></div>
+  </div>
+  <div class='clearall'>
+  <div class='section' id='section-0'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-0'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">django.urls</span> <span class="kn">import</span> <span class="n">path</span>
+<span class="kn">from</span> <span class="nn">.views</span> <span class="kn">import</span> <span class="n">select_personne</span><span class="p">,</span> <span class="n">saverepetntp2</span><span class="p">,</span> <span class="n">saventp2</span><span class="p">,</span> <span class="n">questions_pdf</span><span class="p">,</span> <span class="n">ffait_csv</span><span class="p">,</span> <span class="n">decrypt</span><span class="p">,</span> <span class="n">verifie_csv</span><span class="p">,</span> \
+    <span class="n">creerdossierntp2</span><span class="p">,</span> <span class="n">fdetemps</span><span class="p">,</span> <span class="n">bilan_par_province</span><span class="p">,</span> <span class="n">fait_entete_ntp2_spss</span><span class="p">,</span> <span class="n">fait_entete_ntp2_stata</span><span class="p">,</span> <span class="n">prepare_csv</span>
+<span class="kn">from</span> <span class="nn">django.contrib.auth.views</span> <span class="kn">import</span> <span class="n">LoginView</span>
+
+
+<span class="n">urlpatterns</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">select_personne</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;SelectPersonne&#39;</span><span class="p">),</span>
+    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;saverepetntp2/&lt;int:qid&gt;/&lt;int:pid&gt;/&#39;</span><span class="p">,</span> <span class="n">saverepetntp2</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;saverepetntp2&#39;</span><span class="p">),</span>
+    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;saventp2/&lt;int:qid&gt;/&lt;int:pid&gt;/&#39;</span><span class="p">,</span> <span class="n">saventp2</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;saventp2&#39;</span><span class="p">),</span>
+    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;decrypt/&lt;int:pid&gt;&#39;</span><span class="p">,</span> <span class="n">decrypt</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;decrypt&#39;</span><span class="p">),</span>
+    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;login/&#39;</span><span class="p">,</span> <span class="n">LoginView</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;login&#39;</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;redirect_authenticated_user&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">}),</span>
+    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;pdf/&lt;int:pk&gt;/&#39;</span><span class="p">,</span> <span class="n">questions_pdf</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;do_questions_pdf&#39;</span><span class="p">),</span>
+    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;txt/&lt;int:pid&gt;&#39;</span><span class="p">,</span> <span class="n">verifie_csv</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;verifie_csv&#39;</span><span class="p">),</span>
+    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;new/&#39;</span><span class="p">,</span> <span class="n">creerdossierntp2</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;creerdossierntp2&#39;</span><span class="p">),</span>
+    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;fdt/&#39;</span><span class="p">,</span> <span class="n">fdetemps</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;do_fdt&#39;</span><span class="p">),</span>
+    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;bilan/&#39;</span><span class="p">,</span> <span class="n">bilan_par_province</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;do_bilan&#39;</span><span class="p">),</span>
+    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;csv/&lt;int:province&gt;/&lt;int:questionnaire&gt;/&#39;</span><span class="p">,</span> <span class="n">prepare_csv</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;prepare_csv&#39;</span><span class="p">),</span>
+    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;csv/&lt;int:province&gt;/&lt;int:questionnaire&gt;/&lt;int:iteration&gt;/&lt;int:seuil&gt;/&#39;</span><span class="p">,</span> <span class="n">ffait_csv</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;do_csv&#39;</span><span class="p">),</span>
+    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;entetespss/&lt;int:questionnaire&gt;/&lt;int:province&gt;/&#39;</span><span class="p">,</span> <span class="n">fait_entete_ntp2_spss</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;fait_entete_ntp2_spss&#39;</span><span class="p">),</span>
+    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;entetestata/&lt;int:questionnaire&gt;/&lt;int:province&gt;/&#39;</span><span class="p">,</span> <span class="n">fait_entete_ntp2_stata</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;fait_entete_ntp2_stata&#39;</span><span class="p">),</span>
+<span class="p">]</span>
+
+</pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+</div>
+</body>

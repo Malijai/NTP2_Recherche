@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <title>admin.py</title>
+  <link rel="stylesheet" href="../pycco.css">
+</head>
+<body>
+<div id='container'>
+  <div id="background"></div>
+  <div class='section'>
+    <div class='docs'><h1>admin.py</h1></div>
+  </div>
+  <div class='clearall'>
+  <div class='section' id='section-0'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-0'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">unicode_literals</span>
+<span class="kn">from</span> <span class="nn">django.contrib</span> <span class="kn">import</span> <span class="n">admin</span>
+
+<span class="kn">from</span> <span class="nn">.models</span> <span class="kn">import</span> <span class="n">Typequestion</span><span class="p">,</span> <span class="n">Questionnaire</span><span class="p">,</span> <span class="n">Questionntp2</span><span class="p">,</span> <span class="n">Personne</span><span class="p">,</span> <span class="n">Reponsentp2</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-1'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-1'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">class</span> <span class="nc">QuestionAdmin</span><span class="p">(</span><span class="n">admin</span><span class="o">.</span><span class="n">ModelAdmin</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-2'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-2'>#</a>
+      </div>
+      <p>admin.site.site_header = &lsquo;My admin&rsquo;</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">list_display</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;questionno&#39;</span><span class="p">,</span> <span class="s1">&#39;questionen&#39;</span><span class="p">)</span>
+    <span class="n">list_filter</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;questionnaire&#39;</span><span class="p">,</span> <span class="s1">&#39;typequestion&#39;</span><span class="p">]</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-3'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-3'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">save_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">form</span><span class="p">,</span> <span class="n">change</span><span class="p">):</span>
+        <span class="n">obj</span><span class="o">.</span><span class="n">save</span><span class="p">()</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-4'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-4'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">class</span> <span class="nc">PersonneAdmin</span><span class="p">(</span><span class="n">admin</span><span class="o">.</span><span class="n">ModelAdmin</span><span class="p">):</span>
+    <span class="n">list_display</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;code&#39;</span><span class="p">,</span> <span class="s1">&#39;hospcode&#39;</span><span class="p">,</span> <span class="s1">&#39;province&#39;</span><span class="p">,</span> <span class="s1">&#39;assistant&#39;</span><span class="p">,</span><span class="s1">&#39;completed&#39;</span><span class="p">)</span>
+    <span class="n">list_filter</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;selecthosp&#39;</span><span class="p">,</span> <span class="s1">&#39;province&#39;</span><span class="p">,</span> <span class="s1">&#39;assistant&#39;</span><span class="p">,</span> <span class="s1">&#39;completed&#39;</span><span class="p">]</span>
+    <span class="n">actions</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;ouvre_dossier&#39;</span><span class="p">]</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-5'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-5'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">ouvre_dossier</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">queryset</span><span class="p">):</span>
+        <span class="n">rows_updated</span> <span class="o">=</span> <span class="n">queryset</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">completed</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">rows_updated</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">message_bit</span> <span class="o">=</span> <span class="s2">&quot;1 dossier a été&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">message_bit</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> dossiers ont été&quot;</span> <span class="o">%</span> <span class="n">rows_updated</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">message_user</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> réouvert(s).&quot;</span> <span class="o">%</span> <span class="n">message_bit</span><span class="p">)</span>
+    <span class="n">ouvre_dossier</span><span class="o">.</span><span class="n">short_description</span> <span class="o">=</span> <span class="s2">&quot;Réouvrir les dossiers cochés&quot;</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-6'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-6'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">save_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">form</span><span class="p">,</span> <span class="n">change</span><span class="p">):</span>
+        <span class="n">obj</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+
+
+<span class="n">admin</span><span class="o">.</span><span class="n">site</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">Typequestion</span><span class="p">)</span>
+<span class="n">admin</span><span class="o">.</span><span class="n">site</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">Questionnaire</span><span class="p">)</span>
+<span class="n">admin</span><span class="o">.</span><span class="n">site</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">Questionntp2</span><span class="p">,</span> <span class="n">QuestionAdmin</span><span class="p">)</span>
+<span class="n">admin</span><span class="o">.</span><span class="n">site</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">Personne</span><span class="p">,</span> <span class="n">PersonneAdmin</span><span class="p">)</span>
+<span class="n">admin</span><span class="o">.</span><span class="n">site</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">Reponsentp2</span><span class="p">)</span>
+
+</pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+</div>
+</body>

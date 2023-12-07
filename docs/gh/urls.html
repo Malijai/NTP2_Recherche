@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <title>urls.py</title>
+  <link rel="stylesheet" href="../pycco.css">
+</head>
+<body>
+<div id='container'>
+  <div id="background"></div>
+  <div class='section'>
+    <div class='docs'><h1>urls.py</h1></div>
+  </div>
+  <div class='clearall'>
+  <div class='section' id='section-0'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-0'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">django.conf.urls</span> <span class="kn">import</span> <span class="n">url</span>
+<span class="kn">from</span> <span class="nn">.views</span> <span class="kn">import</span> <span class="n">SelectDossier</span><span class="p">,</span> <span class="n">savegh</span><span class="p">,</span> <span class="n">saveghrepet</span><span class="p">,</span> <span class="n">saveinstrugh</span><span class="p">,</span> <span class="n">creerdossier</span><span class="p">,</span> <span class="n">listedossiers</span><span class="p">,</span> \
+                    <span class="n">gh_csv</span><span class="p">,</span> <span class="n">ghquestions_pdf</span><span class="p">,</span> <span class="n">gh_resultats_tous</span><span class="p">,</span> <span class="n">fait_entete_spss</span><span class="p">,</span> <span class="n">fait_entete_stata</span><span class="p">,</span> <span class="n">exportstatsgh</span><span class="p">,</span> \
+                    <span class="n">gh_res_repet_tous</span><span class="p">,</span> <span class="n">gh_decrypte_personne</span>
+<span class="kn">from</span> <span class="nn">django.contrib.auth</span> <span class="kn">import</span> <span class="n">views</span> <span class="k">as</span> <span class="n">auth_views</span>
+
+<span class="n">urlpatterns</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">url</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^$&#39;</span><span class="p">,</span> <span class="n">SelectDossier</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;SelectDossier&#39;</span><span class="p">),</span>
+    <span class="n">url</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^savegh/(?P&lt;qid&gt;[-\w]+)/(?P&lt;intid&gt;[-\w]+)/(?P&lt;pid&gt;[-\w]+)/$&#39;</span><span class="p">,</span> <span class="n">savegh</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;savegh&#39;</span><span class="p">),</span>
+    <span class="n">url</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^saveghrepet/(?P&lt;qid&gt;[-\w]+)/(?P&lt;intid&gt;[-\w]+)/(?P&lt;pid&gt;[-\w]+)/$&#39;</span><span class="p">,</span> <span class="n">saveghrepet</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;saveghrepet&#39;</span><span class="p">),</span>
+    <span class="n">url</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^saveinstrugh/(?P&lt;intid&gt;[-\w]+)/(?P&lt;pid&gt;[-\w]+)/$&#39;</span><span class="p">,</span> <span class="n">saveinstrugh</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;saveinstrugh&#39;</span><span class="p">),</span>
+    <span class="n">url</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^new/$&#39;</span><span class="p">,</span> <span class="n">creerdossier</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;creerdossier&#39;</span><span class="p">),</span>
+    <span class="n">url</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^liste/(?P&lt;province&gt;[-\w]+)/$&#39;</span><span class="p">,</span> <span class="n">listedossiers</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;listedossiers&#39;</span><span class="p">),</span>
+    <span class="n">url</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^txt/(?P&lt;pid&gt;[-\w]+)&#39;</span><span class="p">,</span> <span class="n">gh_csv</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;gh_csv&#39;</span><span class="p">),</span>
+    <span class="n">url</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^datas/(?P&lt;qid&gt;[-\w]+)/(?P&lt;intid&gt;[-\w]+)/$&#39;</span><span class="p">,</span> <span class="n">gh_resultats_tous</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;gh_csv_tous&#39;</span><span class="p">),</span>
+    <span class="n">url</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^SPSSsyntax/(?P&lt;qid&gt;[-\w]+)/(?P&lt;intid&gt;[-\w]+)/$&#39;</span><span class="p">,</span> <span class="n">fait_entete_spss</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;fait_entete_spss&#39;</span><span class="p">),</span>
+    <span class="n">url</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^STATAsyntax/(?P&lt;qid&gt;[-\w]+)/(?P&lt;intid&gt;[-\w]+)/$&#39;</span><span class="p">,</span> <span class="n">fait_entete_stata</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;fait_entete_stata&#39;</span><span class="p">),</span>
+    <span class="n">url</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^exportstats/$&#39;</span><span class="p">,</span> <span class="n">exportstatsgh</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;exportstatsgh&#39;</span><span class="p">),</span>
+    <span class="n">url</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^datasrepet/(?P&lt;qid&gt;[-\w]+)/$&#39;</span><span class="p">,</span> <span class="n">gh_res_repet_tous</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;gh_res_repet_tous&#39;</span><span class="p">),</span>
+    <span class="n">url</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^decrypte/$&#39;</span><span class="p">,</span> <span class="n">gh_decrypte_personne</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;gh_decrypte_personne&#39;</span><span class="p">),</span>
+    <span class="n">url</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^pdf/(?P&lt;pk&gt;[-\w]+)/(?P&lt;intid&gt;[-\w]+)/$&#39;</span><span class="p">,</span> <span class="n">ghquestions_pdf</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;dogh_questions_pdf&#39;</span><span class="p">),</span>
+<span class="p">]</span>
+
+</pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+</div>
+</body>

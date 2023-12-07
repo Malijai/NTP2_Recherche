@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <title>views.py</title>
+  <link rel="stylesheet" href="../pycco.css">
+</head>
+<body>
+<div id='container'>
+  <div id="background"></div>
+  <div class='section'>
+    <div class='docs'><h1>views.py</h1></div>
+  </div>
+  <div class='clearall'>
+  <div class='section' id='section-0'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-0'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">django.conf</span> <span class="kn">import</span> <span class="n">settings</span>
+<span class="kn">from</span> <span class="nn">django.shortcuts</span> <span class="kn">import</span> <span class="n">render</span><span class="p">,</span> <span class="n">redirect</span>
+<span class="kn">from</span> <span class="nn">django.contrib.auth.decorators</span> <span class="kn">import</span> <span class="n">login_required</span>
+<span class="kn">from</span> <span class="nn">esms.esms_constants</span> <span class="kn">import</span> <span class="n">CHOIX_FINAL</span><span class="p">,</span> <span class="n">EXPLICATIONSFR</span><span class="p">,</span> <span class="n">EXPLICATIONSEN</span><span class="p">,</span> <span class="n">CHOIXEN</span><span class="p">,</span> <span class="n">CHOIXFR</span>
+<span class="kn">from</span> <span class="nn">.forms</span> <span class="kn">import</span> <span class="n">RessourceFormSet</span><span class="p">,</span> <span class="n">RessourceForm</span><span class="p">,</span> <span class="n">EsmsForm</span><span class="p">,</span> <span class="n">DocumentFormSet</span><span class="p">,</span> <span class="n">EsmsFormSet</span>
+<span class="kn">from</span> <span class="nn">.models</span> <span class="kn">import</span> <span class="n">Ressource</span><span class="p">,</span> <span class="n">Equipe</span><span class="p">,</span> <span class="n">Esms</span>
+<span class="kn">from</span> <span class="nn">django.views</span> <span class="kn">import</span> <span class="n">generic</span>
+<span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">IntegrityError</span><span class="p">,</span> <span class="n">transaction</span>
+<span class="kn">from</span> <span class="nn">django.contrib</span> <span class="kn">import</span> <span class="n">messages</span>
+<span class="kn">from</span> <span class="nn">django.core.paginator</span> <span class="kn">import</span> <span class="n">InvalidPage</span>
+<span class="kn">from</span> <span class="nn">django.utils</span> <span class="kn">import</span> <span class="n">translation</span>
+<span class="kn">from</span> <span class="nn">esms.paginationalpha</span> <span class="kn">import</span> <span class="n">NamePaginator</span>
+<span class="kn">from</span> <span class="nn">django.utils.translation</span> <span class="kn">import</span> <span class="n">ugettext_lazy</span> <span class="k">as</span> <span class="n">_</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-1'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-1'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="nd">@login_required</span><span class="p">(</span><span class="n">login_url</span><span class="o">=</span><span class="n">settings</span><span class="o">.</span><span class="n">LOGIN_URI</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">faitinstitution</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">pk</span><span class="p">,</span> <span class="n">choix</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">histoire</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-2'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-2'>#</a>
+      </div>
+      <p>&lsquo;b&rsquo;: {&lsquo;name&rsquo;: &lsquo;Génériques aigus&rsquo;, &lsquo;choices&rsquo;: [&lsquo;c&rsquo;, &lsquo;d&rsquo;]},</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">langue</span> <span class="o">=</span> <span class="n">translation</span><span class="o">.</span><span class="n">get_language</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">langue</span> <span class="o">==</span> <span class="s1">&#39;fr&#39;</span><span class="p">:</span>
+        <span class="n">CHOIX</span> <span class="o">=</span> <span class="n">CHOIXFR</span>
+        <span class="n">EXPLICATIONS</span> <span class="o">=</span> <span class="n">EXPLICATIONSFR</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">CHOIX</span> <span class="o">=</span> <span class="n">CHOIXEN</span>
+        <span class="n">EXPLICATIONS</span> <span class="o">=</span> <span class="n">EXPLICATIONSEN</span>
+    <span class="n">ressource</span> <span class="o">=</span> <span class="n">Ressource</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">pk</span><span class="o">=</span><span class="n">pk</span><span class="p">)</span>
+    <span class="n">liste</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;z&#39;</span><span class="p">,</span> <span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;qq&#39;</span><span class="p">,</span> <span class="s1">&#39;rr&#39;</span><span class="p">,</span> <span class="s1">&#39;ss&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">choix</span><span class="p">:</span>
+        <span class="n">entrees</span> <span class="o">=</span> <span class="p">[(</span><span class="n">c</span><span class="p">,</span> <span class="n">CHOIX</span><span class="p">[</span><span class="n">c</span><span class="p">][</span><span class="s1">&#39;name&#39;</span><span class="p">],</span> <span class="n">EXPLICATIONS</span><span class="p">[</span><span class="n">c</span><span class="p">])</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">liste</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">render</span><span class="p">(</span>
+            <span class="n">request</span><span class="p">,</span>
+            <span class="s1">&#39;classification_esms.html&#39;</span><span class="p">,</span>
+                <span class="p">{</span><span class="s1">&#39;choisi&#39;</span><span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;choixs&#39;</span><span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;choixprecedent&#39;</span><span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;historiques&#39;</span><span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;dernier&#39;</span><span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;dernier2&#39;</span><span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;entrees&#39;</span><span class="p">:</span> <span class="n">entrees</span><span class="p">,</span>
+                 <span class="s1">&#39;ressource&#39;</span><span class="p">:</span> <span class="n">ressource</span><span class="p">,</span>
+                 <span class="s1">&#39;langue&#39;</span><span class="p">:</span> <span class="n">langue</span>
+                 <span class="p">}</span>
+            <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">choisi</span> <span class="o">=</span> <span class="n">CHOIX</span><span class="p">[</span><span class="n">choix</span><span class="p">][</span><span class="s1">&#39;name&#39;</span><span class="p">]</span>
+        <span class="n">choixs</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">historiques</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">choixprecedent</span> <span class="o">=</span> <span class="n">histoire</span> <span class="o">+</span> <span class="n">choix</span>
+        <span class="n">dernier</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="n">dernier2</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="n">code</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">CHOIX</span><span class="p">[</span><span class="n">choix</span><span class="p">][</span><span class="s1">&#39;choices&#39;</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">choixs</span> <span class="o">=</span> <span class="p">[(</span><span class="n">c</span><span class="p">,</span> <span class="n">CHOIX</span><span class="p">[</span><span class="n">c</span><span class="p">][</span><span class="s1">&#39;name&#39;</span><span class="p">],</span> <span class="n">EXPLICATIONS</span><span class="p">[</span><span class="n">c</span><span class="p">])</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">CHOIX</span><span class="p">[</span><span class="n">choix</span><span class="p">][</span><span class="s1">&#39;choices&#39;</span><span class="p">]]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">dernier</span> <span class="o">=</span> <span class="n">choisi</span>
+            <span class="n">dernier2</span> <span class="o">=</span> <span class="n">CHOIX_FINAL</span><span class="p">[</span><span class="n">choixprecedent</span><span class="p">]</span>
+            <span class="n">code</span> <span class="o">=</span> <span class="n">choixprecedent</span>
+        <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">histoire</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">a</span> <span class="o">==</span> <span class="n">choix</span><span class="p">:</span>
+                <span class="n">dernier</span> <span class="o">=</span> <span class="n">CHOIX_FINAL</span><span class="p">[</span><span class="n">histoire</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">historiques</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">CHOIX</span><span class="p">[</span><span class="n">a</span><span class="p">][</span><span class="s1">&#39;name&#39;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">dernier</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;POST&#39;</span><span class="p">:</span>
+                <span class="n">form</span> <span class="o">=</span> <span class="n">EsmsForm</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">is_valid</span><span class="p">():</span>
+                    <span class="n">codeder</span> <span class="o">=</span> <span class="n">form</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">commit</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+                    <span class="n">codeder</span><span class="o">.</span><span class="n">ressource</span> <span class="o">=</span> <span class="n">ressource</span>
+                    <span class="n">codeder</span><span class="o">.</span><span class="n">code</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;code&#39;</span><span class="p">)</span>
+                    <span class="n">codeder</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+                    <span class="n">textemessage</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="sa">u</span><span class="s2">&quot;{}  a été codée {}&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ressource</span><span class="o">.</span><span class="n">nom</span><span class="p">,</span><span class="n">dernier2</span><span class="p">)</span>
+                    <span class="n">messages</span><span class="o">.</span><span class="n">add_message</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">messages</span><span class="o">.</span><span class="n">WARNING</span><span class="p">,</span> <span class="n">textemessage</span><span class="p">)</span>
+                    <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;listeressources&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">render</span><span class="p">(</span>
+                    <span class="n">request</span><span class="p">,</span>
+                    <span class="s1">&#39;classification_esms.html&#39;</span><span class="p">,</span>
+                    <span class="p">{</span><span class="s1">&#39;choisi&#39;</span><span class="p">:</span> <span class="n">choisi</span><span class="p">,</span>
+                     <span class="s1">&#39;choixs&#39;</span><span class="p">:</span> <span class="n">choixs</span><span class="p">,</span>
+                     <span class="s1">&#39;choixprecedent&#39;</span><span class="p">:</span> <span class="n">choixprecedent</span><span class="p">,</span>
+                     <span class="s1">&#39;historiques&#39;</span><span class="p">:</span> <span class="n">historiques</span><span class="p">,</span>
+                     <span class="s1">&#39;dernier&#39;</span><span class="p">:</span> <span class="n">dernier</span><span class="p">,</span>
+                     <span class="s1">&#39;dernier2&#39;</span><span class="p">:</span> <span class="n">dernier2</span><span class="p">,</span>
+                     <span class="s1">&#39;entrees&#39;</span><span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
+                     <span class="s1">&#39;ressource&#39;</span><span class="p">:</span> <span class="n">ressource</span><span class="p">,</span>
+                     <span class="s1">&#39;code&#39;</span><span class="p">:</span> <span class="n">code</span><span class="p">,</span>
+                     <span class="s1">&#39;esms_form&#39;</span><span class="p">:</span> <span class="n">EsmsForm</span><span class="p">()</span>
+                     <span class="p">}</span>
+                <span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-3'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-3'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="nd">@login_required</span><span class="p">(</span><span class="n">login_url</span><span class="o">=</span><span class="n">settings</span><span class="o">.</span><span class="n">LOGIN_URI</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">ressource_new</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="n">entete</span> <span class="o">=</span> <span class="s2">&quot;Nouvelle ressource&quot;</span>
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;POST&quot;</span><span class="p">:</span>
+        <span class="n">form</span> <span class="o">=</span> <span class="n">RessourceForm</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">)</span>
+        <span class="n">prof_instances</span> <span class="o">=</span> <span class="n">RessourceFormSet</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">)</span>
+        <span class="n">doc_instances</span> <span class="o">=</span> <span class="n">DocumentFormSet</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">is_valid</span><span class="p">()</span> <span class="ow">and</span> <span class="n">prof_instances</span><span class="o">.</span><span class="n">is_valid</span><span class="p">()</span> <span class="ow">and</span> <span class="n">doc_instances</span><span class="o">.</span><span class="n">is_valid</span><span class="p">():</span>
+            <span class="n">entree</span> <span class="o">=</span> <span class="n">form</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">commit</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+            <span class="n">entree</span><span class="o">.</span><span class="n">author</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span>
+            <span class="n">entree</span><span class="o">.</span><span class="n">province_id</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">profile</span><span class="o">.</span><span class="n">province</span>
+            <span class="n">entree</span><span class="o">.</span><span class="n">save</span><span class="p">()</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-4'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-4'>#</a>
+      </div>
+      <p>Now save the data for each form in the formset</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>            <span class="n">new_prof</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">prof_form</span> <span class="ow">in</span> <span class="n">prof_instances</span><span class="p">:</span>
+                <span class="n">profession</span> <span class="o">=</span> <span class="n">prof_form</span><span class="o">.</span><span class="n">cleaned_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;profession&#39;</span><span class="p">)</span>
+                <span class="n">nombre</span> <span class="o">=</span> <span class="n">prof_form</span><span class="o">.</span><span class="n">cleaned_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;nombre&#39;</span><span class="p">)</span>
+                <span class="n">tache</span> <span class="o">=</span> <span class="n">prof_form</span><span class="o">.</span><span class="n">cleaned_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;tache&#39;</span><span class="p">)</span>
+                <span class="n">duree</span> <span class="o">=</span> <span class="n">prof_form</span><span class="o">.</span><span class="n">cleaned_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;duree&#39;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">profession</span><span class="p">:</span>
+                    <span class="n">new_prof</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Equipe</span><span class="p">(</span><span class="n">ressource</span><span class="o">=</span><span class="n">entree</span><span class="p">,</span> <span class="n">profession</span><span class="o">=</span><span class="n">profession</span><span class="p">,</span> <span class="n">nombre</span><span class="o">=</span><span class="n">nombre</span><span class="p">,</span> <span class="n">tache</span><span class="o">=</span><span class="n">tache</span><span class="p">,</span> <span class="n">duree</span><span class="o">=</span><span class="n">duree</span><span class="p">))</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">with</span> <span class="n">transaction</span><span class="o">.</span><span class="n">atomic</span><span class="p">():</span>
+                    <span class="n">Equipe</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">bulk_create</span><span class="p">(</span><span class="n">new_prof</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-5'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-5'>#</a>
+      </div>
+      <p>And notify our users that it worked</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>                    <span class="n">messages</span><span class="o">.</span><span class="n">success</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="sa">u</span><span class="s2">&quot;L&#39;équipe est enregistrée.&quot;</span><span class="p">))</span>
+
+            <span class="k">except</span> <span class="n">IntegrityError</span><span class="p">:</span>  <span class="c1"># If the transaction failed</span>
+                <span class="n">messages</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="sa">u</span><span class="s2">&quot;Il y a une erreur dans l&#39;enregistrement de l&#39;equipe.&quot;</span><span class="p">))</span>
+                <span class="n">ress_form</span> <span class="o">=</span> <span class="n">RessourceForm</span><span class="p">()</span>
+                <span class="n">prof_formset</span> <span class="o">=</span> <span class="n">RessourceFormSet</span><span class="p">()</span>
+                <span class="n">doc_formset</span> <span class="o">=</span> <span class="n">DocumentFormSet</span><span class="p">()</span>
+                <span class="n">context</span> <span class="o">=</span> <span class="p">{</span>
+                    <span class="s1">&#39;form&#39;</span><span class="p">:</span> <span class="n">ress_form</span><span class="p">,</span>
+                    <span class="s1">&#39;prof_formset&#39;</span><span class="p">:</span> <span class="n">prof_formset</span><span class="p">,</span>
+                    <span class="s1">&#39;doc_formset&#39;</span><span class="p">:</span> <span class="n">doc_formset</span><span class="p">,</span>
+                    <span class="s1">&#39;entete&#39;</span><span class="p">:</span> <span class="n">entete</span>
+                <span class="p">}</span>
+                <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s2">&quot;ressource_edit.html&quot;</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
+            <span class="n">new_doc</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">doc_form</span> <span class="ow">in</span> <span class="n">doc_instances</span><span class="p">:</span>
+                <span class="n">titrecourt</span> <span class="o">=</span> <span class="n">doc_form</span><span class="o">.</span><span class="n">cleaned_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;titrecourt&#39;</span><span class="p">)</span>
+                <span class="n">documentation</span> <span class="o">=</span> <span class="n">doc_form</span><span class="o">.</span><span class="n">cleaned_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;documentation&#39;</span><span class="p">)</span>
+
+                <span class="k">if</span> <span class="n">documentation</span><span class="p">:</span>
+                    <span class="n">new_doc</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Equipe</span><span class="p">(</span><span class="n">ressource</span><span class="o">=</span><span class="n">entree</span><span class="p">,</span> <span class="n">titrecourt</span><span class="o">=</span><span class="n">titrecourt</span><span class="p">,</span> <span class="n">documentation</span><span class="o">=</span><span class="n">documentation</span><span class="p">))</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">with</span> <span class="n">transaction</span><span class="o">.</span><span class="n">atomic</span><span class="p">():</span>
+                    <span class="n">Equipe</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">bulk_create</span><span class="p">(</span><span class="n">new_doc</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-6'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-6'>#</a>
+      </div>
+      <p>And notify our users that it worked</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>                    <span class="n">messages</span><span class="o">.</span><span class="n">success</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="sa">u</span><span class="s2">&quot;La documentation est enregistrée.&quot;</span><span class="p">))</span>
+
+            <span class="k">except</span> <span class="n">IntegrityError</span><span class="p">:</span>  <span class="c1"># If the transaction failed</span>
+                <span class="n">messages</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="sa">u</span><span class="s2">&quot;Il y a une erreur dans l&#39;enregistrement de la documentation.&quot;</span><span class="p">))</span>
+                <span class="n">ress_form</span> <span class="o">=</span> <span class="n">RessourceForm</span><span class="p">()</span>
+                <span class="n">prof_formset</span> <span class="o">=</span> <span class="n">RessourceFormSet</span><span class="p">()</span>
+                <span class="n">doc_formset</span> <span class="o">=</span> <span class="n">DocumentFormSet</span><span class="p">()</span>
+                <span class="n">context</span> <span class="o">=</span> <span class="p">{</span>
+                    <span class="s1">&#39;form&#39;</span><span class="p">:</span> <span class="n">ress_form</span><span class="p">,</span>
+                    <span class="s1">&#39;prof_formset&#39;</span><span class="p">:</span> <span class="n">prof_formset</span><span class="p">,</span>
+                    <span class="s1">&#39;doc_formset&#39;</span><span class="p">:</span> <span class="n">doc_formset</span><span class="p">,</span>
+                    <span class="s1">&#39;entete&#39;</span><span class="p">:</span> <span class="n">entete</span>
+                <span class="p">}</span>
+                <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s2">&quot;ressource_edit.html&quot;</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
+            <span class="k">if</span> <span class="s1">&#39;Savesurplace&#39;</span> <span class="ow">in</span> <span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="n">ressource_edit</span><span class="p">,</span> <span class="n">entree</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;ressource_detail&#39;</span><span class="p">,</span> <span class="n">entree</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">ress_form</span> <span class="o">=</span> <span class="n">RessourceForm</span><span class="p">()</span>
+            <span class="n">prof_formset</span> <span class="o">=</span> <span class="n">RessourceFormSet</span><span class="p">()</span>
+            <span class="n">doc_formset</span> <span class="o">=</span> <span class="n">DocumentFormSet</span><span class="p">()</span>
+            <span class="n">context</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s1">&#39;form&#39;</span><span class="p">:</span> <span class="n">ress_form</span><span class="p">,</span>
+                <span class="s1">&#39;prof_formset&#39;</span><span class="p">:</span> <span class="n">prof_formset</span><span class="p">,</span>
+                <span class="s1">&#39;doc_formset&#39;</span><span class="p">:</span> <span class="n">doc_formset</span><span class="p">,</span>
+                <span class="s1">&#39;entete&#39;</span><span class="p">:</span> <span class="n">entete</span>
+            <span class="p">}</span>
+            <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s2">&quot;ressource_edit.html&quot;</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-7'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-7'>#</a>
+      </div>
+      <p>return render(request, &ldquo;entree_edit.html&rdquo;, {&lsquo;form&rsquo;: form, &lsquo;tags&rsquo;:tag_list, &lsquo;groupes&rsquo;:group_list,})</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>        <span class="n">ress_form</span> <span class="o">=</span> <span class="n">RessourceForm</span><span class="p">()</span>
+        <span class="n">prof_formset</span> <span class="o">=</span> <span class="n">RessourceFormSet</span><span class="p">()</span>
+        <span class="n">doc_formset</span> <span class="o">=</span> <span class="n">DocumentFormSet</span><span class="p">()</span>
+        <span class="n">context</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;form&#39;</span><span class="p">:</span> <span class="n">ress_form</span><span class="p">,</span>
+            <span class="s1">&#39;prof_formset&#39;</span><span class="p">:</span> <span class="n">prof_formset</span><span class="p">,</span>
+            <span class="s1">&#39;doc_formset&#39;</span><span class="p">:</span> <span class="n">doc_formset</span><span class="p">,</span>
+            <span class="s1">&#39;entete&#39;</span><span class="p">:</span> <span class="n">entete</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s2">&quot;ressource_edit.html&quot;</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-8'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-8'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="nd">@login_required</span><span class="p">(</span><span class="n">login_url</span><span class="o">=</span><span class="n">settings</span><span class="o">.</span><span class="n">LOGIN_URI</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">ressource_edit</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">pk</span><span class="p">):</span>
+    <span class="n">ressource</span> <span class="o">=</span> <span class="n">Ressource</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">pk</span><span class="o">=</span><span class="n">pk</span><span class="p">)</span>
+    <span class="n">entete</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="sa">u</span><span class="s2">&quot;Mise a jour de la ressource &quot;</span><span class="p">)</span> <span class="o">+</span> <span class="n">ressource</span><span class="o">.</span><span class="n">nom</span>
+
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;POST&#39;</span><span class="p">:</span>
+        <span class="n">ress_form</span> <span class="o">=</span> <span class="n">RessourceForm</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">,</span> <span class="n">instance</span><span class="o">=</span><span class="n">ressource</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">ress_form</span><span class="o">.</span><span class="n">is_valid</span><span class="p">():</span>
+            <span class="n">ressource</span> <span class="o">=</span> <span class="n">ress_form</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+        <span class="n">prof_formset</span> <span class="o">=</span> <span class="n">RessourceFormSet</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">,</span> <span class="n">request</span><span class="o">.</span><span class="n">FILES</span><span class="p">,</span> <span class="n">instance</span><span class="o">=</span><span class="n">ressource</span><span class="p">)</span>
+        <span class="n">doc_formset</span> <span class="o">=</span> <span class="n">DocumentFormSet</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">,</span> <span class="n">request</span><span class="o">.</span><span class="n">FILES</span><span class="p">,</span> <span class="n">instance</span><span class="o">=</span><span class="n">ressource</span><span class="p">)</span>
+        <span class="n">esms_formset</span> <span class="o">=</span> <span class="n">EsmsFormSet</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">,</span> <span class="n">request</span><span class="o">.</span><span class="n">FILES</span><span class="p">,</span> <span class="n">instance</span><span class="o">=</span><span class="n">ressource</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">prof_formset</span><span class="o">.</span><span class="n">is_valid</span><span class="p">()</span> <span class="ow">and</span> <span class="n">doc_formset</span><span class="o">.</span><span class="n">is_valid</span><span class="p">()</span> <span class="ow">and</span> <span class="n">esms_formset</span><span class="o">.</span><span class="n">is_valid</span> <span class="p">:</span>
+            <span class="n">prof_formset</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+            <span class="n">doc_formset</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+            <span class="n">esms_formset</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+
+            <span class="n">messages</span><span class="o">.</span><span class="n">success</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="sa">u</span><span class="s2">&quot;La ressource, son équipe et sa documentation sont mises à jour.&quot;</span><span class="p">))</span>
+            <span class="k">if</span> <span class="s1">&#39;Savesurplace&#39;</span> <span class="ow">in</span> <span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="n">ressource_edit</span><span class="p">,</span> <span class="n">ressource</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;ressource_detail&#39;</span><span class="p">,</span> <span class="n">ressource</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">messages</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">request</span><span class="p">,</span>  <span class="n">_</span><span class="p">(</span><span class="sa">u</span><span class="s2">&quot;Il y a une erreur dans l&#39;enregistrement de l&#39;equipe ou de la documentation.&quot;</span><span class="p">))</span>
+            <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="n">ressource_edit</span><span class="p">,</span> <span class="n">ressource</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">ress_form</span> <span class="o">=</span> <span class="n">RessourceForm</span><span class="p">(</span><span class="n">instance</span><span class="o">=</span><span class="n">ressource</span><span class="p">)</span>
+        <span class="n">prof_formset</span> <span class="o">=</span> <span class="n">RessourceFormSet</span><span class="p">(</span><span class="n">instance</span><span class="o">=</span><span class="n">ressource</span><span class="p">)</span>
+        <span class="n">doc_formset</span> <span class="o">=</span> <span class="n">DocumentFormSet</span><span class="p">(</span><span class="n">instance</span><span class="o">=</span><span class="n">ressource</span><span class="p">)</span>
+        <span class="n">esms_formset</span> <span class="o">=</span> <span class="n">EsmsFormSet</span><span class="p">(</span><span class="n">instance</span><span class="o">=</span><span class="n">ressource</span><span class="p">)</span>
+
+    <span class="n">context</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;form&#39;</span><span class="p">:</span> <span class="n">ress_form</span><span class="p">,</span>
+        <span class="s1">&#39;prof_formset&#39;</span><span class="p">:</span> <span class="n">prof_formset</span><span class="p">,</span>
+        <span class="s1">&#39;doc_formset&#39;</span><span class="p">:</span> <span class="n">doc_formset</span><span class="p">,</span>
+        <span class="s1">&#39;esms_formset&#39;</span><span class="p">:</span><span class="n">esms_formset</span><span class="p">,</span>
+        <span class="s1">&#39;entete&#39;</span><span class="p">:</span> <span class="n">entete</span><span class="p">,</span>
+        <span class="s1">&#39;pk&#39;</span><span class="p">:</span> <span class="n">pk</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s2">&quot;ressource_edit.html&quot;</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">RessourceDetail</span><span class="p">(</span><span class="n">generic</span><span class="o">.</span><span class="n">DetailView</span><span class="p">):</span>
+    <span class="n">template_name</span> <span class="o">=</span> <span class="s1">&#39;ressource_detail.html&#39;</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">Ressource</span>
+
+
+<span class="nd">@login_required</span><span class="p">(</span><span class="n">login_url</span><span class="o">=</span><span class="n">settings</span><span class="o">.</span><span class="n">LOGIN_URI</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">rlisting</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="n">province</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">profile</span><span class="o">.</span><span class="n">province</span>
+    <span class="n">ressource_list</span> <span class="o">=</span> <span class="n">Ressource</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">province__id</span><span class="o">=</span><span class="n">province</span><span class="p">)</span>
+    <span class="n">paginator</span> <span class="o">=</span> <span class="n">NamePaginator</span><span class="p">(</span><span class="n">ressource_list</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s2">&quot;nom&quot;</span><span class="p">,</span> <span class="n">per_page</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">page</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">GET</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;page&#39;</span><span class="p">,</span> <span class="s1">&#39;1&#39;</span><span class="p">))</span>
+    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+        <span class="n">page</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">page</span> <span class="o">=</span> <span class="n">paginator</span><span class="o">.</span><span class="n">page</span><span class="p">(</span><span class="n">page</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">InvalidPage</span><span class="p">:</span>
+        <span class="n">page</span> <span class="o">=</span> <span class="n">paginator</span><span class="o">.</span><span class="n">page</span><span class="p">(</span><span class="n">paginator</span><span class="o">.</span><span class="n">num_pages</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;ressources_list.html&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;page&#39;</span><span class="p">:</span> <span class="n">page</span><span class="p">})</span>
+
+</pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+</div>
+</body>

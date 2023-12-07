@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-29 20:16-0400\n"
+"POT-Creation-Date: 2023-10-16 15:30-0400\n"
 "PO-Revision-Date: 2019-08-22\n"
 "Last-Translator: Malijai <malijai.caulet.ippm@ssss.gouv.qc.ca>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -25,128 +25,119 @@ msgid "Date print. Laisser vide si pas de fichier (jj/mm/aaaa)"
 msgstr "Print date. Keep empty if no file"
 
 #: NTP1Reprise/models.py:85
-msgid "Présence de FPS. Cocher si oui ou si dossier -non disclosable-"
-msgstr ""
-"Is there a FPS? Check if Yes if there is a file or if it is Non Disclosable"
+msgid "Présence de FPS. Cocher si oui"
+msgstr "Is there a FPS? Check if Yes "
 
-#: NTP1Reprise/models.py:86
-msgid "Les données sont elles confidentielles (non disclosable). Cocher si oui"
-msgstr "Check Yes if it is precised that the file is not disclosable"
-
-#: NTP1Reprise/models.py:88
+#: NTP1Reprise/models.py:87
 msgid "Si décédé indiquer la date ici (jj/mm/aaaa)"
 msgstr "If dead, date of death"
 
-#: NTP1Reprise/models.py:102
+#: NTP1Reprise/models.py:101
 msgid "Date de la décision (jj/mm/aaaa)"
 msgstr "Decision date"
 
-#: NTP1Reprise/models.py:103
+#: NTP1Reprise/models.py:102
 msgid "Type de tribunal"
 msgstr "Kind of court"
 
-#: NTP1Reprise/models.py:104
+#: NTP1Reprise/models.py:103
 msgid "Lieu du verdict"
 msgstr "Verdict place"
 
-#: NTP1Reprise/models.py:105 NTP1Reprise/templates/personne_delits.html:86
+#: NTP1Reprise/models.py:104
 msgid "Ordre"
 msgstr "Order"
 
-#: NTP1Reprise/models.py:106
+#: NTP1Reprise/models.py:105
 msgid "Description du délit"
 msgstr "Offence description"
 
-#: NTP1Reprise/models.py:107
-msgid ""
-"Code CC du delit (si pas CC preciser de quel code il s agit). Si pas de code "
-"mettre Inconnu"
-msgstr ""
-"CC of the offence (If it is another code than CC please specify). "
-"If there is no code write Unknown"
+#: NTP1Reprise/models.py:106
+msgid "Code CC du delit (si pas CC preciser de quel code il s agit)"
+msgstr "CC of the offence (If it is another code than CC please specify)"
 
-#: NTP1Reprise/models.py:108
+#: NTP1Reprise/models.py:107
 msgid "Nombre de chefs"
 msgstr "Number of charges"
 
-#: NTP1Reprise/models.py:109
+#: NTP1Reprise/models.py:108
 msgid "Code de violation"
 msgstr "Violation code"
 
-#: NTP1Reprise/models.py:110
+#: NTP1Reprise/models.py:109
 msgid "Verdict"
 msgstr "Verdict"
 
-#: NTP1Reprise/models.py:111
+#: NTP1Reprise/models.py:110
 msgid "Amende, frais etc.? Cocher si oui"
 msgstr "Fine, fees etc.? Check if yes"
 
-#: NTP1Reprise/models.py:112
+#: NTP1Reprise/models.py:111
 msgid "Caractéristiques de l'amende"
 msgstr "Fine caracteristics"
 
-#: NTP1Reprise/models.py:113
+#: NTP1Reprise/models.py:112
 msgid "Cout total de l'amende (+ surmende + frais + restitution)"
 msgstr "Total cost of fine (+ surcharge + fees + restitution)"
 
-#: NTP1Reprise/models.py:114
+#: NTP1Reprise/models.py:113
 msgid "Détention? Cocher si oui"
 msgstr "Custody? Check if yes"
 
-#: NTP1Reprise/models.py:115
+#: NTP1Reprise/models.py:114
 msgid "Durée de la détention (ajouter sentence + présentence)"
 msgstr "Custody length (add custody and pre-sentence custody)"
 
-#: NTP1Reprise/models.py:116 NTP1Reprise/models.py:119
-#: NTP1Reprise/models.py:122 NTP1Reprise/models.py:126
+#: NTP1Reprise/models.py:115 NTP1Reprise/models.py:118
+#: NTP1Reprise/models.py:121 NTP1Reprise/models.py:125
 msgid "Jours, mois, ans etc?"
 msgstr "Days, months, years etc?"
 
-#: NTP1Reprise/models.py:117
+#: NTP1Reprise/models.py:116
 msgid "Probation? Cocher si oui"
 msgstr "Probation? Check if yes"
 
-#: NTP1Reprise/models.py:118
+#: NTP1Reprise/models.py:117
 msgid "Durée de la probation"
 msgstr "Probation length"
 
-#: NTP1Reprise/models.py:120
+#: NTP1Reprise/models.py:119
 msgid "Interdiction? Cocher si oui"
 msgstr "Ban/prohibition? Check if yes"
 
-#: NTP1Reprise/models.py:121
+#: NTP1Reprise/models.py:120
 msgid "Durée de l'interdiction"
 msgstr "Prohibition length"
 
-#: NTP1Reprise/models.py:123
+#: NTP1Reprise/models.py:122
 msgid "Détails à propos de l'interdiction"
 msgstr "Details about prohibition"
 
-#: NTP1Reprise/models.py:124
+#: NTP1Reprise/models.py:123
 msgid "Surcis? Cocher si oui"
 msgstr "Suspended sentence? Check if yes"
 
-#: NTP1Reprise/models.py:125
+#: NTP1Reprise/models.py:124
 msgid "Durée du surcis"
 msgstr "Suspension length"
 
-#: NTP1Reprise/models.py:127
+#: NTP1Reprise/models.py:126
 msgid "Autre? Cocher si oui"
 msgstr "Other? Check if yes"
 
-#: NTP1Reprise/models.py:128
+#: NTP1Reprise/models.py:127
 msgid "Si autre : détails"
 msgstr "If other: details"
 
-#: NTP1Reprise/models.py:148
+#: NTP1Reprise/models.py:147
 msgid "Date de la libération (jj/mm/aaaa)"
 msgstr "Release date"
 
-#: NTP1Reprise/models.py:149
+#: NTP1Reprise/models.py:148
 msgid "Libération absolue? Cocher si oui"
 msgstr "Absolute discharge? Check if yes"
 
-#: NTP1Reprise/templates/choixprovince.html:19
+#: NTP1Reprise/templates/choixprovince.html:20
 msgid "Choisir la province"
 msgstr "Choose the province"
 
@@ -195,26 +186,22 @@ msgid "Délits enregistrés dans la BD"
 msgstr "Recorded offences"
 
 #: NTP1Reprise/templates/personne_delits.html:85
-msgid "Date sentence"
+msgid "date sentence"
 msgstr "Date of decision"
 
+#: NTP1Reprise/templates/personne_delits.html:86
+msgid "ordre"
+msgstr "order"
+
 #: NTP1Reprise/templates/personne_delits.html:87
-msgid "CodeCCdelit"
+msgid "codeCCdelit"
 msgstr "CC code"
 
-#: NTP1Reprise/templates/personne_delits.html:88
-msgid "Action"
-msgstr "Action"
-
-#: NTP1Reprise/templates/personne_delits.html:95
-msgid "Suprimer"
-msgstr "Remove"
-
-#: NTP1Reprise/templates/personne_delits.html:99
+#: NTP1Reprise/templates/personne_delits.html:97
 msgid "Libérations enregistrées dans la BD"
 msgstr "Recorded releases in the DB"
 
-#: NTP1Reprise/templates/personne_delits.html:102
+#: NTP1Reprise/templates/personne_delits.html:100
 msgid "date libération"
 msgstr "release date"
 
@@ -222,31 +209,27 @@ msgstr "release date"
 msgid "Mise a jour des donnees du dossier"
 msgstr "Update file infos"
 
-#: NTP1Reprise/views.py:91
+#: NTP1Reprise/views.py:89
 msgid "Pas de dossier pour cette personne,le dossier a été fermé."
 msgstr "No file for this indifvidual, file closed"
 
-#: NTP1Reprise/views.py:98
+#: NTP1Reprise/views.py:96
 msgid "S'il y a un dossier, il doit y avoir une date d'impression ."
 msgstr "If there is a file there is a print date"
 
-#: NTP1Reprise/views.py:156
-msgid "Un délit de {} a été suprimé"
-msgstr "Une release of {} has been added."
-
-#: NTP1Reprise/views.py:181
+#: NTP1Reprise/views.py:172
 msgid "Une liberation de {} a été ajoutée."
 msgstr "Une release of {} has been added."
 
-#: NTP1Reprise/views.py:197
+#: NTP1Reprise/views.py:188
 msgid "Les delits du #  {} ont été mis à jour."
 msgstr "The offences of #  {} has been updated."
 
-#: NTP1Reprise/views.py:203
+#: NTP1Reprise/views.py:194
 msgid "Il y a une erreur dans l'enregistrement de la liberation"
 msgstr "There is an error when saving the release informations"
 
-#: NTP1Reprise/views.py:205
+#: NTP1Reprise/views.py:196
 msgid "Il y a une erreur dans l'enregistrement du delit"
 msgstr "There is an error when saving the offence"
 
@@ -1325,3 +1308,4 @@ msgstr "Login to have access to this page"
 #: templates/registration/login.html:39
 msgid "Mot de passe perdu?"
 msgstr "Lost password?"
+

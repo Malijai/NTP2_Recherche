@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <title>exportationdonnees.py</title>
+  <link rel="stylesheet" href="../../pycco.css">
+</head>
+<body>
+<div id='container'>
+  <div id="background"></div>
+  <div class='section'>
+    <div class='docs'><h1>exportationdonnees.py</h1></div>
+  </div>
+  <div class='clearall'>
+  <div class='section' id='section-0'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-0'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">unicode_literals</span>
+<span class="kn">from</span> <span class="nn">dataentry.models</span> <span class="kn">import</span> <span class="n">Questionnaire</span><span class="p">,</span> <span class="n">Questionntp2</span><span class="p">,</span> <span class="n">Reponsentp2</span><span class="p">,</span> <span class="n">Personne</span><span class="p">,</span> <span class="n">Resultatntp2</span><span class="p">,</span> <span class="n">Resultatrepetntp2</span><span class="p">,</span> <span class="n">Etablissement</span><span class="p">,</span> <span class="n">Municipalite</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-1'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-1'>#</a>
+      </div>
+      <p>from dataentry.models import Victime, Typequestion, Listevaleur</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="kn">from</span> <span class="nn">django.conf</span> <span class="kn">import</span> <span class="n">settings</span>
+<span class="kn">from</span> <span class="nn">django.contrib.auth.decorators</span> <span class="kn">import</span> <span class="n">login_required</span>
+<span class="kn">import</span> <span class="nn">csv</span>
+<span class="kn">from</span> <span class="nn">django.http</span> <span class="kn">import</span> <span class="n">HttpResponse</span><span class="p">,</span> <span class="n">StreamingHttpResponse</span>
+<span class="kn">from</span> <span class="nn">dataentry.dataentry_constants</span> <span class="kn">import</span> <span class="n">CHOIX_ONUK</span>
+
+<span class="kn">import</span> <span class="nn">datetime</span>
+
+
+<span class="n">DATE</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y %b </span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-2'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-2'>#</a>
+      </div>
+      <p>Pour exportation en CSV</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">class</span> <span class="nc">Echo</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-3'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-3'>#</a>
+      </div>
+      <p>An object that implements just the write method of the file-like interface.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-4'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-4'>#</a>
+      </div>
+      <p>Write the value by returning it, instead of storing in a buffer</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>        <span class="k">return</span> <span class="n">value</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-5'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-5'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="nd">@login_required</span><span class="p">(</span><span class="n">login_url</span><span class="o">=</span><span class="n">settings</span><span class="o">.</span><span class="n">LOGIN_URI</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">verifie_csv</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">pid</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-6'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-6'>#</a>
+      </div>
+      <p>Pour exporter les données de base (les questions qui ont l&rsquo;attribu qstyle=1 pour tous les cas
+Create the HttpResponse object with the appropriate CSV header.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">response</span> <span class="o">=</span> <span class="n">HttpResponse</span><span class="p">(</span><span class="n">content_type</span><span class="o">=</span><span class="s1">&#39;text/csv&#39;</span><span class="p">)</span>
+    <span class="n">response</span><span class="p">[</span><span class="s1">&#39;Content-Disposition&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;attachment; filename=&quot;exportation.txt&quot;&#39;</span>
+    <span class="n">province</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">profile</span><span class="o">.</span><span class="n">province</span>
+
+    <span class="n">personne</span> <span class="o">=</span> <span class="n">Personne</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">pk</span><span class="o">=</span><span class="n">pid</span><span class="p">)</span>
+    <span class="n">csv_data</span> <span class="o">=</span> <span class="p">([])</span>
+    <span class="n">debut</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">debut</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;Province &amp; File code&#39;</span><span class="p">)</span>
+    <span class="n">debut</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">personne</span><span class="o">.</span><span class="n">province</span><span class="o">.</span><span class="n">reponse_en</span><span class="p">)</span>
+    <span class="n">debut</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">personne</span><span class="o">.</span><span class="n">code</span><span class="p">)</span>
+    <span class="n">csv_data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">debut</span><span class="p">)</span>
+    <span class="n">questionnaires</span> <span class="o">=</span> <span class="n">Questionnaire</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">id__gt</span><span class="o">=</span><span class="mi">1</span> <span class="p">)</span>
+    <span class="k">for</span> <span class="n">questionnaire</span> <span class="ow">in</span> <span class="n">questionnaires</span><span class="p">:</span>
+        <span class="n">questions</span> <span class="o">=</span> <span class="n">Questionntp2</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">qstyle</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">questionnaire_id</span><span class="o">=</span><span class="n">questionnaire</span><span class="o">.</span><span class="n">id</span><span class="p">)</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s1">&#39;questionno&#39;</span><span class="p">)</span>
+        <span class="n">ligne2</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">ligne2</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">questionnaire</span><span class="o">.</span><span class="n">nom_en</span><span class="p">)</span>
+        <span class="n">csv_data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ligne2</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">questionnaire</span><span class="o">.</span><span class="n">id</span> <span class="o">&lt;</span> <span class="mi">2000</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">question</span> <span class="ow">in</span> <span class="n">questions</span><span class="p">:</span>
+                <span class="n">ligne</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="n">ligne</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">question</span><span class="o">.</span><span class="n">varname</span><span class="p">)</span>
+                <span class="n">ligne</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">question</span><span class="o">.</span><span class="n">questionen</span><span class="p">)</span>
+                <span class="n">donnee</span> <span class="o">=</span> <span class="n">Resultatntp2</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">personne__id</span><span class="o">=</span><span class="n">pid</span><span class="p">,</span> <span class="n">question__id</span><span class="o">=</span><span class="n">question</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">assistant__id</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="p">)</span>
+                <span class="k">if</span> <span class="n">donnee</span><span class="p">:</span>
+                    <span class="n">reponse</span> <span class="o">=</span> <span class="n">fait_reponse</span><span class="p">(</span><span class="n">donnee</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">reponsetexte</span><span class="p">,</span> <span class="n">question</span><span class="p">,</span> <span class="n">province</span><span class="p">)</span>
+                    <span class="n">ligne</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">reponse</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">ligne</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">)</span>
+                <span class="n">csv_data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ligne</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">donnees</span> <span class="o">=</span> <span class="n">Resultatrepetntp2</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">order_by</span><span class="p">()</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">personne__id</span><span class="o">=</span><span class="n">pid</span><span class="p">,</span> <span class="n">assistant__id</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">questionnaire__id</span><span class="o">=</span><span class="n">questionnaire</span><span class="o">.</span><span class="n">id</span><span class="p">)</span><span class="o">.</span><span class="n">values_list</span><span class="p">(</span><span class="s1">&#39;fiche&#39;</span><span class="p">,</span> <span class="n">flat</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span><span class="o">.</span><span class="n">distinct</span><span class="p">()</span>
+            <span class="n">compte</span> <span class="o">=</span> <span class="n">donnees</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+            <span class="n">ligne2</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">ligne2</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">compte</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39; different &#39;</span> <span class="o">+</span> <span class="n">questionnaire</span><span class="o">.</span><span class="n">nom_en</span><span class="p">)</span>
+            <span class="n">csv_data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ligne2</span><span class="p">)</span>
+            <span class="n">fait_repetitives</span><span class="p">(</span><span class="n">csv_data</span><span class="p">,</span> <span class="n">donnees</span><span class="p">,</span> <span class="n">pid</span><span class="p">,</span> <span class="n">province</span><span class="p">,</span> <span class="n">questions</span><span class="p">,</span> <span class="n">request</span><span class="p">)</span>
+
+    <span class="n">pseudo_buffer</span> <span class="o">=</span> <span class="n">Echo</span><span class="p">()</span>
+    <span class="n">writer</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">writer</span><span class="p">(</span><span class="n">pseudo_buffer</span><span class="p">,</span><span class="n">dialect</span><span class="o">=</span><span class="s2">&quot;excel-tab&quot;</span><span class="p">)</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">StreamingHttpResponse</span><span class="p">((</span><span class="n">writer</span><span class="o">.</span><span class="n">writerow</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">csv_data</span><span class="p">),</span>
+                                     <span class="n">content_type</span><span class="o">=</span><span class="s2">&quot;text/csv&quot;</span><span class="p">)</span>
+    <span class="n">response</span><span class="p">[</span><span class="s1">&#39;Content-Disposition&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;attachment; filename=&quot;&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">personne</span><span class="o">.</span><span class="n">code</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;.txt&quot;&#39;</span>
+    <span class="k">return</span> <span class="n">response</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-7'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-7'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">fait_repetitives</span><span class="p">(</span><span class="n">csv_data</span><span class="p">,</span> <span class="n">donnees</span><span class="p">,</span> <span class="n">pid</span><span class="p">,</span> <span class="n">province</span><span class="p">,</span> <span class="n">questions</span><span class="p">,</span> <span class="n">request</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">donnees</span><span class="p">:</span>
+        <span class="n">ligne2</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">ligne2</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;Hospitalization card number &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+        <span class="n">csv_data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ligne2</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">question</span> <span class="ow">in</span> <span class="n">questions</span><span class="p">:</span>
+            <span class="n">ligne</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">ligne</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">question</span><span class="o">.</span><span class="n">varname</span><span class="p">)</span>
+            <span class="n">ligne</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">question</span><span class="o">.</span><span class="n">questionen</span><span class="p">)</span>
+            <span class="n">donnee</span> <span class="o">=</span> <span class="n">Resultatrepetntp2</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">personne__id</span><span class="o">=</span><span class="n">pid</span><span class="p">,</span> <span class="n">question_id</span><span class="o">=</span><span class="n">question</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+                                                      <span class="n">assistant__id</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">fiche</span><span class="o">=</span><span class="n">i</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">donnee</span><span class="p">:</span>
+                <span class="n">reponse</span> <span class="o">=</span> <span class="n">fait_reponse</span><span class="p">(</span><span class="n">donnee</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">reponsetexte</span><span class="p">,</span> <span class="n">question</span><span class="p">,</span> <span class="n">province</span><span class="p">)</span>
+                <span class="n">ligne</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">reponse</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">ligne</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">)</span>
+            <span class="n">csv_data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ligne</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-8'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-8'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">fait_reponse</span><span class="p">(</span><span class="n">reponsetexte</span><span class="p">,</span> <span class="n">question</span><span class="p">,</span> <span class="n">province</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">question</span><span class="o">.</span><span class="n">typequestion</span><span class="o">.</span><span class="n">nom</span> <span class="o">==</span> <span class="s1">&#39;CATEGORIAL&#39;</span><span class="p">:</span>
+        <span class="n">resultat</span> <span class="o">=</span> <span class="n">Reponsentp2</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">question</span><span class="o">=</span><span class="n">question</span><span class="o">.</span><span class="n">id</span><span class="p">,</span><span class="n">reponse_valeur</span><span class="o">=</span><span class="n">reponsetexte</span><span class="p">)</span><span class="o">.</span><span class="fm">__str__</span><span class="p">()</span>
+    <span class="k">elif</span> <span class="n">question</span><span class="o">.</span><span class="n">typequestion</span><span class="o">.</span><span class="n">nom</span> <span class="o">==</span> <span class="s1">&#39;DICHO&#39;</span> <span class="ow">or</span> <span class="n">question</span><span class="o">.</span><span class="n">typequestion</span><span class="o">.</span><span class="n">nom</span>  <span class="o">==</span> <span class="s1">&#39;DICHOU&#39;</span><span class="p">:</span>
+        <span class="n">resultat</span> <span class="o">=</span> <span class="n">CHOIX_ONUK</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">reponsetexte</span><span class="p">)]</span>
+    <span class="k">elif</span> <span class="n">question</span><span class="o">.</span><span class="n">typequestion</span><span class="o">.</span><span class="n">nom</span> <span class="o">==</span> <span class="s1">&#39;ETABLISSEMENT&#39;</span><span class="p">:</span>
+        <span class="n">resultat</span> <span class="o">=</span> <span class="n">Etablissement</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">province__id</span><span class="o">=</span><span class="n">province</span><span class="p">,</span><span class="n">reponse_valeur</span><span class="o">=</span><span class="n">reponsetexte</span><span class="p">)</span><span class="o">.</span><span class="fm">__str__</span><span class="p">()</span>
+    <span class="k">elif</span> <span class="n">question</span><span class="o">.</span><span class="n">typequestion</span><span class="o">.</span><span class="n">nom</span> <span class="o">==</span> <span class="s1">&#39;MUNICIPALITE&#39;</span><span class="p">:</span>
+        <span class="n">resultat</span> <span class="o">=</span> <span class="n">Municipalite</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">province__id</span><span class="o">=</span><span class="n">province</span><span class="p">,</span> <span class="n">reponse_valeur</span><span class="o">=</span><span class="n">reponsetexte</span><span class="p">)</span><span class="o">.</span><span class="fm">__str__</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">resultat</span> <span class="o">=</span> <span class="n">reponsetexte</span>
+    <span class="k">return</span> <span class="n">resultat</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-9'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-9'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="nd">@login_required</span><span class="p">(</span><span class="n">login_url</span><span class="o">=</span><span class="n">settings</span><span class="o">.</span><span class="n">LOGIN_URI</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">ffait_csv</span><span class="p">(</span><span class="n">request</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-10'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-10'>#</a>
+      </div>
+      <p>Pour exporter les données de base (les questions qui ont l&rsquo;attribu qstyle=1 pour tous les cas
+Create the HttpResponse object with the appropriate CSV header.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">response</span> <span class="o">=</span> <span class="n">HttpResponse</span><span class="p">(</span><span class="n">content_type</span><span class="o">=</span><span class="s1">&#39;text/csv&#39;</span><span class="p">)</span>
+    <span class="n">response</span><span class="p">[</span><span class="s1">&#39;Content-Disposition&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;attachment; filename=&quot;somefilename.csv&quot;&#39;</span>
+    <span class="n">questions</span> <span class="o">=</span> <span class="n">Questionntp2</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">qstyle</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s1">&#39;questionnaire_id&#39;</span><span class="p">,</span><span class="s1">&#39;questionno&#39;</span><span class="p">)</span>
+    <span class="n">personnes</span> <span class="o">=</span> <span class="n">Personne</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+    <span class="n">toutesleslignes</span> <span class="o">=</span> <span class="p">([])</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-11'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-11'>#</a>
+      </div>
+      <p>writer = csv.writer(response)</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">entete</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">entete</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;ID&#39;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">question</span> <span class="ow">in</span> <span class="n">questions</span><span class="p">:</span>
+       <span class="n">entete</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">question</span><span class="o">.</span><span class="n">varname</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-12'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-12'>#</a>
+      </div>
+      <p>writer.writerow(entete)</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">toutesleslignes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">entete</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">personne</span> <span class="ow">in</span> <span class="n">personnes</span><span class="p">:</span>
+        <span class="n">ligne</span> <span class="o">=</span> <span class="p">[</span><span class="n">personne</span><span class="o">.</span><span class="n">code</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">question</span> <span class="ow">in</span> <span class="n">questions</span><span class="p">:</span>
+            <span class="n">donnee</span> <span class="o">=</span> <span class="n">Resultatntp2</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">pk</span><span class="o">=</span><span class="n">personne</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">question_id</span><span class="o">=</span><span class="n">question</span><span class="o">.</span><span class="n">id</span><span class="p">,</span><span class="n">assistant_id</span><span class="o">=</span><span class="mi">1</span><span class="p">,)</span>
+            <span class="k">if</span> <span class="n">donnee</span><span class="p">:</span>
+                <span class="n">ligne</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">donnee</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">reponsetexte</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">ligne</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">)</span>
+
+        <span class="n">toutesleslignes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ligne</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-13'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-13'>#</a>
+      </div>
+      <p>writer.writerow([donnee for donnee in ligne])</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">pseudo_buffer</span> <span class="o">=</span> <span class="n">Echo</span><span class="p">()</span>
+    <span class="n">writer</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">writer</span><span class="p">(</span><span class="n">pseudo_buffer</span><span class="p">)</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">StreamingHttpResponse</span><span class="p">((</span><span class="n">writer</span><span class="o">.</span><span class="n">writerow</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">toutesleslignes</span><span class="p">),</span>
+                                     <span class="n">content_type</span><span class="o">=</span><span class="s2">&quot;text/csv&quot;</span><span class="p">)</span>
+    <span class="n">response</span><span class="p">[</span><span class="s1">&#39;donnes&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;attachment; filename=&quot;donnes.csv&quot;&#39;</span>
+    <span class="k">return</span> <span class="n">response</span>
+
+</pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+</div>
+</body>

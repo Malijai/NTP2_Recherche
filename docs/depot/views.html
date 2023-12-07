@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <title>views.py</title>
+  <link rel="stylesheet" href="../pycco.css">
+</head>
+<body>
+<div id='container'>
+  <div id="background"></div>
+  <div class='section'>
+    <div class='docs'><h1>views.py</h1></div>
+  </div>
+  <div class='clearall'>
+  <div class='section' id='section-0'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-0'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">django.shortcuts</span> <span class="kn">import</span> <span class="n">render</span>
+<span class="kn">from</span> <span class="nn">django.http</span> <span class="kn">import</span> <span class="n">HttpResponseRedirect</span>
+<span class="kn">from</span> <span class="nn">django.urls</span> <span class="kn">import</span> <span class="n">reverse</span>
+<span class="kn">from</span> <span class="nn">django.contrib.auth.decorators</span> <span class="kn">import</span> <span class="n">login_required</span>
+<span class="kn">from</span> <span class="nn">.models</span> <span class="kn">import</span> <span class="n">Document</span><span class="p">,</span> <span class="n">Dossier</span>
+<span class="kn">from</span> <span class="nn">.forms</span> <span class="kn">import</span> <span class="n">DocumentForm</span><span class="p">,</span> <span class="n">DossierForm</span>
+<span class="kn">from</span> <span class="nn">django.conf</span> <span class="kn">import</span> <span class="n">settings</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-1'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-1'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="nd">@login_required</span><span class="p">(</span><span class="n">login_url</span><span class="o">=</span><span class="n">settings</span><span class="o">.</span><span class="n">LOGIN_URI</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">pardossier</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">pid</span><span class="p">):</span>
+    <span class="n">dossiercourant</span> <span class="o">=</span> <span class="n">Dossier</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">pk</span><span class="o">=</span><span class="n">pid</span><span class="p">)</span>
+    <span class="n">dossiernom</span><span class="o">=</span><span class="n">dossiercourant</span><span class="o">.</span><span class="n">nomdossier</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-2'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-2'>#</a>
+      </div>
+      <p>Handle file upload</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;POST&#39;</span><span class="p">:</span>
+        <span class="n">form</span> <span class="o">=</span> <span class="n">DocumentForm</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">,</span> <span class="n">request</span><span class="o">.</span><span class="n">FILES</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">is_valid</span><span class="p">():</span>
+            <span class="n">newdoc</span> <span class="o">=</span> <span class="n">form</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">commit</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+            <span class="n">newdoc</span><span class="o">.</span><span class="n">dossier</span> <span class="o">=</span> <span class="n">dossiercourant</span>
+            <span class="n">newdoc</span><span class="o">.</span><span class="n">nicename</span> <span class="o">=</span>  <span class="n">newdoc</span><span class="o">.</span><span class="n">docfile</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">newdoc</span><span class="o">.</span><span class="n">author</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span>
+            <span class="n">newdoc</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+
+            <span class="k">return</span> <span class="n">HttpResponseRedirect</span><span class="p">(</span><span class="n">reverse</span><span class="p">(</span><span class="s1">&#39;dossierfolder&#39;</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">[</span><span class="n">newdoc</span><span class="o">.</span><span class="n">dossier</span><span class="o">.</span><span class="n">id</span><span class="p">]))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">form</span> <span class="o">=</span> <span class="n">DocumentForm</span><span class="p">()</span>  <span class="c1"># A empty, unbound form</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-3'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-3'>#</a>
+      </div>
+      <p>Load documents for the folder page</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">enfants</span> <span class="o">=</span> <span class="n">Dossier</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">parentId</span><span class="o">=</span><span class="n">pid</span><span class="p">)</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">Dossier</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">pid</span><span class="p">)</span>
+    <span class="n">documents</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">document</span> <span class="ow">in</span> <span class="n">Document</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">dossier</span><span class="o">=</span><span class="n">pid</span><span class="p">):</span>
+        <span class="n">document</span><span class="o">.</span><span class="n">nicename</span> <span class="o">=</span> <span class="n">document</span><span class="o">.</span><span class="n">docfile</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">documents</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">document</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s2">&quot;dossier.html&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;enfants&#39;</span><span class="p">:</span> <span class="n">enfants</span><span class="p">,</span>
+                                                 <span class="s1">&#39;parent&#39;</span><span class="p">:</span> <span class="n">parent</span><span class="p">,</span>
+                                                 <span class="s1">&#39;documents&#39;</span><span class="p">:</span> <span class="n">documents</span><span class="p">,</span>
+                                                 <span class="s1">&#39;dossiernom&#39;</span><span class="p">:</span> <span class="n">dossiernom</span><span class="p">,</span>
+                                                 <span class="s1">&#39;pid&#39;</span><span class="p">:</span> <span class="n">pid</span><span class="p">,</span>
+                                                 <span class="s1">&#39;form&#39;</span><span class="p">:</span> <span class="n">form</span><span class="p">,</span> <span class="p">})</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-4'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-4'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="nd">@login_required</span><span class="p">(</span><span class="n">login_url</span><span class="o">=</span><span class="n">settings</span><span class="o">.</span><span class="n">LOGIN_URI</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">dossier_new</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">pid</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">Dossier</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">pk</span><span class="o">=</span><span class="n">pid</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;POST&quot;</span><span class="p">:</span>
+        <span class="n">form</span> <span class="o">=</span> <span class="n">DossierForm</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">is_valid</span><span class="p">():</span>
+            <span class="n">dossier</span> <span class="o">=</span> <span class="n">form</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">commit</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-5'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-5'>#</a>
+      </div>
+      <p>dossier.comment = request.POST.get(&lsquo;comment&rsquo;, &lsquo;&rsquo;)</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>            <span class="n">dossier</span><span class="o">.</span><span class="n">parentId</span> <span class="o">=</span> <span class="n">parent</span>
+            <span class="n">dossier</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+            <span class="k">return</span> <span class="n">HttpResponseRedirect</span><span class="p">(</span><span class="n">reverse</span><span class="p">(</span><span class="s1">&#39;dossierfolder&#39;</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">[</span><span class="n">dossier</span><span class="o">.</span><span class="n">id</span><span class="p">]))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">form</span> <span class="o">=</span> <span class="n">DossierForm</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s2">&quot;dossier_edit.html&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;form&#39;</span><span class="p">:</span> <span class="n">form</span><span class="p">,</span>
+                                                      <span class="s1">&#39;dossier_id&#39;</span><span class="p">:</span> <span class="n">pid</span><span class="p">})</span>
+
+</pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+</div>
+</body>

@@ -1,0 +1,65 @@
+ID	code	Assistant	selecthosp	completed	PID_SEDON	pid_sed	PID_NAMON	pid_nam	PID_SDSEXE	pid_sddob	SDETATCIVI	SDDURCOUP	SDPAYSNAIS	SDPAYSNAISAUT	SDLANGMAT	SDLANGMATAUT	AUTOCHTONE	ETHNICITY	SDSCOLARIS	SDSOURCREV	SDSOUREVAU	SDSTATRES	SDSTARESAU	SDCODEPOST	SDCDPOST
+49	MB_40049	27	HSC	1	0				1		1		9				1		1			998	Prison	Portage Correctional Centre	
+55	MB_40055	27	HSC	1	1				0		2		9									7		85 Furby St., Winnipeg, MB	
+62	MB_40062	27	HSC	1	0		0		0		1				3		5	White	1	5		998	Winnipeg Remand Centre	Winnipeg Remand Centre, Winnipeg, MB	
+63	MB_40063	27	HSC	1	1				0		5		26		14		5	Laotian		998	Disability	4		274 Church Ave Winnipeg, MB	
+72	MB_40072	27	HSC	1	1				0		1		9						4	998	Disability				
+81	MB_40081	27	HSC	1	1				0		3	30					5	Caucasian		4		4		2-645 Bannatyne Ave., Winnipeg, Manitoba	
+96	MB_40096	27	HSC	1	0				1		5	11	9							2		4		58 Le Maire St., Winnipeg, MB	
+147	MB_40147	27	HSC	1	1				0		1						9		99	99		99		eloped to Vancouver, BC for 2 years prior to index hospitalization in Manitoba	
+152	MB_40152	27	HSC	1	0				0		1						5	Black	2	99		7		6A-570 Ellice	
+153	MB_40153	27	HSC	1	0				0		1		998	Latvia			5	Latvia	2	998	Veteran Affairs	998	trailer park	Box 1178 Shilo, MB / 103 Sprucewoods Trailer Court 	R0K
+169	MB_40169	27	HSC	1	1				0		1						1			1		13		514-299 Queen St., Winnipeg, MB	
+266	MB_40266	27	HSC	1	1				0		1		9				1		2	5		99		House 5130, Birdtail Sioux First Nation, MB	
+268	MB_40268	31	Selkirk	1	1		0		0		6		9		3		1		2	1		15			
+297	MB_40297	31	SMHC	1	1		0		0		1		25	Born in Central America- no specific country provided	3		5	Central American	99	998	CPP Disability Pension	8		PX3, 771 Bannatyne	R3E
+301	MB_40301	31	SMHC	1	1		0		0		1		9		3		5		1	5		8		Psyc Health Center, HSC	
+308	MB_40308	31	SMHC	1	1		0		0		1		9		3		9		1	3		1		814 Boyd Avenue, Winnipeg, MB	R2X
+310	MB_40310	31	SMHC	1	0				0		1		9		3		5		1	5		2		259 Magnus Avenue, Winnipeg, MB	
+326	MB_40326	31	SMHC	1	1		0		0		1		9		3		5		2	3		8		PX3 at HSC	
+328	MB_40328	31	SMHC	1	1		0		0		1		9		3		3		1	1		2			
+341	MB_40341	27	HSC	1	1				0		1		99		99		5	White	99	99		2		259 Magnus Ave	
+342	MB_40342	31	SMHC	1	1		0		0		1		9		3		1		1	5		998	Occidental Hotel, Winnipeg, MB	Occidental Hotel, Winnipeg, MB	
+345	MB_40345	31	SMHC	1	0				0		1		9		3		4		1	5		8		PX3, HSC, Winnipeg, MB 	
+346	MB_40346	31	SMHC	1	1		0		0		1		9		3		5		1	5		8		PX3, HSC, Winnipeg, MB 	
+348	MB_40348	27	HSC	1	1				0		99						5	Caucasian	99	3		7		1406 - 400 Stradbrook Ave., Winnipeg, MB	
+349	MB_40349	27	HSC	1	1				0		1						9		1	998	The accused receives social assistance through the Employment and Income Assistance Persons with a Disability Program	13		18-479 Spence St., Winnipeg, MB	R3B
+364	MB_40364	27	HSC	1	0				0		1		9				9		2	5		11		222 Queenston St., Winnipeg, MB	
+372	MB_40372	27	HSC	1	0				0		3		26				5	Laotian		5		7		32-800 Beverley St., Winnipeg, MB	R3E
+373	MB_40373	27	HSC	1	1				0		1						9		99	99		13		652 Home St., Winnipeg, MB	
+382	MB_40382	27	HSC	1	0				0		1		9						8	5		16		6030 Portage Ave. Winnipeg, MB	R4H
+383	MB_40383	27	HSC	1	0				0		1		9				9		2	998	the accused is financially supported through the Family Services and Consumer Affairs Employment and INcome Assistance Disability Program	7		210 Evanson St, Winnipeg, MB  	R3G
+389	MB_40389	27	HSC	1	0				1		2		9				5	Caucasian	99	99		12		44-8th Street, Sandilands, MB	R0A
+397	MB_40397	27	HSC	1	0				0		99						5	Caucasian	99	5		13		652 Home St., Winnipeg, MB	R3G
+401	MB_40401	27	HSC	1	1				0		99						9		3	99		1		604-420 Edmonton St., Winnipeg, MB 	R3B
+402	MB_40402	31	SMHC	1	0				0		1		998	Latvia	3		5	European	2	998	Veterans Affairs	8		HSC PX3	
+404	MB_40404	27	HSC	1	1				0		2		9				5	Caucasian	2	998	financially supported through the Canadian Pension Plan, the City of Winnipeg long-term disability insurance, and by renting out part of the home he owns	15		1164 Ingersol Street, Winnipeg	R3E
+405	MB_40405	31	SMHC	1	0				0		1		9		3		1		1			15		A frame house, South Indian Lake, MB	
+406	MB_40406	27	HSC	1	0				0		1		9				5	Caucasian	1	1		10		Homeless, lived from his car	
+407	MB_40407	27	HSC	1	1				0		1						9		99	9		1		367 Kingsford Ave., Winnipeg, MB	R2G 
+408	MB_40408	27	HSC	1	1				0		1						4		99	5		16		6030 Portage Ave., Headingley, MB	R4H
+409	MB_40409	27	HSC	1	0				0		1		9				5	Caucasian	3	998	Canadian social assistance and Disability financial support	16		375 Veterans Way, Brandon, MB	R7C
+420	MB_40420	31	SMHC	1	1		0		0		6		9		3		4		1	5		1		446 Victor Street, Winnipeg, MB	
+426	MB_40426	27	HSC	1	0				0		99		9				1		1	99		16		1070 Doncaster St., Winnipeg, MB	R3N
+426	MB_40426	31	HSC	1																					
+427	MB_40427	31	SMHC	1							1		9		3		5	Caucasian	2	9		1		Box 96, Gretna, MB. 	
+427	MB_40427	27	SMHC	1	0				0		99		9				9		2	998	EIA Disability financial assistance; Vocaional Incentive Program (works as dishwasher x2 per week)	13	error	722 McLean Ave., Selkirk, MB	R1A
+428	MB_40428	27	HSC	1	1				0		1		9	unspecified			5	Caucasian	99	998	Disability	11		805 - 22 Strauss Dr., Winnipeg, MB	R3J
+467	MB_40467	27	HSC	1	0				0		2		10				5	Chinese	6	998	Canadian Pension Plan (CPP) Disability and significant personal savings	8		Selkirk Mental Health Centre 825 Manitoba Ave, Selkirk, MB 	R1A 0Z3
+524	MB_40524	27	HSC	1	0				0		1		9				5	Caucasian	2	1		7		304-294 Beliveau Rd., Winnipeg, MB	R2M
+540	MB_40540	31	SMHC	1	1				0		3		9		3		5	Caucasian	3	5		8		PX3 Psyc Health Center, HSC, Winnipeg, MB	
+584	MB_40584	31	SMHC	1	1				0		1		9		998	Bilingual- Speaks Inuktitut and English	2		1	5		15		Box 1286, Iqualuit, Nunavut. 	
+592	MB_40592	27	HSC	1	1				0		1						1		1	998	The accused suported himself primarily through borrowing form this foster mother.	7		#510 554 Main St., Winnipeg, MB	R3B 
+600	MB_40600	31	SMHC	1	0				0		4		9		3		5		1	3		11		210 Evanson Street, Winnipeg, MB 	
+616	MB_40616	31	SMHC	1	0				1		2		9				9		5	998	Employment and Income Assistance	7		201-123 Pembina Ave., Winkler, MB	R6W
+661	MB_40661	27	HSC	1	1				0		1		9				1	opened in error				16		375 Smithfield Road, Brandon, MB	R7A
+662	MB_40662	27	HSC	1	0				1		1		9				5	Southeast Africa	5	1		1		38 Park Terrace Drive, Winnipeg, MB	R2J 
+663	MB_40663	27	HSC	1	0				0		4	17 years of marriage	9				9		1	5				220 Whitmore Avenue W, Apt. 173, Dauphin, MB	R7N
+707	MB_40707	27	HSC	1	1				0				9				5	Caucasian	2	998	EIA Disability financial assistance	13		unspecified (Selkirk, MB)	unspecified
+742	MB_40742	27	HSC	1	1				0		1		9				5	African Canadian (Ethiopian)	2	9		16		Correction Facility Rd, Beausejour, MB 	R0E 
+791	MB_40791	27	HSC	1	1				0		1		42				9	Trinidadian 	1	998	Employment and income assistance	998	Hotel 	#62-224 Main St., Winnipeg, MB	R3C
+815	MB_40815	27	HSC	1	1				0		1		9				9		1	998	Employment and income assistance	15		1490 Manitoba Ave., Winnipeg, MB	R2X
+992	MB_40992	27	HSC	1	0		0		0		5		9				9	Not specified	2	998	Provincial Employment and Income Assistance Program	16		141 Kennedy St, Winnipeg, MB 	R3C 
+992	MB_40992	21	HSC	1																					
+993	MB_40993	27	HSC	1	1				0		6		9				5	Caucasian	5	1		16		6030 Portage Ave., Headingley, MB	R4H
+994	MB_40994	27	HSC	1	0				0		1		9				4		1	99		16		Manitoba Youth Services at 170 Doncaster Ave., Winnipeg, MB	R3N

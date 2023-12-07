@@ -39,7 +39,6 @@ urlpatterns = [
     path('viol/', include('violation.urls')),
     path('', include('accueil.urls')),
     path('grc/', include('NTP1Reprise.urls')),
-    path('ntpgrc/', include('ntp1grc.urls')),
     path('favicon.ico', RedirectView.as_view(url=staticfiles_storage.url('accueil/img/favicon.ico')))
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

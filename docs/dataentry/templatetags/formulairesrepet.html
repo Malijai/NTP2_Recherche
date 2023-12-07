@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <title>formulairesrepet.py</title>
+  <link rel="stylesheet" href="../../pycco.css">
+</head>
+<body>
+<div id='container'>
+  <div id="background"></div>
+  <div class='section'>
+    <div class='docs'><h1>formulairesrepet.py</h1></div>
+  </div>
+  <div class='clearall'>
+  <div class='section' id='section-0'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-0'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">unicode_literals</span>
+<span class="kn">from</span> <span class="nn">django</span> <span class="kn">import</span> <span class="n">template</span>
+<span class="kn">from</span> <span class="nn">django.apps</span> <span class="kn">import</span> <span class="n">apps</span>
+<span class="kn">from</span> <span class="nn">dataentry.models</span> <span class="kn">import</span> <span class="n">Resultatrepetntp2</span><span class="p">,</span> <span class="n">Reponsentp2</span><span class="p">,</span> <span class="n">Questionntp2</span><span class="p">,</span> <span class="n">Typequestion</span><span class="p">,</span> <span class="n">Listevaleur</span><span class="p">,</span> <span class="n">Victime</span>
+<span class="kn">from</span> <span class="nn">django</span> <span class="kn">import</span> <span class="n">forms</span>
+<span class="kn">from</span> <span class="nn">.formulairesntp2</span> <span class="kn">import</span> <span class="n">fait_select_date</span><span class="p">,</span> <span class="n">fait_liste_tables</span><span class="p">,</span> <span class="n">enlevelisttag</span>
+<span class="kn">from</span> <span class="nn">dataentry.dataentry_constants</span> <span class="kn">import</span> <span class="n">CHOIX_ONUK</span><span class="p">,</span> <span class="n">CHOIX_ON</span>
+
+<span class="n">register</span> <span class="o">=</span> <span class="n">template</span><span class="o">.</span><span class="n">Library</span><span class="p">()</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-1'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-1'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="nd">@register.simple_tag</span>
+<span class="k">def</span> <span class="nf">fait_table</span><span class="p">(</span><span class="n">qid</span><span class="p">,</span> <span class="n">sorte</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-2'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-2'>#</a>
+      </div>
+      <p>questid sorte</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">personneid</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;persid&#39;</span><span class="p">]</span>
+    <span class="n">relation</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;relation&#39;</span><span class="p">]</span>
+    <span class="n">cible</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;cible&#39;</span><span class="p">]</span>
+    <span class="n">assistant</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;uid&#39;</span><span class="p">]</span>
+    <span class="n">ordre</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;ordre&#39;</span><span class="p">]</span>
+
+    <span class="n">defaultvalue</span> <span class="o">=</span> <span class="n">fait_default</span><span class="p">(</span><span class="n">personneid</span><span class="p">,</span> <span class="n">qid</span><span class="p">,</span> <span class="n">assistant</span><span class="o">=</span><span class="n">assistant</span><span class="p">,</span> <span class="n">ordre</span><span class="o">=</span><span class="n">ordre</span><span class="p">)</span>
+    <span class="n">idcondition</span> <span class="o">=</span> <span class="n">fait_id</span><span class="p">(</span><span class="n">qid</span><span class="p">,</span> <span class="n">cible</span><span class="p">,</span> <span class="n">relation</span><span class="o">=</span><span class="n">relation</span><span class="p">)</span>
+
+    <span class="n">typeq</span> <span class="o">=</span> <span class="n">Typequestion</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">nom</span><span class="o">=</span><span class="n">sorte</span><span class="p">)</span>
+    <span class="n">listevaleurs</span> <span class="o">=</span> <span class="n">Listevaleur</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">typequestion</span><span class="o">=</span><span class="n">typeq</span><span class="p">)</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;q{}Z_Z{}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">qid</span><span class="p">,</span> <span class="n">ordre</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">sorte</span> <span class="o">==</span> <span class="s2">&quot;VIOLATION&quot;</span><span class="p">:</span>
+        <span class="n">liste</span> <span class="o">=</span> <span class="n">fait_liste_tables</span><span class="p">(</span><span class="n">listevaleurs</span><span class="p">,</span> <span class="s1">&#39;violation&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">liste</span> <span class="o">=</span> <span class="n">fait_liste_tables</span><span class="p">(</span><span class="n">listevaleurs</span><span class="p">,</span> <span class="s1">&#39;reponse&#39;</span><span class="p">)</span>
+
+    <span class="n">question</span> <span class="o">=</span> <span class="n">forms</span><span class="o">.</span><span class="n">Select</span><span class="p">(</span><span class="n">choices</span><span class="o">=</span><span class="n">liste</span><span class="p">,</span> <span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="n">idcondition</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">name</span><span class="p">})</span>
+    <span class="k">return</span> <span class="n">question</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">defaultvalue</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-3'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-3'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="nd">@register.simple_tag</span>
+<span class="k">def</span> <span class="nf">fait_reponse</span><span class="p">(</span><span class="n">qid</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-4'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-4'>#</a>
+      </div>
+      <p>Pour listes de valeurs specifiques a chaque question</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">personneid</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;persid&#39;</span><span class="p">]</span>
+    <span class="n">relation</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;relation&#39;</span><span class="p">]</span>
+    <span class="n">cible</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;cible&#39;</span><span class="p">]</span>
+    <span class="n">assistant</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;uid&#39;</span><span class="p">]</span>
+    <span class="n">ordre</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;ordre&#39;</span><span class="p">]</span>
+    <span class="n">defaultvalue</span> <span class="o">=</span> <span class="n">fait_default</span><span class="p">(</span><span class="n">personneid</span><span class="p">,</span> <span class="n">qid</span><span class="p">,</span> <span class="n">assistant</span><span class="o">=</span><span class="n">assistant</span><span class="p">,</span> <span class="n">ordre</span><span class="o">=</span><span class="n">ordre</span><span class="p">)</span>
+    <span class="n">idcondition</span> <span class="o">=</span> <span class="n">fait_id</span><span class="p">(</span><span class="n">qid</span><span class="p">,</span> <span class="n">cible</span><span class="p">,</span> <span class="n">relation</span><span class="o">=</span><span class="n">relation</span><span class="p">)</span>
+
+    <span class="n">listevaleurs</span> <span class="o">=</span> <span class="n">Reponsentp2</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">question__id</span><span class="o">=</span><span class="n">qid</span><span class="p">,</span> <span class="p">)</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;q{}Z_Z{}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">qid</span><span class="p">,</span> <span class="n">ordre</span><span class="p">)</span>
+    <span class="n">liste</span> <span class="o">=</span> <span class="n">fait_liste_tables</span><span class="p">(</span><span class="n">listevaleurs</span><span class="p">,</span> <span class="s1">&#39;reponse&#39;</span><span class="p">)</span>
+
+    <span class="n">question</span> <span class="o">=</span> <span class="n">forms</span><span class="o">.</span><span class="n">Select</span><span class="p">(</span><span class="n">choices</span><span class="o">=</span><span class="n">liste</span><span class="p">,</span> <span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="n">idcondition</span><span class="p">,</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span> <span class="p">})</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-5'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-5'>#</a>
+      </div>
+      <p>return question.render(name, defaultvalue)</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">return</span> <span class="n">question</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">defaultvalue</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-6'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-6'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="nd">@register.simple_tag</span>
+<span class="k">def</span> <span class="nf">fait_victimes</span><span class="p">(</span><span class="n">qid</span><span class="p">,</span> <span class="n">sorte</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-7'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-7'>#</a>
+      </div>
+      <p>pour les tables dont la valeur a enregistrer n&rsquo;est pas l&rsquo;id mais la reponse_valeur (independant de la province)</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">personneid</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;persid&#39;</span><span class="p">]</span>
+    <span class="n">relation</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;relation&#39;</span><span class="p">]</span>
+    <span class="n">cible</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;cible&#39;</span><span class="p">]</span>
+    <span class="n">assistant</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;uid&#39;</span><span class="p">]</span>
+    <span class="n">ordre</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;ordre&#39;</span><span class="p">]</span>
+    <span class="n">defaultvalue</span> <span class="o">=</span> <span class="n">fait_default</span><span class="p">(</span><span class="n">personneid</span><span class="p">,</span> <span class="n">qid</span><span class="p">,</span> <span class="n">assistant</span><span class="o">=</span><span class="n">assistant</span><span class="p">,</span> <span class="n">ordre</span><span class="o">=</span><span class="n">ordre</span><span class="p">)</span>
+    <span class="n">idcondition</span> <span class="o">=</span> <span class="n">fait_id</span><span class="p">(</span><span class="n">qid</span><span class="p">,</span> <span class="n">cible</span><span class="p">,</span> <span class="n">relation</span><span class="o">=</span><span class="n">relation</span><span class="p">)</span>
+
+    <span class="n">listevaleurs</span> <span class="o">=</span> <span class="n">Victime</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;q{}Z_Z{}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">qid</span><span class="p">,</span> <span class="n">ordre</span><span class="p">)</span>
+    <span class="n">liste</span> <span class="o">=</span> <span class="n">fait_liste_tables</span><span class="p">(</span><span class="n">listevaleurs</span><span class="p">,</span> <span class="s1">&#39;reponse&#39;</span><span class="p">)</span>
+
+    <span class="n">question</span> <span class="o">=</span> <span class="n">forms</span><span class="o">.</span><span class="n">Select</span><span class="p">(</span><span class="n">choices</span><span class="o">=</span><span class="n">liste</span><span class="p">,</span> <span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="n">idcondition</span><span class="p">,</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span> <span class="p">})</span>
+    <span class="k">return</span> <span class="n">question</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">defaultvalue</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-8'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-8'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="nd">@register.simple_tag</span>
+<span class="k">def</span> <span class="nf">fait_table_valeurs_prov</span><span class="p">(</span><span class="n">qid</span><span class="p">,</span> <span class="n">sorte</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-9'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-9'>#</a>
+      </div>
+      <p>pour les tables dont la valeur a enregistrer n&rsquo;est pas l&rsquo;id mais la reponse_valeur
+et dont la liste depend de la province</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">province</span> <span class="o">=</span>  <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;province&#39;</span><span class="p">]</span>
+    <span class="n">personneid</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;persid&#39;</span><span class="p">]</span>
+    <span class="n">relation</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;relation&#39;</span><span class="p">]</span>
+    <span class="n">cible</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;cible&#39;</span><span class="p">]</span>
+    <span class="n">typetable</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;ETABLISSEMENT&quot;</span><span class="p">:</span> <span class="s2">&quot;etablissement&quot;</span><span class="p">,</span> <span class="s2">&quot;MUNICIPALITE&quot;</span><span class="p">:</span> <span class="s2">&quot;municipalite&quot;</span><span class="p">,}</span>
+    <span class="n">tableext</span> <span class="o">=</span> <span class="n">typetable</span><span class="p">[</span><span class="n">sorte</span><span class="p">]</span>
+    <span class="n">assistant</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;uid&#39;</span><span class="p">]</span>
+    <span class="n">ordre</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;ordre&#39;</span><span class="p">]</span>
+    <span class="n">defaultvalue</span> <span class="o">=</span> <span class="n">fait_default</span><span class="p">(</span><span class="n">personneid</span><span class="p">,</span> <span class="n">qid</span><span class="p">,</span> <span class="n">assistant</span><span class="o">=</span><span class="n">assistant</span><span class="p">,</span> <span class="n">ordre</span><span class="o">=</span><span class="n">ordre</span><span class="p">)</span>
+    <span class="n">idcondition</span> <span class="o">=</span> <span class="n">fait_id</span><span class="p">(</span><span class="n">qid</span><span class="p">,</span> <span class="n">cible</span><span class="p">,</span> <span class="n">relation</span><span class="o">=</span><span class="n">relation</span><span class="p">)</span>
+
+    <span class="n">Klass</span> <span class="o">=</span> <span class="n">apps</span><span class="o">.</span><span class="n">get_model</span><span class="p">(</span><span class="s1">&#39;dataentry&#39;</span><span class="p">,</span> <span class="n">tableext</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-10'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-10'>#</a>
+      </div>
+      <p>Klass = apps.get_model(&lsquo;dataentry&rsquo;, typetable[b])</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">listevaleurs</span> <span class="o">=</span> <span class="n">Klass</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">province__id</span><span class="o">=</span><span class="n">province</span><span class="p">)</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;q{}Z_Z{}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">qid</span><span class="p">,</span> <span class="n">ordre</span><span class="p">)</span>
+    <span class="n">liste</span> <span class="o">=</span> <span class="n">fait_liste_tables</span><span class="p">(</span><span class="n">listevaleurs</span><span class="p">,</span> <span class="s1">&#39;reponse&#39;</span><span class="p">)</span>
+
+    <span class="n">question</span> <span class="o">=</span> <span class="n">forms</span><span class="o">.</span><span class="n">Select</span><span class="p">(</span><span class="n">choices</span><span class="o">=</span><span class="n">liste</span><span class="p">,</span> <span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="n">idcondition</span><span class="p">,</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">name</span><span class="p">})</span>
+
+    <span class="k">return</span> <span class="n">question</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">defaultvalue</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-11'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-11'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="nd">@register.simple_tag</span>
+<span class="k">def</span> <span class="nf">fait_dichou</span><span class="p">(</span><span class="n">qid</span><span class="p">,</span> <span class="n">sorte</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="n">personneid</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;persid&#39;</span><span class="p">]</span>
+    <span class="n">relation</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;relation&#39;</span><span class="p">]</span>
+    <span class="n">cible</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;cible&#39;</span><span class="p">]</span>
+    <span class="n">assistant</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;uid&#39;</span><span class="p">]</span>
+    <span class="n">ordre</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;ordre&#39;</span><span class="p">]</span>
+
+    <span class="n">defaultvalue</span> <span class="o">=</span> <span class="n">fait_default</span><span class="p">(</span><span class="n">personneid</span><span class="p">,</span> <span class="n">qid</span><span class="p">,</span> <span class="n">assistant</span><span class="o">=</span><span class="n">assistant</span><span class="p">,</span> <span class="n">ordre</span><span class="o">=</span><span class="n">ordre</span><span class="p">)</span>
+    <span class="n">idcondition</span> <span class="o">=</span> <span class="n">fait_id</span><span class="p">(</span><span class="n">qid</span><span class="p">,</span> <span class="n">cible</span><span class="p">,</span> <span class="n">relation</span><span class="o">=</span><span class="n">relation</span><span class="p">)</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;q{}Z_Z{}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">qid</span><span class="p">,</span> <span class="n">ordre</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">sorte</span> <span class="o">==</span> <span class="s2">&quot;DICHO&quot;</span><span class="p">:</span>
+        <span class="n">liste</span> <span class="o">=</span> <span class="n">CHOIX_ON</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+        <span class="n">question</span> <span class="o">=</span> <span class="n">forms</span><span class="o">.</span><span class="n">RadioSelect</span><span class="p">(</span><span class="n">choices</span><span class="o">=</span><span class="n">liste</span><span class="p">,</span> <span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="n">idcondition</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">name</span><span class="p">})</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">liste</span> <span class="o">=</span> <span class="n">CHOIX_ONUK</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+        <span class="n">question</span> <span class="o">=</span> <span class="n">forms</span><span class="o">.</span><span class="n">RadioSelect</span><span class="p">(</span><span class="n">choices</span><span class="o">=</span><span class="n">liste</span><span class="p">,</span> <span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="n">idcondition</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">name</span><span class="p">})</span>
+
+    <span class="k">return</span> <span class="n">enlevelisttag</span><span class="p">(</span><span class="n">question</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">defaultvalue</span><span class="p">))</span>
+
+
+<span class="nd">@register.simple_tag</span>
+<span class="k">def</span> <span class="nf">fait_court</span><span class="p">(</span><span class="n">qid</span><span class="p">,</span> <span class="n">sorte</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="n">personneid</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;persid&#39;</span><span class="p">]</span>
+    <span class="n">relation</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;relation&#39;</span><span class="p">]</span>
+    <span class="n">cible</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;cible&#39;</span><span class="p">]</span>
+    <span class="n">assistant</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;uid&#39;</span><span class="p">]</span>
+    <span class="n">ordre</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;ordre&#39;</span><span class="p">]</span>
+
+    <span class="n">defaultvalue</span> <span class="o">=</span> <span class="n">fait_default</span><span class="p">(</span><span class="n">personneid</span><span class="p">,</span> <span class="n">qid</span><span class="p">,</span> <span class="n">assistant</span><span class="o">=</span><span class="n">assistant</span><span class="p">,</span> <span class="n">ordre</span><span class="o">=</span><span class="n">ordre</span><span class="p">)</span>
+    <span class="n">idcondition</span> <span class="o">=</span> <span class="n">fait_id</span><span class="p">(</span><span class="n">qid</span><span class="p">,</span> <span class="n">cible</span><span class="p">,</span> <span class="n">relation</span><span class="o">=</span><span class="n">relation</span><span class="p">)</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;q{}Z_Z{}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">qid</span><span class="p">,</span> <span class="n">ordre</span><span class="p">)</span>
+
+    <span class="n">liste</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;Municipal&#39;</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;Provincial&#39;</span><span class="p">),</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;Superior&#39;</span><span class="p">)]</span>
+    <span class="n">question</span> <span class="o">=</span> <span class="n">forms</span><span class="o">.</span><span class="n">Select</span><span class="p">(</span><span class="n">choices</span><span class="o">=</span><span class="n">liste</span><span class="p">,</span> <span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="n">idcondition</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span> <span class="p">})</span>
+
+    <span class="k">return</span> <span class="n">enlevelisttag</span><span class="p">(</span><span class="n">question</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">defaultvalue</span><span class="p">))</span>
+
+
+<span class="nd">@register.simple_tag</span>
+<span class="k">def</span> <span class="nf">fait_textechar</span><span class="p">(</span><span class="n">qid</span><span class="p">,</span> <span class="n">sorte</span><span class="p">,</span> <span class="n">persid</span><span class="p">,</span> <span class="n">relation</span><span class="p">,</span> <span class="n">cible</span><span class="p">,</span> <span class="n">uid</span><span class="p">,</span> <span class="n">ordre</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="n">personneid</span> <span class="o">=</span> <span class="n">persid</span>
+    <span class="n">relation</span> <span class="o">=</span> <span class="n">relation</span>
+    <span class="n">cible</span> <span class="o">=</span> <span class="n">cible</span>
+    <span class="n">assistant</span> <span class="o">=</span> <span class="n">uid</span>
+    <span class="n">ordre</span> <span class="o">=</span> <span class="n">ordre</span>
+
+    <span class="n">defaultvalue</span> <span class="o">=</span> <span class="n">fait_default</span><span class="p">(</span><span class="n">personneid</span><span class="p">,</span> <span class="n">qid</span><span class="p">,</span> <span class="n">assistant</span><span class="o">=</span><span class="n">assistant</span><span class="p">,</span> <span class="n">ordre</span><span class="o">=</span><span class="n">ordre</span><span class="p">)</span>
+    <span class="n">idcondition</span> <span class="o">=</span> <span class="n">fait_id</span><span class="p">(</span><span class="n">qid</span><span class="p">,</span> <span class="n">cible</span><span class="p">,</span> <span class="n">relation</span><span class="o">=</span><span class="n">relation</span><span class="p">)</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;q{}Z_Z{}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">qid</span><span class="p">,</span> <span class="n">ordre</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">sorte</span> <span class="o">==</span> <span class="s1">&#39;STRING&#39;</span> <span class="ow">or</span> <span class="n">sorte</span> <span class="o">==</span> <span class="s1">&#39;CODESTRING&#39;</span> <span class="ow">or</span> <span class="n">sorte</span> <span class="o">==</span> <span class="s1">&#39;TIME&#39;</span><span class="p">:</span>
+        <span class="n">question</span> <span class="o">=</span> <span class="n">forms</span><span class="o">.</span><span class="n">TextInput</span><span class="p">(</span><span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;size&#39;</span><span class="p">:</span> <span class="mi">30</span><span class="p">,</span> <span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="n">idcondition</span><span class="p">,</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">name</span><span class="p">,})</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">question</span> <span class="o">=</span> <span class="n">forms</span><span class="o">.</span><span class="n">NumberInput</span><span class="p">(</span><span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;size&#39;</span><span class="p">:</span> <span class="mi">30</span><span class="p">,</span> <span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="n">idcondition</span><span class="p">,</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">name</span><span class="p">,})</span>
+
+    <span class="k">return</span> <span class="n">question</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">defaultvalue</span><span class="p">)</span>
+
+
+<span class="nd">@register.simple_tag</span>
+<span class="k">def</span> <span class="nf">fait_date</span><span class="p">(</span><span class="n">qid</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="n">personneid</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;persid&#39;</span><span class="p">]</span>
+    <span class="n">relation</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;relation&#39;</span><span class="p">]</span>
+    <span class="n">cible</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;cible&#39;</span><span class="p">]</span>
+    <span class="n">assistant</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;uid&#39;</span><span class="p">]</span>
+    <span class="n">ordre</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;ordre&#39;</span><span class="p">]</span>
+
+    <span class="n">an</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+    <span class="n">mois</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+    <span class="n">jour</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+    <span class="k">if</span> <span class="n">Resultatrepetntp2</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">personne__id</span><span class="o">=</span><span class="n">personneid</span><span class="p">,</span> <span class="n">assistant__id</span><span class="o">=</span><span class="n">assistant</span><span class="p">,</span> <span class="n">question__id</span><span class="o">=</span><span class="n">qid</span><span class="p">,</span><span class="n">fiche</span><span class="o">=</span><span class="n">ordre</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+        <span class="n">ancienne</span> <span class="o">=</span> <span class="n">Resultatrepetntp2</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">personne__id</span><span class="o">=</span><span class="n">personneid</span><span class="p">,</span> <span class="n">assistant__id</span><span class="o">=</span><span class="n">assistant</span><span class="p">,</span> <span class="n">question__id</span><span class="o">=</span><span class="n">qid</span><span class="p">,</span>
+                                            <span class="n">fiche</span><span class="o">=</span><span class="n">ordre</span><span class="p">)</span><span class="o">.</span><span class="fm">__str__</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">ancienne</span><span class="p">:</span>
+            <span class="n">an</span><span class="p">,</span> <span class="n">mois</span><span class="p">,</span> <span class="n">jour</span> <span class="o">=</span> <span class="n">ancienne</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">)</span>
+
+    <span class="n">idcondition</span> <span class="o">=</span> <span class="n">fait_id</span><span class="p">(</span><span class="n">qid</span><span class="p">,</span> <span class="n">cible</span><span class="p">,</span> <span class="n">relation</span><span class="o">=</span><span class="n">relation</span><span class="p">)</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;q{}Z_Z{}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">qid</span><span class="p">,</span> <span class="n">ordre</span><span class="p">)</span>
+    <span class="n">day</span><span class="p">,</span> <span class="n">month</span><span class="p">,</span> <span class="n">year</span> <span class="o">=</span> <span class="n">fait_select_date</span><span class="p">(</span><span class="n">idcondition</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="mi">1960</span><span class="p">,</span> <span class="mi">2019</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-12'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-12'>#</a>
+      </div>
+      <h1>name=q69_year, id=row&hellip;</h1>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">return</span> <span class="n">year</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">name</span> <span class="o">+</span> <span class="s1">&#39;_year&#39;</span> <span class="p">,</span> <span class="n">an</span><span class="p">)</span> <span class="o">+</span> <span class="n">month</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">name</span> <span class="o">+</span> <span class="s1">&#39;_month&#39;</span><span class="p">,</span> <span class="n">mois</span><span class="p">)</span> <span class="o">+</span> <span class="n">day</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">name</span> <span class="o">+</span> <span class="s1">&#39;_day&#39;</span><span class="p">,</span> <span class="n">jour</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-13'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-13'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">fait_default</span><span class="p">(</span><span class="n">personneid</span><span class="p">,</span> <span class="n">qid</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-14'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-14'>#</a>
+      </div>
+      <h1>fail la valeur par deffaut</h1>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">assistant</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;assistant&#39;</span><span class="p">]</span>
+    <span class="n">ordre</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;ordre&#39;</span><span class="p">]</span>
+    <span class="n">ancienne</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+
+    <span class="k">if</span> <span class="n">Resultatrepetntp2</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">personne__id</span><span class="o">=</span><span class="n">personneid</span><span class="p">,</span> <span class="n">assistant__id</span><span class="o">=</span><span class="n">assistant</span><span class="p">,</span> <span class="n">question__id</span><span class="o">=</span><span class="n">qid</span><span class="p">,</span> <span class="n">fiche</span><span class="o">=</span><span class="n">ordre</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+        <span class="n">ancienne</span> <span class="o">=</span> <span class="n">Resultatrepetntp2</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">personne__id</span><span class="o">=</span><span class="n">personneid</span><span class="p">,</span> <span class="n">assistant__id</span><span class="o">=</span><span class="n">assistant</span><span class="p">,</span>
+                                                 <span class="n">question__id</span><span class="o">=</span><span class="n">qid</span><span class="p">,</span> <span class="n">fiche</span><span class="o">=</span><span class="n">ordre</span><span class="p">)</span><span class="o">.</span><span class="fm">__str__</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">ancienne</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-15'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-15'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">fait_id</span><span class="p">(</span><span class="n">qid</span><span class="p">,</span> <span class="n">cible</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-16'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-16'>#</a>
+      </div>
+      <h1>fail l&rsquo;ID pour javascripts ou autre</h1>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">relation</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;relation&#39;</span><span class="p">]</span>
+
+    <span class="n">idcondition</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+    <span class="k">if</span> <span class="n">relation</span> <span class="o">!=</span> <span class="s1">&#39;&#39;</span> <span class="ow">and</span> <span class="n">cible</span> <span class="o">!=</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
+        <span class="n">idcondition</span> <span class="o">=</span> <span class="s1">&#39;row-{}X{}X{}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">qid</span><span class="p">,</span> <span class="n">relation</span><span class="p">,</span> <span class="n">cible</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">idcondition</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-17'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-17'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="nd">@register.simple_tag</span>
+<span class="k">def</span> <span class="nf">fait_dateh</span><span class="p">(</span><span class="n">persid</span><span class="p">,</span> <span class="n">province</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span> <span class="n">kwargs</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-18'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-18'>#</a>
+      </div>
+      <p>Va chercher les dates de sorte 60 pour les afficher dans les tabs</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">ordre</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;ordre&#39;</span><span class="p">]</span>
+    <span class="n">assistant</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;assistant&#39;</span><span class="p">]</span>
+    <span class="n">questionnaire</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;questionnaire&#39;</span><span class="p">]</span>
+
+    <span class="n">datehosp</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+    <span class="n">question</span> <span class="o">=</span> <span class="n">Questionntp2</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">typequestion_id</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="n">questionnaire_id</span><span class="o">=</span><span class="n">questionnaire</span><span class="p">)</span><span class="o">.</span><span class="n">pk</span>
+    <span class="k">if</span> <span class="n">Resultatrepetntp2</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">personne__id</span><span class="o">=</span><span class="n">persid</span><span class="p">,</span> <span class="n">assistant__id</span><span class="o">=</span><span class="n">assistant</span><span class="p">,</span> <span class="n">question_id</span><span class="o">=</span><span class="n">question</span><span class="p">,</span> <span class="n">fiche</span><span class="o">=</span><span class="n">ordre</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+        <span class="n">datehosp</span> <span class="o">=</span> <span class="n">Resultatrepetntp2</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">personne__id</span><span class="o">=</span><span class="n">persid</span><span class="p">,</span> <span class="n">assistant__id</span><span class="o">=</span><span class="n">assistant</span><span class="p">,</span>
+                                                 <span class="n">question__id</span><span class="o">=</span><span class="n">question</span><span class="p">,</span> <span class="n">fiche</span><span class="o">=</span><span class="n">ordre</span><span class="p">)</span><span class="o">.</span><span class="fm">__str__</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">datehosp</span> <span class="o">=</span> <span class="n">ordre</span>
+
+    <span class="k">return</span> <span class="s1">&#39;&lt;h3&gt;{}&lt;/h3&gt;&lt;b&gt;Hospitalized on: {}&lt;/b&gt;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">datehosp</span><span class="p">,</span> <span class="n">datehosp</span><span class="p">)</span>
+
+</pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+</div>
+</body>

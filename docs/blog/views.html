@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <title>views.py</title>
+  <link rel="stylesheet" href="../pycco.css">
+</head>
+<body>
+<div id='container'>
+  <div id="background"></div>
+  <div class='section'>
+    <div class='docs'><h1>views.py</h1></div>
+  </div>
+  <div class='clearall'>
+  <div class='section' id='section-0'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-0'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">django.shortcuts</span> <span class="kn">import</span> <span class="n">render_to_response</span><span class="p">,</span> <span class="n">render</span><span class="p">,</span> <span class="n">redirect</span><span class="p">,</span> <span class="n">get_object_or_404</span>
+<span class="kn">from</span> <span class="nn">django.views</span> <span class="kn">import</span> <span class="n">generic</span>
+<span class="kn">from</span> <span class="nn">.forms</span> <span class="kn">import</span> <span class="n">CommentaireForm</span><span class="p">,</span> <span class="n">EntreeForm</span><span class="p">,</span> <span class="n">TagForm</span><span class="p">,</span> <span class="n">RechercheForm</span>
+<span class="kn">from</span> <span class="nn">.models</span> <span class="kn">import</span> <span class="n">Entree</span><span class="p">,</span> <span class="n">Tag</span>
+<span class="kn">from</span> <span class="nn">accueil.models</span> <span class="kn">import</span> <span class="n">Projet</span>
+<span class="kn">from</span> <span class="nn">django.core.paginator</span> <span class="kn">import</span> <span class="n">Paginator</span><span class="p">,</span> <span class="n">EmptyPage</span><span class="p">,</span> <span class="n">PageNotAnInteger</span>
+<span class="kn">from</span> <span class="nn">django.template.defaultfilters</span> <span class="kn">import</span> <span class="n">slugify</span>
+<span class="kn">from</span> <span class="nn">django.conf</span> <span class="kn">import</span> <span class="n">settings</span>
+<span class="kn">from</span> <span class="nn">django.contrib.auth.decorators</span> <span class="kn">import</span> <span class="n">login_required</span>
+<span class="kn">from</span> <span class="nn">django.core</span> <span class="kn">import</span> <span class="n">mail</span>
+<span class="kn">from</span> <span class="nn">django.utils.translation</span> <span class="kn">import</span> <span class="n">ugettext_lazy</span> <span class="k">as</span> <span class="n">_</span>
+<span class="kn">from</span> <span class="nn">django.db.models</span> <span class="kn">import</span> <span class="n">Q</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-1'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-1'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">class</span> <span class="nc">BlogDetail</span><span class="p">(</span><span class="n">generic</span><span class="o">.</span><span class="n">DetailView</span><span class="p">):</span>
+    <span class="n">template_name</span> <span class="o">=</span> <span class="s1">&#39;blogdetail.html&#39;</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">Entree</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-2'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-2'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">ismanitoba</span><span class="p">(</span><span class="n">http_host</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">True</span> <span class="k">if</span> <span class="s1">&#39;ntpmb.ca&#39;</span> <span class="ow">in</span> <span class="n">http_host</span> <span class="k">else</span> <span class="bp">False</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-3'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-3'>#</a>
+      </div>
+      <p>return True</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-4'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-4'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">ismalijai</span><span class="p">(</span><span class="n">http_host</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">True</span> <span class="k">if</span> <span class="s1">&#39;malijai.org&#39;</span> <span class="ow">in</span> <span class="n">http_host</span> <span class="k">else</span> <span class="bp">False</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-5'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-5'>#</a>
+      </div>
+      <p>return True</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-6'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-6'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">isntp</span><span class="p">(</span><span class="n">http_host</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">True</span> <span class="k">if</span> <span class="s1">&#39;ntp-ptn.org&#39;</span> <span class="ow">in</span> <span class="n">http_host</span> <span class="k">else</span> <span class="bp">False</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-7'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-7'>#</a>
+      </div>
+      <p>return True</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-8'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-8'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="nd">@login_required</span><span class="p">(</span><span class="n">login_url</span><span class="o">=</span><span class="n">settings</span><span class="o">.</span><span class="n">LOGIN_URI</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">listing</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="n">post_list</span> <span class="o">=</span> <span class="n">Entree</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+    <span class="n">paginator</span> <span class="o">=</span> <span class="n">Paginator</span><span class="p">(</span><span class="n">post_list</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-9'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-9'>#</a>
+      </div>
+      <p>Show 5 post par page</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">tag_list</span> <span class="o">=</span> <span class="n">Tag</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-10'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-10'>#</a>
+      </div>
+      <p>Utilisé pour la liste de tous les mots clefs avec un lien</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">page</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">GET</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;page&#39;</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">posts</span> <span class="o">=</span> <span class="n">paginator</span><span class="o">.</span><span class="n">page</span><span class="p">(</span><span class="n">page</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">PageNotAnInteger</span><span class="p">:</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-11'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-11'>#</a>
+      </div>
+      <p>If page is not an integer, deliver first page.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>        <span class="n">posts</span> <span class="o">=</span> <span class="n">paginator</span><span class="o">.</span><span class="n">page</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">EmptyPage</span><span class="p">:</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-12'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-12'>#</a>
+      </div>
+      <p>If page is out of range (e.g. 9999), deliver last page of results.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>        <span class="n">posts</span> <span class="o">=</span> <span class="n">paginator</span><span class="o">.</span><span class="n">page</span><span class="p">(</span><span class="n">paginator</span><span class="o">.</span><span class="n">num_pages</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;list.html&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;posts&#39;</span><span class="p">:</span> <span class="n">posts</span><span class="p">,</span> <span class="s1">&#39;tags&#39;</span><span class="p">:</span> <span class="n">tag_list</span><span class="p">})</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-13'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-13'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">fait_courriel_commentaire</span><span class="p">(</span><span class="n">commentaire</span><span class="p">,</span> <span class="n">posttitre</span><span class="p">,</span> <span class="n">billetacommenter</span><span class="p">,</span> <span class="n">host</span><span class="p">):</span>
+    <span class="n">lienpost</span> <span class="o">=</span> <span class="n">posttitre</span> <span class="o">+</span> <span class="s1">&#39; (&#39;</span> <span class="o">+</span> <span class="n">settings</span><span class="o">.</span><span class="n">BLOG_URL</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">billetacommenter</span><span class="o">.</span><span class="n">id</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;/ )&#39;</span>
+    <span class="k">if</span> <span class="n">host</span> <span class="o">==</span> <span class="s1">&#39;MB&#39;</span><span class="p">:</span>
+        <span class="n">sujet</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="sa">u</span><span class="s2">&quot;Nouveau commentaire dans le blog de NTP Manitoba&quot;</span><span class="p">)</span>
+        <span class="n">textecourriel</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="sa">u</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        Un nouveau commentaire au billet intitulé : {} vient d&#39;être publié par {} {}.</span>
+<span class="s2">        Vous recevez ce courriel parce que vous ête membre de l&#39;équipe du projet NTP Manitoba.</span>
+<span class="s2">        Ne répondez pas à ce courriel, il s&#39;agit d&#39;un envoi automatisé.</span>
+
+<span class="s2">        Malijaï Caulet (malijai.caulet.ippm@ssss.gouv.qc.ca)</span>
+<span class="s2">            &quot;&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">lienpost</span><span class="p">,</span> <span class="n">commentaire</span><span class="o">.</span><span class="n">author</span><span class="o">.</span><span class="n">first_name</span><span class="p">,</span> <span class="n">commentaire</span><span class="o">.</span><span class="n">author</span><span class="o">.</span><span class="n">last_name</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">host</span> <span class="o">==</span> <span class="s1">&#39;NTP2&#39;</span><span class="p">:</span>
+        <span class="n">sujet</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="sa">u</span><span class="s2">&quot;Nouveau commentaire dans le blog de NTP2 Community&quot;</span><span class="p">)</span>
+        <span class="n">textecourriel</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="sa">u</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        Un nouveau commentaire au billet intitulé : {} vient d&#39;être publié par {} {}.</span>
+<span class="s2">        Vous recevez ce courriel parce que vous ête membre de l&#39;équipe du projet NTP2 Community.</span>
+<span class="s2">        Ne répondez pas à ce courriel, il s&#39;agit d&#39;un envoi automatisé.</span>
+
+<span class="s2">        Malijaï Caulet (malijai.caulet.ippm@ssss.gouv.qc.ca)</span>
+<span class="s2">            &quot;&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">lienpost</span><span class="p">,</span> <span class="n">commentaire</span><span class="o">.</span><span class="n">author</span><span class="o">.</span><span class="n">first_name</span><span class="p">,</span> <span class="n">commentaire</span><span class="o">.</span><span class="n">author</span><span class="o">.</span><span class="n">last_name</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">sujet</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="sa">u</span><span class="s2">&quot;Nouveau commentaire dans le blog de l&#39;observatoire&quot;</span><span class="p">)</span>
+        <span class="n">textecourriel</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="sa">u</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">    Un nouveau commentaire au billet intitulé : {} vient d&#39;être publié par {} {}.</span>
+<span class="s2">    Vous recevez ce courriel parce que vous ête membre de l&#39;Observatoire en santé mentale et justice du Québec.</span>
+<span class="s2">    Ne répondez pas à ce courriel, il s&#39;agit d&#39;un envoi automatisé.</span>
+<span class="s2">    Merci de participer à ce projet.</span>
+
+<span class="s2">    Malijaï Caulet (malijai.caulet.ippm@ssss.gouv.qc.ca)</span>
+<span class="s2">        &quot;&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">lienpost</span><span class="p">,</span> <span class="n">commentaire</span><span class="o">.</span><span class="n">author</span><span class="o">.</span><span class="n">first_name</span><span class="p">,</span> <span class="n">commentaire</span><span class="o">.</span><span class="n">author</span><span class="o">.</span><span class="n">last_name</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">sujet</span><span class="p">,</span> <span class="n">textecourriel</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-14'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-14'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">fait_courriel_entree</span><span class="p">(</span><span class="n">entree</span><span class="p">,</span> <span class="n">host</span><span class="p">):</span>
+    <span class="n">lienpost</span> <span class="o">=</span> <span class="n">entree</span><span class="o">.</span><span class="n">titre_en</span> <span class="o">+</span> <span class="s1">&#39; (&#39;</span> <span class="o">+</span> <span class="n">settings</span><span class="o">.</span><span class="n">BLOG_URL</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">entree</span><span class="o">.</span><span class="n">id</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;/ )&#39;</span>
+    <span class="k">if</span> <span class="n">host</span> <span class="o">==</span> <span class="s1">&#39;MB&#39;</span><span class="p">:</span>
+        <span class="n">sujet</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="sa">u</span><span class="s2">&quot;Nouveau billet dans le blog de NTP Manitoba&quot;</span><span class="p">)</span>
+        <span class="n">textecourriel</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="sa">u</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">    Un nouveau billet intitulé : {} vient d&#39;être publié par {} {}.</span>
+<span class="s2">    Vous recevez ce courriel parce que vous ête membre du projet NTP Manitoba.</span>
+<span class="s2">    Ne répondez pas à ce courriel, il s&#39;agit d&#39;un envoi automatisé.</span>
+
+<span class="s2">    Malijaï Caulet (malijai.caulet.ippm@ssss.gouv.qc.ca)</span>
+<span class="s2">    &quot;&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">lienpost</span><span class="p">,</span> <span class="n">entree</span><span class="o">.</span><span class="n">author</span><span class="o">.</span><span class="n">first_name</span><span class="p">,</span> <span class="n">entree</span><span class="o">.</span><span class="n">author</span><span class="o">.</span><span class="n">last_name</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">host</span> <span class="o">==</span> <span class="s1">&#39;NTP2&#39;</span><span class="p">:</span>
+        <span class="n">sujet</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="sa">u</span><span class="s2">&quot;Nouveau billet dans le blog de NTP2 Community&quot;</span><span class="p">)</span>
+        <span class="n">textecourriel</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="sa">u</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">    Un nouveau billet intitulé : {} vient d&#39;être publié par {} {}.</span>
+<span class="s2">    Vous recevez ce courriel parce que vous ête membre du projet NTP2 Community.</span>
+<span class="s2">    Ne répondez pas à ce courriel, il s&#39;agit d&#39;un envoi automatisé.</span>
+
+<span class="s2">    Malijaï Caulet (malijai.caulet.ippm@ssss.gouv.qc.ca)</span>
+<span class="s2">    &quot;&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">lienpost</span><span class="p">,</span> <span class="n">entree</span><span class="o">.</span><span class="n">author</span><span class="o">.</span><span class="n">first_name</span><span class="p">,</span> <span class="n">entree</span><span class="o">.</span><span class="n">author</span><span class="o">.</span><span class="n">last_name</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">sujet</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="sa">u</span><span class="s2">&quot;Nouveau billet dans le blog de l&#39;observatoire&quot;</span><span class="p">)</span>
+        <span class="n">textecourriel</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="sa">u</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        Un nouveau billet intitulé : {} vient d&#39;être publié par {} {}.</span>
+<span class="s2">        Vous recevez ce courriel parce que vous ête membre de l&#39;Observatoire en santé mentale et justice du Québec.</span>
+<span class="s2">        Ne répondez pas à ce courriel, il s&#39;agit d&#39;un envoi automatisé.</span>
+<span class="s2">        Merci de participer à ce projet.</span>
+
+<span class="s2">        Malijaï Caulet (malijai.caulet.ippm@ssss.gouv.qc.ca)</span>
+<span class="s2">        &quot;&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">lienpost</span><span class="p">,</span> <span class="n">entree</span><span class="o">.</span><span class="n">author</span><span class="o">.</span><span class="n">first_name</span><span class="p">,</span> <span class="n">entree</span><span class="o">.</span><span class="n">author</span><span class="o">.</span><span class="n">last_name</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">sujet</span><span class="p">,</span> <span class="n">textecourriel</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-15'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-15'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="nd">@login_required</span><span class="p">(</span><span class="n">login_url</span><span class="o">=</span><span class="n">settings</span><span class="o">.</span><span class="n">LOGIN_URI</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">commentaire_new</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">pk</span><span class="p">):</span>
+    <span class="n">billetacommenter</span> <span class="o">=</span> <span class="n">Entree</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">pk</span><span class="o">=</span><span class="n">pk</span><span class="p">)</span>
+    <span class="n">posttitre</span> <span class="o">=</span> <span class="n">billetacommenter</span><span class="o">.</span><span class="n">titre_en</span>
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;POST&quot;</span><span class="p">:</span>
+        <span class="n">form</span> <span class="o">=</span> <span class="n">CommentaireForm</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">is_valid</span><span class="p">():</span>
+            <span class="n">commentaire</span> <span class="o">=</span> <span class="n">form</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">commit</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+            <span class="n">commentaire</span><span class="o">.</span><span class="n">entree</span> <span class="o">=</span> <span class="n">Entree</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">pk</span><span class="o">=</span><span class="n">pk</span><span class="p">)</span>
+            <span class="n">commentaire</span><span class="o">.</span><span class="n">author</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span>
+            <span class="n">commentaire</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">ismanitoba</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">META</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;HTTP_HOST&#39;</span><span class="p">)):</span>
+                <span class="n">sujet</span><span class="p">,</span> <span class="n">textecourriel</span> <span class="o">=</span> <span class="n">fait_courriel_commentaire</span><span class="p">(</span><span class="n">commentaire</span><span class="p">,</span> <span class="n">posttitre</span><span class="p">,</span> <span class="n">billetacommenter</span><span class="p">,</span> <span class="s1">&#39;MB&#39;</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">isntp</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">META</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;HTTP_HOST&#39;</span><span class="p">)):</span>
+                <span class="n">sujet</span><span class="p">,</span> <span class="n">textecourriel</span> <span class="o">=</span> <span class="n">fait_courriel_commentaire</span><span class="p">(</span><span class="n">commentaire</span><span class="p">,</span> <span class="n">posttitre</span><span class="p">,</span> <span class="n">billetacommenter</span><span class="p">,</span> <span class="s1">&#39;NTP2&#39;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">sujet</span><span class="p">,</span> <span class="n">textecourriel</span> <span class="o">=</span> <span class="n">fait_courriel_commentaire</span><span class="p">(</span><span class="n">commentaire</span><span class="p">,</span> <span class="n">posttitre</span><span class="p">,</span> <span class="n">billetacommenter</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+            <span class="n">envoi_courriel</span><span class="p">(</span><span class="n">sujet</span><span class="p">,</span> <span class="n">textecourriel</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;blogdetail&#39;</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="n">pk</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">form</span> <span class="o">=</span> <span class="n">CommentaireForm</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s2">&quot;commentaire_edit.html&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;form&#39;</span><span class="p">:</span> <span class="n">form</span><span class="p">,</span> <span class="s1">&#39;post_id&#39;</span><span class="p">:</span> <span class="n">pk</span><span class="p">,</span> <span class="s1">&#39;Posttitre&#39;</span><span class="p">:</span>  <span class="n">posttitre</span><span class="p">})</span>
+
+
+<span class="k">def</span> <span class="nf">envoi_courriel</span><span class="p">(</span><span class="n">sujet</span><span class="p">,</span> <span class="n">textecourriel</span><span class="p">):</span>
+    <span class="n">users_ntp2</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">user</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">Projet</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">Q</span><span class="p">(</span><span class="n">projet</span><span class="o">=</span><span class="n">Projet</span><span class="o">.</span><span class="n">NTP2</span><span class="p">)</span> <span class="o">|</span> <span class="n">Q</span><span class="p">(</span><span class="n">projet</span><span class="o">=</span><span class="n">Projet</span><span class="o">.</span><span class="n">ALL</span><span class="p">))]</span>
+    <span class="n">courriels</span> <span class="o">=</span> <span class="p">[</span><span class="n">user</span><span class="o">.</span><span class="n">email</span> <span class="k">for</span> <span class="n">user</span> <span class="ow">in</span> <span class="n">users_ntp2</span> <span class="k">if</span> <span class="n">user</span><span class="o">.</span><span class="n">email</span><span class="p">]</span>
+    <span class="k">with</span> <span class="n">mail</span><span class="o">.</span><span class="n">get_connection</span><span class="p">()</span> <span class="k">as</span> <span class="n">connection</span><span class="p">:</span>
+        <span class="n">mail</span><span class="o">.</span><span class="n">EmailMessage</span><span class="p">(</span>
+            <span class="n">sujet</span><span class="p">,</span> <span class="n">textecourriel</span><span class="p">,</span> <span class="s1">&#39;malijai.caulet@ntp-ptn.org&#39;</span><span class="p">,</span> <span class="n">courriels</span><span class="p">,</span>
+            <span class="n">connection</span><span class="o">=</span><span class="n">connection</span><span class="p">,</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">send</span><span class="p">()</span>
+
+
+<span class="nd">@login_required</span><span class="p">(</span><span class="n">login_url</span><span class="o">=</span><span class="n">settings</span><span class="o">.</span><span class="n">LOGIN_URI</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">entree_new</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="n">tag_list</span> <span class="o">=</span> <span class="n">Tag</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-16'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-16'>#</a>
+      </div>
+      <p>group_list = Group.objects.exclude(name=u&rsquo;SansCourriel&rsquo;)</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;POST&quot;</span><span class="p">:</span>
+        <span class="n">form</span> <span class="o">=</span> <span class="n">EntreeForm</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">is_valid</span><span class="p">():</span>
+            <span class="n">entree</span> <span class="o">=</span> <span class="n">form</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">commit</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+            <span class="n">entree</span><span class="o">.</span><span class="n">author</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span>
+            <span class="n">entree</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+            <span class="n">form</span><span class="o">.</span><span class="n">save_m2m</span><span class="p">()</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-17'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-17'>#</a>
+      </div>
+      <p>form save many to many (ici les tags selectionnes)
+ import ipdb; ipdb.set_trace()</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>            <span class="k">if</span> <span class="n">ismanitoba</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">META</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;HTTP_HOST&#39;</span><span class="p">)):</span>
+                <span class="n">sujet</span><span class="p">,</span> <span class="n">textecourriel</span> <span class="o">=</span> <span class="n">fait_courriel_entree</span><span class="p">(</span><span class="n">entree</span><span class="p">,</span> <span class="s1">&#39;MB&#39;</span><span class="p">)</span>
+                <span class="n">envoi_courriel</span><span class="p">(</span><span class="n">sujet</span><span class="p">,</span> <span class="n">textecourriel</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">isntp</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">META</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;HTTP_HOST&#39;</span><span class="p">)):</span>
+                <span class="n">sujet</span><span class="p">,</span> <span class="n">textecourriel</span> <span class="o">=</span> <span class="n">fait_courriel_entree</span><span class="p">(</span><span class="n">entree</span><span class="p">,</span> <span class="s1">&#39;NTP2&#39;</span><span class="p">)</span>
+                <span class="n">envoi_courriel</span><span class="p">(</span><span class="n">sujet</span><span class="p">,</span> <span class="n">textecourriel</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">sujet</span><span class="p">,</span> <span class="n">textecourriel</span> <span class="o">=</span> <span class="n">fait_courriel_entree</span><span class="p">(</span><span class="n">entree</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+                <span class="n">envoi_courriel</span><span class="p">(</span><span class="n">sujet</span><span class="p">,</span> <span class="n">textecourriel</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;blogdetail&#39;</span><span class="p">,</span> <span class="n">entree</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">form</span> <span class="o">=</span> <span class="n">EntreeForm</span><span class="p">()</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-18'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-18'>#</a>
+      </div>
+      <p>return render(request, &ldquo;entree_edit.html&rdquo;, {&lsquo;form&rsquo;: form, &lsquo;tags&rsquo;:tag_list, &lsquo;groupes&rsquo;:group_list,})</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s2">&quot;entree_edit.html&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;form&#39;</span><span class="p">:</span> <span class="n">form</span><span class="p">,</span> <span class="s1">&#39;tags&#39;</span><span class="p">:</span> <span class="n">tag_list</span><span class="p">})</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-19'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-19'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="nd">@login_required</span><span class="p">(</span><span class="n">login_url</span><span class="o">=</span><span class="n">settings</span><span class="o">.</span><span class="n">LOGIN_URI</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">tag_new</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="n">tag_list</span> <span class="o">=</span> <span class="n">Tag</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;POST&quot;</span><span class="p">:</span>
+        <span class="n">form</span> <span class="o">=</span> <span class="n">TagForm</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">is_valid</span><span class="p">():</span>
+            <span class="n">tag</span> <span class="o">=</span> <span class="n">form</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">commit</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+            <span class="n">tag</span><span class="o">.</span><span class="n">slug</span> <span class="o">=</span> <span class="n">slugify</span><span class="p">(</span><span class="n">tag</span><span class="o">.</span><span class="n">mot_en</span><span class="p">)</span>
+            <span class="n">tag</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+            <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;entree_new&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">form</span> <span class="o">=</span> <span class="n">TagForm</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s2">&quot;tag_edit.html&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;form&#39;</span><span class="p">:</span> <span class="n">form</span><span class="p">,</span> <span class="s1">&#39;tags&#39;</span><span class="p">:</span> <span class="n">tag_list</span><span class="p">})</span>
+
+
+<span class="nd">@login_required</span><span class="p">(</span><span class="n">login_url</span><span class="o">=</span><span class="n">settings</span><span class="o">.</span><span class="n">LOGIN_URI</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">view_tag</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">slug</span><span class="p">):</span>
+    <span class="n">tag</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Tag</span><span class="p">,</span> <span class="n">slug</span><span class="o">=</span><span class="n">slug</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">render_to_response</span><span class="p">(</span><span class="s1">&#39;view_tag.html&#39;</span><span class="p">,</span> <span class="p">{</span>
+        <span class="s1">&#39;tag&#39;</span><span class="p">:</span> <span class="n">tag</span><span class="p">,</span>
+        <span class="s1">&#39;entrees&#39;</span><span class="p">:</span> <span class="n">Entree</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">tag</span><span class="o">=</span><span class="n">tag</span><span class="p">)</span>  <span class="c1"># [:10]</span>
+    <span class="p">})</span>
+
+
+<span class="nd">@login_required</span><span class="p">(</span><span class="n">login_url</span><span class="o">=</span><span class="n">settings</span><span class="o">.</span><span class="n">LOGIN_URI</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">get_recherchetexte</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="n">form_class</span> <span class="o">=</span> <span class="n">RechercheForm</span>
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;POST&#39;</span><span class="p">:</span>
+        <span class="n">form</span> <span class="o">=</span> <span class="n">form_class</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">is_valid</span><span class="p">():</span>
+            <span class="n">texte</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;recherchetexte&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+            <span class="n">post_list</span> <span class="o">=</span> <span class="n">Entree</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">texte_en__icontains</span><span class="o">=</span><span class="n">texte</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">post_list</span><span class="p">:</span>
+                <span class="n">tag_list</span> <span class="o">=</span> <span class="n">Tag</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+                <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;list.html&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;posts&#39;</span><span class="p">:</span> <span class="n">post_list</span><span class="p">,</span> <span class="s1">&#39;tags&#39;</span><span class="p">:</span> <span class="n">tag_list</span><span class="p">})</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;recherche.html&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;form&#39;</span><span class="p">:</span> <span class="n">form_class</span><span class="p">,</span> <span class="s1">&#39;message&#39;</span><span class="p">:</span> <span class="n">texte</span><span class="p">})</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">form_class</span> <span class="o">=</span> <span class="n">RechercheForm</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;recherche.html&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;form&#39;</span><span class="p">:</span> <span class="n">form_class</span><span class="p">})</span>
+
+
+<span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;logout.html&#39;</span><span class="p">)</span>
+
+</pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+</div>
+</body>

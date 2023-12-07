@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <title>impressions.py</title>
+  <link rel="stylesheet" href="../../pycco.css">
+</head>
+<body>
+<div id='container'>
+  <div id="background"></div>
+  <div class='section'>
+    <div class='docs'><h1>impressions.py</h1></div>
+  </div>
+  <div class='clearall'>
+  <div class='section' id='section-0'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-0'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">unicode_literals</span>
+<span class="kn">from</span> <span class="nn">dataentry.models</span> <span class="kn">import</span> <span class="n">Questionnaire</span><span class="p">,</span> <span class="n">Reponsentp2</span><span class="p">,</span> <span class="n">Questionntp2</span><span class="p">,</span> <span class="n">Listevaleur</span><span class="p">,</span> <span class="n">Etablissement</span><span class="p">,</span> <span class="n">Municipalite</span>
+<span class="kn">from</span> <span class="nn">dataentry.models</span> <span class="kn">import</span> <span class="n">Victime</span><span class="p">,</span> <span class="n">Typequestion</span>
+<span class="kn">from</span> <span class="nn">django.conf</span> <span class="kn">import</span> <span class="n">settings</span>
+<span class="kn">from</span> <span class="nn">django.contrib.auth.decorators</span> <span class="kn">import</span> <span class="n">login_required</span>
+<span class="kn">from</span> <span class="nn">django.core.files.storage</span> <span class="kn">import</span> <span class="n">FileSystemStorage</span>
+<span class="kn">from</span> <span class="nn">django.http</span> <span class="kn">import</span> <span class="n">HttpResponse</span>
+<span class="kn">from</span> <span class="nn">reportlab.platypus</span> <span class="kn">import</span> <span class="n">SimpleDocTemplate</span><span class="p">,</span> <span class="n">Paragraph</span><span class="p">,</span> <span class="n">Spacer</span><span class="p">,</span> <span class="n">PageBreak</span>
+<span class="kn">from</span> <span class="nn">reportlab.lib.styles</span> <span class="kn">import</span> <span class="n">getSampleStyleSheet</span>
+<span class="kn">from</span> <span class="nn">reportlab.rl_config</span> <span class="kn">import</span> <span class="n">defaultPageSize</span>
+<span class="kn">from</span> <span class="nn">reportlab.lib.units</span> <span class="kn">import</span> <span class="n">inch</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-1'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-1'>#</a>
+      </div>
+      <p>A necessite l&rsquo;installation de reportlab (pip install reportlab)</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="kn">import</span> <span class="nn">datetime</span>
+
+
+<span class="n">NOM_FICHIER_PDF</span> <span class="o">=</span> <span class="s2">&quot;NTP_Community.pdf&quot;</span>
+<span class="n">TITRE</span> <span class="o">=</span> <span class="s2">&quot;NTP Community Data Entry Protocol&quot;</span>
+<span class="n">PAGE_INFO</span> <span class="o">=</span> <span class="s2">&quot; Data protocol - Printed date: &quot;</span> <span class="o">+</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y/%m/</span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="n">PAGE_HEIGHT</span> <span class="o">=</span> <span class="n">defaultPageSize</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">PAGE_WIDTH</span> <span class="o">=</span> <span class="n">defaultPageSize</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">styles</span> <span class="o">=</span> <span class="n">getSampleStyleSheet</span><span class="p">()</span>
+<span class="n">DATE</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y %b </span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-2'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-2'>#</a>
+      </div>
+      <p>Exportation des questions en PDF</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">myFirstPage</span><span class="p">(</span><span class="n">patron</span><span class="p">,</span> <span class="n">_</span><span class="p">):</span>
+    <span class="n">patron</span><span class="o">.</span><span class="n">saveState</span><span class="p">()</span>
+    <span class="n">patron</span><span class="o">.</span><span class="n">setFont</span><span class="p">(</span><span class="s1">&#39;Helvetica&#39;</span><span class="p">,</span><span class="mi">16</span><span class="p">)</span>
+    <span class="n">patron</span><span class="o">.</span><span class="n">drawCentredString</span><span class="p">(</span><span class="n">PAGE_WIDTH</span><span class="o">/</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">PAGE_HEIGHT</span><span class="o">-</span><span class="mi">108</span><span class="p">,</span> <span class="n">TITRE</span><span class="p">)</span>
+    <span class="n">patron</span><span class="o">.</span><span class="n">drawCentredString</span><span class="p">(</span><span class="n">PAGE_WIDTH</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">PAGE_HEIGHT</span> <span class="o">-</span> <span class="mi">130</span><span class="p">,</span> <span class="n">DATE</span><span class="p">)</span>
+    <span class="n">patron</span><span class="o">.</span><span class="n">setFont</span><span class="p">(</span><span class="s1">&#39;Helvetica&#39;</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">patron</span><span class="o">.</span><span class="n">setStrokeColorRGB</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">patron</span><span class="o">.</span><span class="n">setLineWidth</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
+    <span class="n">patron</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">65</span><span class="p">,</span> <span class="n">PAGE_WIDTH</span> <span class="o">-</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">65</span><span class="p">)</span>
+    <span class="n">patron</span><span class="o">.</span><span class="n">drawString</span><span class="p">(</span><span class="n">inch</span><span class="p">,</span> <span class="mf">0.70</span> <span class="o">*</span> <span class="n">inch</span><span class="p">,</span> <span class="s2">&quot;NTP Community / </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">PAGE_INFO</span><span class="p">)</span>
+    <span class="n">patron</span><span class="o">.</span><span class="n">restoreState</span><span class="p">()</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-3'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-3'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">myLaterPages</span><span class="p">(</span><span class="n">patron</span><span class="p">,</span> <span class="n">doc</span><span class="p">):</span>
+    <span class="n">patron</span><span class="o">.</span><span class="n">saveState</span><span class="p">()</span>
+    <span class="n">patron</span><span class="o">.</span><span class="n">setFont</span><span class="p">(</span><span class="s1">&#39;Helvetica&#39;</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">patron</span><span class="o">.</span><span class="n">setStrokeColorRGB</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">patron</span><span class="o">.</span><span class="n">setLineWidth</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
+    <span class="n">patron</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">65</span><span class="p">,</span> <span class="n">PAGE_WIDTH</span> <span class="o">-</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">65</span><span class="p">)</span>
+    <span class="n">patron</span><span class="o">.</span><span class="n">drawString</span><span class="p">(</span><span class="n">inch</span><span class="p">,</span> <span class="mf">0.70</span> <span class="o">*</span> <span class="n">inch</span><span class="p">,</span> <span class="s2">&quot;Page </span><span class="si">%d</span><span class="s2"> </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">doc</span><span class="o">.</span><span class="n">page</span><span class="p">,</span> <span class="n">PAGE_INFO</span><span class="p">))</span>
+    <span class="n">patron</span><span class="o">.</span><span class="n">restoreState</span><span class="p">()</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-4'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-4'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="nd">@login_required</span><span class="p">(</span><span class="n">login_url</span><span class="o">=</span><span class="n">settings</span><span class="o">.</span><span class="n">LOGIN_URI</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">questions_pdf</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">pk</span><span class="p">):</span>
+    <span class="n">fichier</span> <span class="o">=</span> <span class="s1">&#39;QID_&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">pk</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;_&#39;</span> <span class="o">+</span> <span class="n">NOM_FICHIER_PDF</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-5'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-5'>#</a>
+      </div>
+      <p>doc = SimpleDocTemplate(&ldquo;/tmp/{}&rdquo;.format(NOM_FICHIER_PDF))</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">doc</span> <span class="o">=</span> <span class="n">SimpleDocTemplate</span><span class="p">(</span><span class="s2">&quot;/tmp/{}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fichier</span><span class="p">))</span>
+    <span class="n">questionnaire</span><span class="o">=</span><span class="n">Questionnaire</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">pk</span><span class="o">=</span><span class="n">pk</span><span class="p">)</span>
+    <span class="n">Story</span> <span class="o">=</span> <span class="p">[</span><span class="n">Spacer</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mf">1.5</span> <span class="o">*</span> <span class="n">inch</span><span class="p">)]</span>
+    <span class="n">Story</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Paragraph</span><span class="p">(</span><span class="n">questionnaire</span><span class="o">.</span><span class="n">nom_en</span><span class="p">,</span> <span class="n">styles</span><span class="p">[</span><span class="s2">&quot;Heading1&quot;</span><span class="p">]))</span>
+    <span class="n">Story</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Spacer</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">inch</span><span class="p">))</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-6'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-6'>#</a>
+      </div>
+      <p>Story = [] # (si on ne veut pas de premiere page differente on ne met pas d&rsquo;Espace en haut de la 1ere)</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">style</span> <span class="o">=</span> <span class="n">styles</span><span class="p">[</span><span class="s1">&#39;Code&#39;</span><span class="p">]</span>
+    <span class="n">bullettes</span> <span class="o">=</span> <span class="n">styles</span><span class="p">[</span><span class="s1">&#39;Code&#39;</span><span class="p">]</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-7'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-7'>#</a>
+      </div>
+      <p>articles_list = Article.objects.all()
+   for article in articles_list:
+   im = &lsquo;<img src="media/images/pointblanc.jpg"/>&lsquo;</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">viol</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">question</span> <span class="ow">in</span> <span class="n">Questionntp2</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">questionnaire_id</span><span class="o">=</span><span class="n">pk</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">question</span><span class="o">.</span><span class="n">typequestion</span><span class="o">.</span><span class="n">nom</span> <span class="o">==</span> <span class="s1">&#39;TITLE&#39;</span><span class="p">:</span>
+            <span class="n">ptext</span> <span class="o">=</span> <span class="s2">&quot;&lt;b&gt;{}&lt;/b&gt;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">question</span><span class="o">.</span><span class="n">questionen</span><span class="p">)</span>
+            <span class="n">Story</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Spacer</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mf">0.2</span> <span class="o">*</span> <span class="n">inch</span><span class="p">))</span>
+            <span class="n">Story</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Paragraph</span><span class="p">(</span><span class="n">ptext</span><span class="p">,</span> <span class="n">styles</span><span class="p">[</span><span class="s2">&quot;Heading3&quot;</span><span class="p">]))</span>
+            <span class="n">Story</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Paragraph</span><span class="p">(</span><span class="s2">&quot;.&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;Variable Name &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;Question text&quot;</span><span class="p">,</span> <span class="n">styles</span><span class="p">[</span><span class="s2">&quot;Normal&quot;</span><span class="p">]))</span>
+        <span class="k">elif</span> <span class="n">question</span><span class="o">.</span><span class="n">typequestion</span><span class="o">.</span><span class="n">nom</span> <span class="o">==</span> <span class="s1">&#39;COMMENT&#39;</span><span class="p">:</span>
+            <span class="n">ptext</span> <span class="o">=</span> <span class="s2">&quot;&lt;b&gt;{}&lt;/b&gt;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">question</span><span class="o">.</span><span class="n">questionen</span><span class="p">)</span>
+            <span class="n">Story</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Paragraph</span><span class="p">(</span><span class="n">ptext</span><span class="p">,</span> <span class="n">styles</span><span class="p">[</span><span class="s2">&quot;Heading4&quot;</span><span class="p">]))</span>
+            <span class="n">Story</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Paragraph</span><span class="p">(</span><span class="s2">&quot;.&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;Variable Name &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;Question text&quot;</span><span class="p">,</span> <span class="n">styles</span><span class="p">[</span><span class="s2">&quot;Normal&quot;</span><span class="p">]))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="mi">15</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">question</span><span class="o">.</span><span class="n">varname</span><span class="p">)</span>
+            <span class="n">espace</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+                <span class="n">espace</span> <span class="o">=</span> <span class="n">espace</span> <span class="o">+</span> <span class="s1">&#39;&amp;nbsp;&#39;</span>
+            <span class="n">bogustext</span> <span class="o">=</span> <span class="n">question</span><span class="o">.</span><span class="n">varname</span> <span class="o">+</span> <span class="n">espace</span> <span class="o">+</span> <span class="n">question</span><span class="o">.</span><span class="n">questionen</span>
+            <span class="n">p</span> <span class="o">=</span> <span class="n">Paragraph</span><span class="p">(</span><span class="n">bogustext</span><span class="p">,</span> <span class="n">style</span><span class="p">)</span>
+            <span class="n">Story</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">question</span><span class="o">.</span><span class="n">typequestion</span><span class="o">.</span><span class="n">nom</span> <span class="o">==</span> <span class="s2">&quot;DICHO&quot;</span> <span class="ow">or</span> <span class="n">question</span><span class="o">.</span><span class="n">typequestion</span><span class="o">.</span><span class="n">nom</span> <span class="o">==</span> <span class="s2">&quot;DICHON&quot;</span> <span class="ow">or</span> <span class="n">question</span><span class="o">.</span><span class="n">typequestion</span><span class="o">.</span><span class="n">nom</span> <span class="o">==</span> <span class="s2">&quot;DICHOU&quot;</span><span class="p">:</span>
+            <span class="n">liste</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;Yes&#39;</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;No&#39;</span><span class="p">),</span> <span class="p">(</span><span class="mi">98</span><span class="p">,</span> <span class="s1">&#39;NA&#39;</span><span class="p">),</span> <span class="p">(</span><span class="mi">99</span><span class="p">,</span> <span class="s1">&#39;Unknown&#39;</span><span class="p">)]</span>
+            <span class="k">for</span> <span class="nb">list</span> <span class="ow">in</span> <span class="n">liste</span><span class="p">:</span>
+                <span class="n">espace</span> <span class="o">=</span> <span class="s1">&#39;&amp;nbsp;&#39;</span><span class="o">*</span><span class="mi">25</span> <span class="o">+</span><span class="s1">&#39;&amp;#x00B7;&#39;</span>
+                <span class="n">bogustext</span> <span class="o">=</span> <span class="s1">&#39;&amp;#124;&#39;</span> <span class="o">+</span> <span class="n">espace</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">list</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">+</span> <span class="s1">&#39;&amp;nbsp;&amp;nbsp;&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">list</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">Paragraph</span><span class="p">(</span><span class="n">bogustext</span><span class="p">,</span> <span class="n">bullettes</span><span class="p">)</span>
+                <span class="n">Story</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">question</span><span class="o">.</span><span class="n">typequestion</span><span class="o">.</span><span class="n">nom</span> <span class="o">==</span> <span class="s2">&quot;BOOLEAN&quot;</span><span class="p">:</span>
+            <span class="n">liste</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;Yes mentioned&#39;</span><span class="p">),</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;maybe but not explicit&#39;</span><span class="p">),</span> <span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="s1">&#39;No not mentioned&#39;</span><span class="p">),</span> <span class="p">(</span><span class="mi">98</span><span class="p">,</span> <span class="s1">&#39;NA&#39;</span><span class="p">),</span> <span class="p">(</span><span class="mi">99</span><span class="p">,</span> <span class="s1">&#39;Unknown&#39;</span><span class="p">)]</span>
+            <span class="k">for</span> <span class="nb">list</span> <span class="ow">in</span> <span class="n">liste</span><span class="p">:</span>
+                <span class="n">espace</span> <span class="o">=</span> <span class="s1">&#39;&amp;nbsp;&#39;</span><span class="o">*</span><span class="mi">25</span> <span class="o">+</span><span class="s1">&#39;&amp;#x00B7;&#39;</span>
+                <span class="n">bogustext</span> <span class="o">=</span> <span class="s1">&#39;&amp;#124;&#39;</span> <span class="o">+</span> <span class="n">espace</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">list</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">+</span> <span class="s1">&#39;&amp;nbsp;&amp;nbsp;&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">list</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">Paragraph</span><span class="p">(</span><span class="n">bogustext</span><span class="p">,</span> <span class="n">bullettes</span><span class="p">)</span>
+                <span class="n">Story</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">question</span><span class="o">.</span><span class="n">typequestion</span><span class="o">.</span><span class="n">nom</span> <span class="o">==</span> <span class="s2">&quot;COUR&quot;</span><span class="p">:</span>
+            <span class="n">liste</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;Municipal&#39;</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;Provincial&#39;</span><span class="p">),</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;Superior&#39;</span><span class="p">),]</span>
+            <span class="k">for</span> <span class="nb">list</span> <span class="ow">in</span> <span class="n">liste</span><span class="p">:</span>
+                <span class="n">espace</span> <span class="o">=</span> <span class="s1">&#39;&amp;nbsp;&#39;</span><span class="o">*</span><span class="mi">25</span> <span class="o">+</span><span class="s1">&#39;&amp;#x00B7;&#39;</span>
+                <span class="n">bogustext</span> <span class="o">=</span> <span class="s1">&#39;&amp;#124;&#39;</span> <span class="o">+</span> <span class="n">espace</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">list</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">+</span> <span class="s1">&#39;&amp;nbsp;&amp;nbsp;&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">list</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">Paragraph</span><span class="p">(</span><span class="n">bogustext</span><span class="p">,</span> <span class="n">bullettes</span><span class="p">)</span>
+                <span class="n">Story</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">question</span><span class="o">.</span><span class="n">typequestion</span><span class="o">.</span><span class="n">nom</span> <span class="o">==</span> <span class="s2">&quot;CATEGORIAL&quot;</span><span class="p">:</span>
+            <span class="n">liste</span> <span class="o">=</span> <span class="n">Reponsentp2</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">question_id</span><span class="o">=</span><span class="n">question</span><span class="o">.</span><span class="n">id</span> <span class="p">)</span>
+            <span class="k">for</span> <span class="nb">list</span> <span class="ow">in</span> <span class="n">liste</span><span class="p">:</span>
+                <span class="n">espace</span> <span class="o">=</span> <span class="s1">&#39;&amp;nbsp;&#39;</span><span class="o">*</span><span class="mi">25</span> <span class="o">+</span><span class="s1">&#39;&amp;#x00B7;&#39;</span>
+                <span class="n">bogustext</span> <span class="o">=</span> <span class="s1">&#39;&amp;#124;&#39;</span> <span class="o">+</span> <span class="n">espace</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">list</span><span class="o">.</span><span class="n">reponse_valeur</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;&amp;nbsp;&amp;nbsp;&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">list</span><span class="o">.</span><span class="n">reponse_en</span><span class="p">)</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">Paragraph</span><span class="p">(</span><span class="n">bogustext</span><span class="p">,</span> <span class="n">bullettes</span><span class="p">)</span>
+                <span class="n">Story</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">question</span><span class="o">.</span><span class="n">typequestion</span><span class="o">.</span><span class="n">nom</span> <span class="o">==</span> <span class="s2">&quot;HCR20&quot;</span> <span class="ow">or</span> <span class="n">question</span><span class="o">.</span><span class="n">typequestion</span><span class="o">.</span><span class="n">nom</span> <span class="o">==</span> <span class="s2">&quot;POSOLOGIE&quot;</span> <span class="p">:</span>
+            <span class="n">liste</span> <span class="o">=</span> <span class="n">Listevaleur</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">typequestion</span><span class="o">=</span><span class="n">question</span><span class="o">.</span><span class="n">typequestion</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+            <span class="k">for</span> <span class="nb">list</span> <span class="ow">in</span> <span class="n">liste</span><span class="p">:</span>
+                <span class="n">espace</span> <span class="o">=</span> <span class="s1">&#39;&amp;nbsp;&#39;</span><span class="o">*</span><span class="mi">25</span> <span class="o">+</span><span class="s1">&#39;&amp;#x00B7;&#39;</span>
+                <span class="n">bogustext</span> <span class="o">=</span> <span class="s1">&#39;&amp;#124;&#39;</span> <span class="o">+</span> <span class="n">espace</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">list</span><span class="o">.</span><span class="n">reponse_valeur</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;&amp;nbsp;&amp;nbsp;&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">list</span><span class="o">.</span><span class="n">reponse_en</span><span class="p">)</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">Paragraph</span><span class="p">(</span><span class="n">bogustext</span><span class="p">,</span> <span class="n">bullettes</span><span class="p">)</span>
+                <span class="n">Story</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">question</span><span class="o">.</span><span class="n">typequestion</span><span class="o">.</span><span class="n">nom</span> <span class="o">==</span> <span class="s2">&quot;VICTIME&quot;</span><span class="p">:</span>
+            <span class="n">liste</span> <span class="o">=</span> <span class="n">Victime</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+            <span class="k">for</span> <span class="nb">list</span> <span class="ow">in</span> <span class="n">liste</span><span class="p">:</span>
+                <span class="n">espace</span> <span class="o">=</span> <span class="s1">&#39;&amp;nbsp;&#39;</span> <span class="o">*</span> <span class="mi">25</span> <span class="o">+</span> <span class="s1">&#39;&amp;#x00B7;&#39;</span>
+                <span class="n">bogustext</span> <span class="o">=</span> <span class="s1">&#39;&amp;#124;&#39;</span> <span class="o">+</span> <span class="n">espace</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">list</span><span class="o">.</span><span class="n">reponse_valeur</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;&amp;nbsp;&amp;nbsp;&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">list</span><span class="o">.</span><span class="n">reponse_en</span><span class="p">)</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">Paragraph</span><span class="p">(</span><span class="n">bogustext</span><span class="p">,</span> <span class="n">bullettes</span><span class="p">)</span>
+                <span class="n">Story</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">question</span><span class="o">.</span><span class="n">typequestion</span><span class="o">.</span><span class="n">nom</span> <span class="o">==</span> <span class="s2">&quot;PAYS&quot;</span> <span class="ow">or</span> <span class="n">question</span><span class="o">.</span><span class="n">typequestion</span><span class="o">.</span><span class="n">nom</span> <span class="o">==</span> <span class="s2">&quot;LANGUE&quot;</span><span class="p">:</span>
+            <span class="n">bogustext</span> <span class="o">=</span> <span class="s1">&#39;&amp;#124;&#39;</span> <span class="o">+</span> <span class="s1">&#39;&amp;nbsp;&#39;</span> <span class="o">*</span> <span class="mi">20</span> <span class="o">+</span> <span class="s2">&quot;Stat can list of Countries or Languages&quot;</span>
+            <span class="n">p</span> <span class="o">=</span> <span class="n">Paragraph</span><span class="p">(</span><span class="n">bogustext</span><span class="p">,</span> <span class="n">bullettes</span><span class="p">)</span>
+            <span class="n">Story</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">question</span><span class="o">.</span><span class="n">typequestion</span><span class="o">.</span><span class="n">nom</span> <span class="o">==</span> <span class="s2">&quot;VIOLATION&quot;</span><span class="p">:</span>
+            <span class="n">viol</span> <span class="o">=</span> <span class="mi">1</span>
+            <span class="n">bogustext</span> <span class="o">=</span> <span class="s1">&#39;&amp;#124;&#39;</span> <span class="o">+</span> <span class="s1">&#39;&amp;nbsp;&#39;</span> <span class="o">*</span> <span class="mi">20</span> <span class="o">+</span> <span class="s2">&quot;See VIOLATION CODES at the end of the document&quot;</span>
+            <span class="n">p</span> <span class="o">=</span> <span class="n">Paragraph</span><span class="p">(</span><span class="n">bogustext</span><span class="p">,</span> <span class="n">bullettes</span><span class="p">)</span>
+            <span class="n">Story</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">question</span><span class="o">.</span><span class="n">typequestion</span><span class="o">.</span><span class="n">nom</span> <span class="o">==</span><span class="s2">&quot;ETABLISSEMENT&quot;</span> <span class="ow">or</span> <span class="n">question</span><span class="o">.</span><span class="n">typequestion</span><span class="o">.</span><span class="n">nom</span> <span class="o">==</span> <span class="s2">&quot;MUNICIPALITE&quot;</span><span class="p">:</span>
+            <span class="n">bogustext</span> <span class="o">=</span> <span class="s1">&#39;&amp;#124;&#39;</span> <span class="o">+</span> <span class="s1">&#39;&amp;nbsp;&#39;</span> <span class="o">*</span> <span class="mi">20</span> <span class="o">+</span> <span class="s2">&quot;List of available Hospitals or Courts in each province&quot;</span>
+            <span class="n">p</span> <span class="o">=</span> <span class="n">Paragraph</span><span class="p">(</span><span class="n">bogustext</span><span class="p">,</span> <span class="n">bullettes</span><span class="p">)</span>
+            <span class="n">Story</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">question</span><span class="o">.</span><span class="n">typequestion</span><span class="o">.</span><span class="n">nom</span> <span class="o">==</span> <span class="s2">&quot;CODEDATE&quot;</span> <span class="ow">or</span> <span class="n">question</span><span class="o">.</span><span class="n">typequestion</span><span class="o">.</span><span class="n">nom</span> <span class="o">==</span> <span class="s2">&quot;CODESTRING&quot;</span><span class="p">:</span>
+            <span class="n">bogustext</span> <span class="o">=</span> <span class="s1">&#39;&amp;#124;&#39;</span> <span class="o">+</span> <span class="s1">&#39;&amp;nbsp;&#39;</span> <span class="o">*</span> <span class="mi">20</span> <span class="o">+</span> <span class="s2">&quot;Data will be encrypted before saving&quot;</span>
+            <span class="n">p</span> <span class="o">=</span> <span class="n">Paragraph</span><span class="p">(</span><span class="n">bogustext</span><span class="p">,</span> <span class="n">bullettes</span><span class="p">)</span>
+            <span class="n">Story</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">viol</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">ptext</span> <span class="o">=</span> <span class="s2">&quot;VIOLATION CODES&quot;</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-8'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-8'>#</a>
+      </div>
+      <p>Story.append(Spacer(1, 0.2 * inch))</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>        <span class="n">Story</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">PageBreak</span><span class="p">())</span>
+        <span class="n">Story</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Paragraph</span><span class="p">(</span><span class="n">ptext</span><span class="p">,</span> <span class="n">styles</span><span class="p">[</span><span class="s2">&quot;Heading3&quot;</span><span class="p">]))</span>
+        <span class="n">typeviol</span> <span class="o">=</span> <span class="n">Typequestion</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">nom</span><span class="o">=</span><span class="s1">&#39;VIOLATION&#39;</span><span class="p">)</span>
+        <span class="n">liste</span> <span class="o">=</span> <span class="n">Listevaleur</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">typequestion</span><span class="o">=</span><span class="n">typeviol</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+        <span class="k">for</span> <span class="nb">list</span> <span class="ow">in</span> <span class="n">liste</span><span class="p">:</span>
+            <span class="n">espace1</span> <span class="o">=</span> <span class="s1">&#39;&amp;nbsp;&#39;</span><span class="o">*</span><span class="mi">3</span> <span class="o">+</span> <span class="s1">&#39;&amp;#x00B7;&#39;</span>
+            <span class="n">espace2</span> <span class="o">=</span> <span class="s1">&#39;&amp;nbsp;&#39;</span><span class="o">*</span><span class="mi">3</span>
+            <span class="n">bogustext</span> <span class="o">=</span> <span class="s1">&#39;&amp;#124;&#39;</span> <span class="o">+</span> <span class="n">espace1</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">list</span><span class="o">.</span><span class="n">id</span><span class="p">)</span> <span class="o">+</span> <span class="n">espace2</span> <span class="o">+</span> <span class="nb">list</span><span class="o">.</span><span class="n">reponse_en</span>
+            <span class="n">p</span> <span class="o">=</span> <span class="n">Paragraph</span><span class="p">(</span><span class="n">bogustext</span><span class="p">,</span>  <span class="n">bullettes</span><span class="p">)</span>
+            <span class="n">Story</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+
+    <span class="n">doc</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="n">Story</span><span class="p">,</span> <span class="n">onFirstPage</span><span class="o">=</span><span class="n">myFirstPage</span><span class="p">,</span> <span class="n">onLaterPages</span><span class="o">=</span><span class="n">myLaterPages</span><span class="p">)</span>
+
+    <span class="n">fs</span> <span class="o">=</span> <span class="n">FileSystemStorage</span><span class="p">(</span><span class="s2">&quot;/tmp&quot;</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">fs</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">fichier</span><span class="p">)</span> <span class="k">as</span> <span class="n">pdf</span><span class="p">:</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">HttpResponse</span><span class="p">(</span><span class="n">pdf</span><span class="p">,</span> <span class="n">content_type</span><span class="o">=</span><span class="s1">&#39;application/pdf&#39;</span><span class="p">)</span>
+        <span class="n">response</span><span class="p">[</span><span class="s1">&#39;Content-Disposition&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;attachment; filename=&quot;{}&quot;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fichier</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">response</span>
+
+</pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+</div>
+</body>

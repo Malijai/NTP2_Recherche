@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <title>urls.py</title>
+  <link rel="stylesheet" href="../pycco.css">
+</head>
+<body>
+<div id='container'>
+  <div id="background"></div>
+  <div class='section'>
+    <div class='docs'><h1>urls.py</h1></div>
+  </div>
+  <div class='clearall'>
+  <div class='section' id='section-0'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-0'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">django.conf.urls</span> <span class="kn">import</span> <span class="n">url</span>
+<span class="kn">from</span> <span class="nn">.views</span> <span class="kn">import</span> <span class="n">faitinstitution</span><span class="p">,</span> <span class="n">ressource_new</span><span class="p">,</span> <span class="n">RessourceDetail</span><span class="p">,</span> <span class="n">rlisting</span><span class="p">,</span> <span class="n">ressource_edit</span>
+
+
+<span class="n">urlpatterns</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">url</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^code/(?P&lt;pk&gt;[-\w]+)/$&#39;</span><span class="p">,</span> <span class="n">faitinstitution</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Faitinstitution&#39;</span><span class="p">),</span>
+    <span class="n">url</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^code/(?P&lt;pk&gt;[-\w]+)/(?P&lt;choix&gt;[\w]*)/$&#39;</span><span class="p">,</span> <span class="n">faitinstitution</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Faitinstitution&#39;</span><span class="p">),</span>
+    <span class="n">url</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^code/(?P&lt;pk&gt;[-\w]+)/(?P&lt;choix&gt;[\w]*)/(?P&lt;histoire&gt;[\w]*)/$&#39;</span><span class="p">,</span> <span class="n">faitinstitution</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Faitinstitution&#39;</span><span class="p">),</span>
+    <span class="n">url</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;ressource/new/$&#39;</span><span class="p">,</span> <span class="n">ressource_new</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;ressource_new&#39;</span><span class="p">),</span>
+    <span class="n">url</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;ressource/(?P&lt;pk&gt;[-\w]+)/edit/$&#39;</span><span class="p">,</span> <span class="n">ressource_edit</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;ressource_edit&#39;</span><span class="p">),</span>
+    <span class="n">url</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;ressource/(?P&lt;pk&gt;[-\w]+)/$&#39;</span><span class="p">,</span> <span class="n">RessourceDetail</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;ressource_detail&#39;</span><span class="p">),</span>
+    <span class="n">url</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^$&#39;</span><span class="p">,</span> <span class="n">rlisting</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;listeressources&#39;</span><span class="p">),</span>
+<span class="p">]</span>
+
+</pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+</div>
+</body>

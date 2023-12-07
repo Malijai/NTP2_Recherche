@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <title>views.py</title>
+  <link rel="stylesheet" href="../pycco.css">
+</head>
+<body>
+<div id='container'>
+  <div id="background"></div>
+  <div class='section'>
+    <div class='docs'><h1>views.py</h1></div>
+  </div>
+  <div class='clearall'>
+  <div class='section' id='section-0'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-0'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">django.conf</span> <span class="kn">import</span> <span class="n">settings</span>
+<span class="kn">from</span> <span class="nn">django.contrib.auth.decorators</span> <span class="kn">import</span> <span class="n">login_required</span>
+<span class="kn">from</span> <span class="nn">django.db.models</span> <span class="kn">import</span> <span class="n">Q</span><span class="p">,</span> <span class="n">Count</span>
+<span class="kn">from</span> <span class="nn">django.shortcuts</span> <span class="kn">import</span> <span class="n">render</span><span class="p">,</span> <span class="n">redirect</span>
+<span class="kn">from</span> <span class="nn">grc.models</span> <span class="kn">import</span> <span class="n">Chezsoi</span><span class="p">,</span> <span class="n">Province</span><span class="p">,</span> <span class="n">Personnegrc</span>
+<span class="kn">from</span> <span class="nn">accueil.models</span> <span class="kn">import</span> <span class="n">Profile</span><span class="p">,</span> <span class="n">User</span>
+<span class="kn">from</span> <span class="nn">django.contrib</span> <span class="kn">import</span> <span class="n">messages</span>
+<span class="kn">from</span> <span class="nn">.forms</span> <span class="kn">import</span> <span class="n">PersonneForm</span><span class="p">,</span> <span class="n">ChezsoiForm</span>
+<span class="kn">from</span> <span class="nn">django.core.paginator</span> <span class="kn">import</span> <span class="n">Paginator</span><span class="p">,</span> <span class="n">EmptyPage</span><span class="p">,</span> <span class="n">PageNotAnInteger</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-1'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-1'>#</a>
+      </div>
+      <p>Create your views here.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="nd">@login_required</span><span class="p">(</span><span class="n">login_url</span><span class="o">=</span><span class="n">settings</span><span class="o">.</span><span class="n">LOGIN_URI</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">liste_personne</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="n">entete</span> <span class="o">=</span> <span class="s2">&quot;Liste de toutes les personnes&quot;</span>
+    <span class="n">personne_list</span> <span class="o">=</span> <span class="n">Personnegrc</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+    <span class="n">paginator</span> <span class="o">=</span> <span class="n">Paginator</span><span class="p">(</span><span class="n">personne_list</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+    <span class="n">page</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">GET</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;page&#39;</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">personnes</span> <span class="o">=</span> <span class="n">paginator</span><span class="o">.</span><span class="n">page</span><span class="p">(</span><span class="n">page</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">PageNotAnInteger</span><span class="p">:</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-2'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-2'>#</a>
+      </div>
+      <p>If page is not an integer, deliver first page.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>        <span class="n">personnes</span> <span class="o">=</span> <span class="n">paginator</span><span class="o">.</span><span class="n">page</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">EmptyPage</span><span class="p">:</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-3'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-3'>#</a>
+      </div>
+      <p>If page is out of range (e.g. 9999), deliver last page of results.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>        <span class="n">personnes</span> <span class="o">=</span> <span class="n">paginator</span><span class="o">.</span><span class="n">page</span><span class="p">(</span><span class="n">paginator</span><span class="o">.</span><span class="n">num_pages</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;listechezsoi.html&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;personnes&#39;</span><span class="p">:</span> <span class="n">personnes</span><span class="p">,</span> <span class="s1">&#39;entete&#39;</span><span class="p">:</span> <span class="n">entete</span><span class="p">})</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-4'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-4'>#</a>
+      </div>
+      <p>Create your views here.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="nd">@login_required</span><span class="p">(</span><span class="n">login_url</span><span class="o">=</span><span class="n">settings</span><span class="o">.</span><span class="n">LOGIN_URI</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">personne_new</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="n">entete</span> <span class="o">=</span> <span class="s2">&quot;Nouvelle personne&quot;</span>
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;POST&quot;</span><span class="p">:</span>
+        <span class="n">form</span> <span class="o">=</span> <span class="n">PersonneForm</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">is_valid</span><span class="p">():</span>
+            <span class="n">entree</span> <span class="o">=</span> <span class="n">form</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">commit</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+            <span class="n">entree</span><span class="o">.</span><span class="n">author</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span>
+            <span class="n">entree</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">perss_form</span> <span class="o">=</span> <span class="n">PersonneForm</span><span class="p">()</span>
+            <span class="n">context</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s1">&#39;form&#39;</span><span class="p">:</span> <span class="n">perss_form</span><span class="p">,</span>
+                <span class="s1">&#39;entete&#39;</span><span class="p">:</span> <span class="n">entete</span>
+            <span class="p">}</span>
+            <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s2">&quot;personne_edit.html&quot;</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-5'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-5'>#</a>
+      </div>
+      <p>return render(request, &ldquo;entree_edit.html&rdquo;, {&lsquo;form&rsquo;: form, &lsquo;tags&rsquo;:tag_list, &lsquo;groupes&rsquo;:group_list,})</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>        <span class="n">perss_form</span> <span class="o">=</span> <span class="n">PersonneForm</span><span class="p">()</span>
+        <span class="n">context</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;form&#39;</span><span class="p">:</span> <span class="n">perss_form</span><span class="p">,</span>
+            <span class="s1">&#39;entete&#39;</span><span class="p">:</span> <span class="n">entete</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s2">&quot;personne_edit.html&quot;</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-6'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-6'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="nd">@login_required</span><span class="p">(</span><span class="n">login_url</span><span class="o">=</span><span class="n">settings</span><span class="o">.</span><span class="n">LOGIN_URI</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">personne_edit</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">pk</span><span class="p">):</span>
+    <span class="n">personne</span> <span class="o">=</span> <span class="n">Personnegrc</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">pk</span><span class="o">=</span><span class="n">pk</span><span class="p">)</span>
+    <span class="n">entete</span> <span class="o">=</span> <span class="s2">&quot;Mise a jour de la personne &quot;</span> <span class="o">+</span> <span class="n">personne</span><span class="o">.</span><span class="n">codeGRC</span>
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;POST&#39;</span><span class="p">:</span>
+        <span class="n">form</span> <span class="o">=</span> <span class="n">PersonneForm</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">,</span> <span class="n">instance</span><span class="o">=</span><span class="n">personne</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">is_valid</span><span class="p">():</span>
+            <span class="n">personne</span> <span class="o">=</span> <span class="n">form</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">commit</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+            <span class="n">personne</span><span class="o">.</span><span class="n">assistant</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span>
+            <span class="n">personne</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+            <span class="n">messages</span><span class="o">.</span><span class="n">success</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s2">&quot;La personne a été mise à jour.&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="s1">&#39;Savesurplace&#39;</span> <span class="ow">in</span> <span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;personne_edit&#39;</span><span class="p">,</span> <span class="n">personne</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;personne_delits&#39;</span><span class="p">,</span> <span class="n">personne</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">messages</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s2">&quot;Il y a une erreur dans l&#39;enregistrement&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;personne_edit&#39;</span><span class="p">,</span> <span class="n">personne</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">form</span> <span class="o">=</span> <span class="n">PersonneForm</span><span class="p">(</span><span class="n">instance</span><span class="o">=</span><span class="n">personne</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s2">&quot;personne_edit.html&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;form&#39;</span><span class="p">:</span> <span class="n">form</span><span class="p">,</span> <span class="s1">&#39;entete&#39;</span><span class="p">:</span><span class="n">entete</span><span class="p">})</span>
+
+
+<span class="nd">@login_required</span><span class="p">(</span><span class="n">login_url</span><span class="o">=</span><span class="n">settings</span><span class="o">.</span><span class="n">LOGIN_URI</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">personne_delits</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">pk</span><span class="p">):</span>
+    <span class="n">personne</span> <span class="o">=</span> <span class="n">Personnegrc</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">pk</span><span class="o">=</span><span class="n">pk</span><span class="p">)</span>
+    <span class="n">delits</span> <span class="o">=</span> <span class="n">Chezsoi</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">personne</span><span class="o">=</span><span class="n">personne</span><span class="p">)</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s1">&#39;-datesentence&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s2">&quot;personne_delits.html&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;personne&#39;</span><span class="p">:</span> <span class="n">personne</span><span class="p">,</span> <span class="s1">&#39;delits&#39;</span><span class="p">:</span> <span class="n">delits</span><span class="p">})</span>
+
+</pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+</div>
+</body>

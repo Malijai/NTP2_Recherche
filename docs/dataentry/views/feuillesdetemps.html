@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <title>feuillesdetemps.py</title>
+  <link rel="stylesheet" href="../../pycco.css">
+</head>
+<body>
+<div id='container'>
+  <div id="background"></div>
+  <div class='section'>
+    <div class='docs'><h1>feuillesdetemps.py</h1></div>
+  </div>
+  <div class='clearall'>
+  <div class='section' id='section-0'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-0'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">unicode_literals</span>
+<span class="kn">from</span> <span class="nn">django.conf</span> <span class="kn">import</span> <span class="n">settings</span>
+<span class="kn">from</span> <span class="nn">django.shortcuts</span> <span class="kn">import</span> <span class="n">render</span>
+<span class="kn">from</span> <span class="nn">django.http</span> <span class="kn">import</span> <span class="n">HttpResponse</span>
+<span class="kn">from</span> <span class="nn">django.contrib</span> <span class="kn">import</span> <span class="n">messages</span>
+<span class="kn">from</span> <span class="nn">reportlab.pdfgen.canvas</span> <span class="kn">import</span> <span class="n">Canvas</span>
+<span class="kn">from</span> <span class="nn">django.core.files.storage</span> <span class="kn">import</span> <span class="n">FileSystemStorage</span>
+<span class="kn">from</span> <span class="nn">reportlab.lib.utils</span> <span class="kn">import</span> <span class="n">ImageReader</span>
+<span class="kn">from</span> <span class="nn">reportlab.lib.pagesizes</span> <span class="kn">import</span> <span class="n">letter</span>
+<span class="kn">from</span> <span class="nn">django.contrib.auth.decorators</span> <span class="kn">import</span> <span class="n">login_required</span>
+<span class="kn">import</span> <span class="nn">datetime</span>
+<span class="kn">import</span> <span class="nn">unicodedata</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-1'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-1'>#</a>
+      </div>
+      <p>A necessite l&rsquo;installation de reportlab (pip install reportlab)</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="kn">from</span> <span class="nn">accueil.models</span> <span class="kn">import</span> <span class="n">Tempsfacture</span>
+
+
+<span class="n">NOM_FICHIER_PDF</span> <span class="o">=</span> <span class="s2">&quot;FeuilleTemps_&quot;</span>
+<span class="n">PAGE_INFO</span> <span class="o">=</span> <span class="s2">&quot;Feuilles de temps - Date d&#39;impression : &quot;</span> <span class="o">+</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%d</span><span class="s1">/%m/%Y&#39;</span><span class="p">)</span>
+<span class="n">DATE</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y %b </span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-2'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-2'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="nd">@login_required</span><span class="p">(</span><span class="n">login_url</span><span class="o">=</span><span class="n">settings</span><span class="o">.</span><span class="n">LOGIN_URI</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">fdetemps</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="n">semaines</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+    <span class="n">jours</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="mi">0</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;nom&#39;</span><span class="p">:</span> <span class="s2">&quot;Dimanche&quot;</span><span class="p">,</span> <span class="s1">&#39;semaines&#39;</span><span class="p">:</span> <span class="n">semaines</span><span class="p">},</span>
+        <span class="mi">1</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;nom&#39;</span><span class="p">:</span> <span class="s2">&quot;Lundi&quot;</span><span class="p">,</span> <span class="s1">&#39;semaines&#39;</span><span class="p">:</span> <span class="n">semaines</span><span class="p">},</span>
+        <span class="mi">2</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;nom&#39;</span><span class="p">:</span> <span class="s2">&quot;Mardi&quot;</span><span class="p">,</span> <span class="s1">&#39;semaines&#39;</span><span class="p">:</span> <span class="n">semaines</span><span class="p">},</span>
+        <span class="mi">3</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;nom&#39;</span><span class="p">:</span> <span class="s2">&quot;Mercredi&quot;</span><span class="p">,</span> <span class="s1">&#39;semaines&#39;</span><span class="p">:</span> <span class="n">semaines</span><span class="p">},</span>
+        <span class="mi">4</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;nom&#39;</span><span class="p">:</span> <span class="s2">&quot;Jeudi&quot;</span><span class="p">,</span> <span class="s1">&#39;semaines&#39;</span><span class="p">:</span> <span class="n">semaines</span><span class="p">},</span>
+        <span class="mi">5</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;nom&#39;</span><span class="p">:</span> <span class="s2">&quot;Vendredi&quot;</span><span class="p">,</span> <span class="s1">&#39;semaines&#39;</span><span class="p">:</span> <span class="n">semaines</span><span class="p">},</span>
+        <span class="mi">6</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;nom&#39;</span><span class="p">:</span> <span class="s2">&quot;Samedi&quot;</span><span class="p">,</span> <span class="s1">&#39;semaines&#39;</span><span class="p">:</span> <span class="n">semaines</span><span class="p">},</span>
+        <span class="p">}</span>
+    <span class="n">img</span> <span class="o">=</span> <span class="n">ImageReader</span><span class="p">(</span><span class="s1">&#39;dataentry/Feuilledetemps.jpg&#39;</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="mi">5</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="mi">5</span>
+    <span class="n">w</span> <span class="o">=</span> <span class="mi">600</span>
+    <span class="n">h</span> <span class="o">=</span> <span class="mi">750</span>
+    <span class="n">fichier</span> <span class="o">=</span> <span class="n">NOM_FICHIER_PDF</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-3'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-3'>#</a>
+      </div>
+      <p>doc = SimpleDocTemplate(&ldquo;/tmp/{}&rdquo;.format(NOM_FICHIER_PDF))</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;POST&#39;</span><span class="p">:</span>
+        <span class="n">y_sign</span> <span class="o">=</span> <span class="mi">615</span>
+        <span class="n">xjour</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="p">[</span><span class="mi">113</span><span class="p">,</span> <span class="mi">138</span><span class="p">,</span> <span class="mi">163</span><span class="p">,</span> <span class="mi">188</span><span class="p">,</span> <span class="mi">213</span><span class="p">,</span> <span class="mi">238</span><span class="p">,</span> <span class="mi">263</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">299</span><span class="p">,</span> <span class="mi">324</span><span class="p">,</span> <span class="mi">348</span><span class="p">,</span> <span class="mi">372</span><span class="p">,</span> <span class="mi">396</span><span class="p">,</span> <span class="mi">420</span><span class="p">,</span> <span class="mi">445</span><span class="p">]</span>
+        <span class="p">]</span>
+        <span class="n">y_heures</span> <span class="o">=</span> <span class="mi">418</span>
+        <span class="n">y_dates</span> <span class="o">=</span> <span class="mi">440</span>
+        <span class="n">somme_temps</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="n">date1</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;date&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">date1</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+            <span class="n">messages</span><span class="o">.</span><span class="n">add_message</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">messages</span><span class="o">.</span><span class="n">ERROR</span><span class="p">,</span> <span class="s2">&quot;Vous devez rentrer une date&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;fdt.html&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;jours&#39;</span><span class="p">:</span> <span class="n">jours</span><span class="p">})</span>
+
+        <span class="n">mois</span><span class="p">,</span> <span class="n">jour</span><span class="p">,</span> <span class="n">an</span> <span class="o">=</span> <span class="n">date1</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span>
+        <span class="n">maintenant</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">date</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">an</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">mois</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">jour</span><span class="p">))</span>
+        <span class="n">semaine</span> <span class="o">=</span> <span class="n">maintenant</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%U&quot;</span><span class="p">)</span><span class="c1"># Week number of the year (Sunday as the first day of the week) as a zero padded decimal number. All days in a new year preceding the first Sunday are considered to be in week 0.</span>
+
+        <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">semaine</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-4'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-4'>#</a>
+      </div>
+      <p>les periodes de 2019 commencent les semaines paires</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>            <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">semaine</span><span class="p">)</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>            <span class="c1"># si num semaine impair</span>
+                <span class="n">d</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">an</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;-U&quot;</span> <span class="o">+</span> <span class="n">semaine</span>
+                <span class="n">debut</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">d</span> <span class="o">+</span> <span class="s1">&#39;-0&#39;</span><span class="p">,</span> <span class="s2">&quot;%Y-U%U-%w&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">semcorr</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">semaine</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+                <span class="n">d</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">an</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;-U&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">semcorr</span><span class="p">)</span>
+                <span class="n">debut</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">d</span> <span class="o">+</span> <span class="s1">&#39;-0&#39;</span><span class="p">,</span> <span class="s2">&quot;%Y-U%U-%w&quot;</span><span class="p">)</span>
+        <span class="n">fin</span> <span class="o">=</span> <span class="n">debut</span> <span class="o">+</span> <span class="n">datetime</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span>
+        <span class="n">semaine_debut</span> <span class="o">=</span> <span class="n">debut</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%U&quot;</span><span class="p">)</span>
+        <span class="n">quinzaine</span> <span class="o">=</span> <span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">semaine_debut</span><span class="p">)</span> <span class="o">+</span> <span class="mi">4</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+
+        <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">semaine_debut</span><span class="p">)</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span> <span class="c1"># si num semaine impair (devrait toujours etre ca)</span>
+            <span class="n">quinzaine</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">quinzaine</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">quinzaine</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">quinzaine</span><span class="p">)</span>
+
+        <span class="n">date_debut</span> <span class="o">=</span> <span class="n">debut</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%d</span><span class="s2">-%m-%Y&quot;</span><span class="p">)</span>
+        <span class="n">date_fin</span> <span class="o">=</span> <span class="n">fin</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%d</span><span class="s2">-%m-%Y&quot;</span><span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">last_name</span>
+        <span class="n">normal</span> <span class="o">=</span> <span class="n">unicodedata</span><span class="o">.</span><span class="n">normalize</span><span class="p">(</span><span class="s1">&#39;NFD&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;ascii&#39;</span><span class="p">,</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
+
+        <span class="n">nom_fichier</span> <span class="o">=</span> <span class="s2">&quot;{}{}_{}.pdf&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fichier</span><span class="p">,</span> <span class="n">normal</span><span class="p">,</span> <span class="n">quinzaine</span><span class="p">)</span>
+        <span class="n">doc</span> <span class="o">=</span> <span class="n">Canvas</span><span class="p">(</span><span class="s2">&quot;/tmp/{}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">nom_fichier</span><span class="p">),</span> <span class="n">pagesize</span><span class="o">=</span><span class="n">letter</span><span class="p">)</span>
+        <span class="n">doc</span><span class="o">.</span><span class="n">drawImage</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">h</span><span class="p">)</span>
+        <span class="n">doc</span><span class="o">.</span><span class="n">setFont</span><span class="p">(</span><span class="s1">&#39;Helvetica&#39;</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+        <span class="n">doc</span><span class="o">.</span><span class="n">drawString</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">PAGE_INFO</span><span class="p">)</span>
+        <span class="n">doc</span><span class="o">.</span><span class="n">drawString</span><span class="p">(</span><span class="mi">330</span><span class="p">,</span> <span class="n">y_sign</span><span class="p">,</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">contrat</span><span class="o">.</span><span class="n">numeemploye</span><span class="p">)</span>
+        <span class="n">doc</span><span class="o">.</span><span class="n">setFont</span><span class="p">(</span><span class="s1">&#39;Helvetica&#39;</span><span class="p">,</span> <span class="mi">12</span><span class="p">)</span>
+        <span class="n">doc</span><span class="o">.</span><span class="n">drawString</span><span class="p">(</span><span class="mi">70</span><span class="p">,</span> <span class="mi">750</span><span class="p">,</span> <span class="s1">&#39;No contrat : &#39;</span> <span class="o">+</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">contrat</span><span class="o">.</span><span class="n">numcontrat</span><span class="p">)</span>
+        <span class="n">doc</span><span class="o">.</span><span class="n">drawString</span><span class="p">(</span><span class="mi">290</span><span class="p">,</span> <span class="mi">750</span><span class="p">,</span> <span class="s1">&#39;No budget : &#39;</span> <span class="o">+</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">contrat</span><span class="o">.</span><span class="n">numbudget</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">contrat</span><span class="o">.</span><span class="n">signature</span><span class="p">:</span>
+            <span class="n">signature</span> <span class="o">=</span> <span class="n">ImageReader</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">contrat</span><span class="o">.</span><span class="n">signature</span><span class="p">)</span>
+            <span class="n">doc</span><span class="o">.</span><span class="n">drawImage</span><span class="p">(</span><span class="n">signature</span><span class="p">,</span> <span class="mi">110</span><span class="p">,</span> <span class="p">(</span><span class="n">y_sign</span> <span class="o">-</span> <span class="mi">10</span><span class="p">),</span> <span class="mi">110</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">)</span>
+
+        <span class="n">doc</span><span class="o">.</span><span class="n">drawString</span><span class="p">(</span><span class="mi">70</span><span class="p">,</span> <span class="mi">636</span><span class="p">,</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">first_name</span><span class="o">.</span><span class="n">capitalize</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span> <span class="o">+</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">last_name</span><span class="o">.</span><span class="n">capitalize</span><span class="p">())</span>
+
+        <span class="n">doc</span><span class="o">.</span><span class="n">drawString</span><span class="p">(</span><span class="mi">450</span><span class="p">,</span> <span class="mi">645</span><span class="p">,</span> <span class="s1">&#39;PAIE : &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">quinzaine</span><span class="p">))</span>
+        <span class="n">doc</span><span class="o">.</span><span class="n">drawString</span><span class="p">(</span><span class="mi">420</span><span class="p">,</span> <span class="n">y_sign</span><span class="p">,</span> <span class="n">date_debut</span><span class="p">)</span>
+        <span class="n">doc</span><span class="o">.</span><span class="n">drawString</span><span class="p">(</span><span class="mi">515</span><span class="p">,</span> <span class="n">y_sign</span><span class="p">,</span> <span class="n">date_fin</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">semaine</span> <span class="ow">in</span> <span class="n">semaines</span><span class="p">:</span>
+            <span class="n">temps_semaine</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">for</span> <span class="n">jour</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">7</span><span class="p">):</span>
+                <span class="n">x</span> <span class="o">=</span> <span class="n">xjour</span><span class="p">[</span><span class="n">semaine</span><span class="p">][</span><span class="n">jour</span><span class="p">]</span>
+                <span class="n">val</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;{}_{}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">semaine</span><span class="p">,</span> <span class="n">jour</span><span class="p">))</span>
+                <span class="n">doc</span><span class="o">.</span><span class="n">drawString</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y_heures</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span>
+                <span class="n">somme_temps</span> <span class="o">+=</span> <span class="nb">float</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+                <span class="n">temps_semaine</span> <span class="o">+=</span> <span class="nb">float</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">semaine</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="n">ecart</span> <span class="o">=</span> <span class="n">jour</span> <span class="o">+</span> <span class="mi">7</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">ecart</span> <span class="o">=</span> <span class="n">jour</span>
+                <span class="n">newdate</span> <span class="o">=</span> <span class="n">debut</span> <span class="o">+</span> <span class="n">datetime</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="n">ecart</span><span class="p">)</span>
+                <span class="n">doc</span><span class="o">.</span><span class="n">drawString</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y_dates</span><span class="p">,</span> <span class="n">newdate</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%d</span><span class="s2">&quot;</span><span class="p">))</span>
+                <span class="k">if</span> <span class="n">temps_semaine</span> <span class="o">&gt;</span> <span class="nb">float</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">contrat</span><span class="o">.</span><span class="n">maxheures</span><span class="p">):</span>
+                    <span class="n">messages</span><span class="o">.</span><span class="n">add_message</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">messages</span><span class="o">.</span><span class="n">ERROR</span><span class="p">,</span> <span class="s2">&quot;Nombre maximum d&#39;heures autorisées par semaine : &quot;</span> <span class="o">+</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">contrat</span><span class="o">.</span><span class="n">maxheures</span><span class="p">)</span>
+                    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;fdt.html&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;jours&#39;</span><span class="p">:</span> <span class="n">jours</span><span class="p">})</span>
+
+        <span class="n">doc</span><span class="o">.</span><span class="n">drawString</span><span class="p">(</span><span class="mi">515</span><span class="p">,</span> <span class="n">y_heures</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">somme_temps</span><span class="p">))</span>
+
+        <span class="n">Tempsfacture</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">update_or_create</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">,</span> <span class="n">periode</span><span class="o">=</span><span class="n">quinzaine</span><span class="p">,</span>
+                                              <span class="n">defaults</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;heures&#39;</span><span class="p">:</span> <span class="n">somme_temps</span><span class="p">,</span> <span class="p">}</span>
+                                              <span class="p">)</span>
+        <span class="n">doc</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+        <span class="n">fs</span> <span class="o">=</span> <span class="n">FileSystemStorage</span><span class="p">(</span><span class="s2">&quot;/tmp&quot;</span><span class="p">)</span>
+        <span class="k">with</span> <span class="n">fs</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">nom_fichier</span><span class="p">)</span> <span class="k">as</span> <span class="n">pdf</span><span class="p">:</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="n">HttpResponse</span><span class="p">(</span><span class="n">pdf</span><span class="p">,</span> <span class="n">content_type</span><span class="o">=</span><span class="s1">&#39;application/pdf&#39;</span><span class="p">)</span>
+            <span class="n">response</span><span class="p">[</span><span class="s1">&#39;Content-Disposition&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;attachment; filename=&quot;{}&quot;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">nom_fichier</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">response</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;fdt.html&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;jours&#39;</span><span class="p">:</span> <span class="n">jours</span><span class="p">})</span>
+
+</pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+</div>
+</body>

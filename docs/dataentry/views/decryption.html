@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <title>decryption.py</title>
+  <link rel="stylesheet" href="../../pycco.css">
+</head>
+<body>
+<div id='container'>
+  <div id="background"></div>
+  <div class='section'>
+    <div class='docs'><h1>decryption.py</h1></div>
+  </div>
+  <div class='clearall'>
+  <div class='section' id='section-0'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-0'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">django.http</span> <span class="kn">import</span> <span class="n">HttpResponse</span>
+<span class="kn">from</span> <span class="nn">dataentry.models</span> <span class="kn">import</span> <span class="n">Personne</span>
+<span class="kn">from</span> <span class="nn">django.conf</span> <span class="kn">import</span> <span class="n">settings</span>
+<span class="kn">import</span> <span class="nn">datetime</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-1'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-1'>#</a>
+      </div>
+      <p>import logging</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="kn">from</span> <span class="nn">dataentry.encrypter</span> <span class="kn">import</span> <span class="n">Encrypter</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-2'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-2'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">decode_donnee</span><span class="p">(</span><span class="n">ciphertext</span><span class="p">):</span>
+    <span class="n">PK_path</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">PRIVATE_KEY_PATH</span>
+    <span class="n">PK_name</span> <span class="o">=</span>  <span class="n">settings</span><span class="o">.</span><span class="n">PRIVATE_KEY</span>
+    <span class="n">e</span> <span class="o">=</span> <span class="n">Encrypter</span><span class="p">()</span>
+    <span class="n">private_key</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="n">read_key</span><span class="p">(</span><span class="n">PK_path</span> <span class="o">+</span> <span class="n">PK_name</span><span class="p">)</span>
+    <span class="n">decripted</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="n">decrypt</span><span class="p">(</span><span class="n">ciphertext</span><span class="p">,</span> <span class="n">private_key</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">decripted</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-3'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-3'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">decrypt</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">pid</span><span class="p">):</span>
+    <span class="n">personne</span> <span class="o">=</span> <span class="n">Personne</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">pk</span><span class="o">=</span><span class="n">pid</span><span class="p">)</span>
+    <span class="n">sddob</span> <span class="o">=</span> <span class="n">decode_donnee</span><span class="p">(</span><span class="n">personne</span><span class="o">.</span><span class="n">pid_sddob</span><span class="p">)</span>
+    <span class="n">sed</span> <span class="o">=</span> <span class="n">decode_donnee</span><span class="p">(</span><span class="n">personne</span><span class="o">.</span><span class="n">pid_sed</span><span class="p">)</span>
+    <span class="n">nam</span> <span class="o">=</span> <span class="n">decode_donnee</span><span class="p">(</span><span class="n">personne</span><span class="o">.</span><span class="n">pid_nam</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">HttpResponse</span><span class="p">(</span><span class="s2">&quot;{} {} {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">sddob</span><span class="p">,</span><span class="n">sed</span><span class="p">,</span><span class="n">nam</span><span class="p">))</span>
+
+</pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+</div>
+</body>

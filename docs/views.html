@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <title>views.py</title>
+  <link rel="stylesheet" href="pycco.css">
+</head>
+<body>
+<div id='container'>
+  <div id="background"></div>
+  <div class='section'>
+    <div class='docs'><h1>views.py</h1></div>
+  </div>
+  <div class='clearall'>
+  <div class='section' id='section-0'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-0'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">django.shortcuts</span> <span class="kn">import</span> <span class="n">render</span><span class="p">,</span> <span class="n">redirect</span>
+<span class="kn">from</span> <span class="nn">accueil.models</span> <span class="kn">import</span> <span class="n">Publication</span><span class="p">,</span> <span class="n">Affichage</span><span class="p">,</span> <span class="n">Projet</span><span class="p">,</span> <span class="n">Profile</span>
+<span class="kn">from</span> <span class="nn">django.db.models</span> <span class="kn">import</span> <span class="n">Q</span>
+<span class="kn">from</span> <span class="nn">django.conf</span> <span class="kn">import</span> <span class="n">settings</span>
+<span class="kn">from</span> <span class="nn">django.contrib.auth.decorators</span> <span class="kn">import</span> <span class="n">login_required</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-1'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-1'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">accueil</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span><span class="s1">&#39;indexrech.html&#39;</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-2'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-2'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">publications</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="n">pasaffiche</span> <span class="o">=</span> <span class="n">Affichage</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">nom</span><span class="o">=</span><span class="s1">&#39;Non&#39;</span><span class="p">)</span>
+    <span class="n">publications</span> <span class="o">=</span> <span class="n">Publication</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="o">~</span><span class="n">Q</span><span class="p">(</span><span class="n">affichage__id</span><span class="o">=</span><span class="n">pasaffiche</span><span class="o">.</span><span class="n">id</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;publications.html&#39;</span><span class="p">,</span>
+                      <span class="p">{</span>
+                          <span class="s1">&#39;publications&#39;</span><span class="p">:</span> <span class="n">publications</span><span class="p">,</span>
+                      <span class="p">}</span>
+                  <span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-3'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-3'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">equipe</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;equipe.html&#39;</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-4'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-4'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">resultats</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;resultats.html&#39;</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-5'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-5'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="nd">@login_required</span><span class="p">(</span><span class="n">login_url</span><span class="o">=</span><span class="n">settings</span><span class="o">.</span><span class="n">LOGIN_URI</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">entreesystemes</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="n">GH</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="n">NTP1</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="n">NTP2</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="n">droits</span> <span class="o">=</span> <span class="n">Projet</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">user_id</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">droit</span> <span class="ow">in</span> <span class="n">droits</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">droit</span><span class="o">.</span><span class="n">projet</span> <span class="o">==</span> <span class="n">Projet</span><span class="o">.</span><span class="n">GH</span><span class="p">:</span>
+            <span class="n">GH</span> <span class="o">=</span> <span class="bp">True</span>
+        <span class="k">elif</span> <span class="n">droit</span><span class="o">.</span><span class="n">projet</span> <span class="o">==</span> <span class="n">Projet</span><span class="o">.</span><span class="n">NTP1</span><span class="p">:</span>
+            <span class="n">NTP1</span> <span class="o">=</span> <span class="bp">True</span>
+        <span class="k">elif</span> <span class="n">droit</span><span class="o">.</span><span class="n">projet</span> <span class="o">==</span> <span class="n">Projet</span><span class="o">.</span><span class="n">NTP2</span><span class="p">:</span>
+            <span class="n">NTP2</span> <span class="o">=</span> <span class="bp">True</span>
+        <span class="k">elif</span> <span class="n">droit</span><span class="o">.</span><span class="n">projet</span> <span class="o">==</span> <span class="n">Projet</span><span class="o">.</span><span class="n">ALL</span><span class="p">:</span>
+            <span class="n">GH</span> <span class="o">=</span> <span class="bp">True</span>
+            <span class="n">NTP1</span> <span class="o">=</span> <span class="bp">True</span>
+            <span class="n">NTP2</span> <span class="o">=</span> <span class="bp">True</span>
+
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s2">&quot;entreesystemes.html&quot;</span><span class="p">,</span>
+                      <span class="p">{</span>
+                        <span class="s1">&#39;GH&#39;</span><span class="p">:</span> <span class="n">GH</span><span class="p">,</span>
+                        <span class="s1">&#39;NTP1&#39;</span><span class="p">:</span> <span class="n">NTP1</span><span class="p">,</span>
+                        <span class="s1">&#39;NTP2&#39;</span><span class="p">:</span> <span class="n">NTP2</span><span class="p">,</span>
+                        <span class="s1">&#39;Profile&#39;</span><span class="p">:</span> <span class="n">Profile</span>
+                      <span class="p">})</span>
+
+</pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+</div>
+</body>
