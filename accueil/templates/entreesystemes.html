@@ -40,6 +40,8 @@
    <div class="w3-container w3-padding w3-theme-l4">
         <h2>{{ user.first_name }}, {{ user.last_name }}, {% trans "Bienvenue sur le site d'entrée des données GRC de NTP2 Community" %}</h2>
         <h3><a href="{% url 'choix_province' %}" class="btn-default" >{% trans "Accès au système d'entrée des données GRC de NTP2" %}</a></h3>
+        <hr>
+        <h3 class="w3-theme-d1"><a href="{% url 'choixntp1province' %}" class="btn-default" >{% trans "Accès au système de mise à jour des données GRC de NTP1" %}</a></h3>
    </div>
    {% endif %}
 
